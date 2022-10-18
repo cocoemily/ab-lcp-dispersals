@@ -19,6 +19,9 @@ globals [
   crow-fly
 
   hiker-n
+
+  file-1
+  stamp1
 ]
 
 patches-own [
@@ -79,9 +82,22 @@ to setup
 
   let land patches with [ impassable = false ]
 
+
+  ;; RANDOM CHOICE OF SITES
+
   ask one-of land [ stp-hikers ]
   let other-land-patches land with [ self != origin ]
   ask one-of other-land-patches [ stp-goal ]
+
+  ;;IMPORT SITES FOR START AND END LOCATION
+  ;; TODO
+
+  set stamp1 random-float 1
+  set file-1 (word "/Users/emilycoco/Desktop/ab-lcp-dispersals/test-outputs/" "outputs_path_" origin "_" goal "_" stamp1 ".csv") ;; is there a way to do arguments -- check behavior space
+  if file-exists? file-1
+  [ file-delete file-1 ]
+  file-open file-1
+
 
 end
 
@@ -134,6 +150,7 @@ to go
   ;; stop model if hiker reaches goal
   if [ hiker-dist-to-goal ] of hiker hiker-n = 0
   [ ask patches [ update-colors ]
+    export-path
     stop
   ]
 
@@ -232,7 +249,12 @@ to update-colors
     [ set impassable "true" ]
     [ set pcolor scale-color grey cost max-cost -400 ]
 
+end
 
+to export-path
+
+  export-plot "path" file-1
+  file-close
 
 end
 @#$#@#$#@
@@ -264,10 +286,10 @@ ticks
 30.0
 
 BUTTON
+18
 54
-55
-120
-88
+84
+87
 NIL
 setup
 NIL
@@ -281,13 +303,49 @@ NIL
 1
 
 BUTTON
-136
+92
 55
-199
+155
 88
 NIL
 go
 T
+1
+T
+OBSERVER
+NIL
+NIL
+NIL
+NIL
+1
+
+PLOT
+18
+101
+249
+270
+path
+tick
+coord
+0.0
+10.0
+0.0
+10.0
+true
+false
+"" ""
+PENS
+"path-x" 1.0 0 -16777216 true "" "if any? hikers [ plot [ xcor ] of hiker hiker-n ]"
+"path-y" 1.0 0 -7500403 true "" "if any? hikers [ plot [ ycor ] of hiker hiker-n ]"
+
+BUTTON
+165
+56
+250
+89
+go-once
+go
+NIL
 1
 T
 OBSERVER
