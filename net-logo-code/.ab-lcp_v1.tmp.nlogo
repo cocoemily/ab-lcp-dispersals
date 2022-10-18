@@ -1,5 +1,6 @@
 extensions [
   GIS
+  profiler
 ]
 
 globals [
@@ -8,17 +9,26 @@ globals [
   coord-start
   coord-end
   dist-traveled
-  snow-line
 
   min-cost
   max-cost
 
+  res-m
+
   origin
   crow-fly
+
+  hiker-n
 ]
 
 patches-own [
   cost
+  impassable
+
+  patch-counter
+  occupied-by
+  dist-to-goal
+  len
 ]
 
 breed [ hikers hiker ]
@@ -35,22 +45,43 @@ to setup
   ca
   reset-ticks
 
-  set basemap gis:load-dataset "/Users/emilycoco/Desktop/ab-lcp-dispersals/test-data/DEM.asc"
-  gis:apply-raster basemap cost
+  set basemap gis:load-dataset "/Users/emilycoco/Desktop/ab-lcp-dispersals/test-data/DEM/DEM_test.asc"
 
-  ;; fix resolutions of things
+  ;; let trans-res patch-size-km / map-resolution-km ;;need to figure out these parameters for each basemap
+  let patch-size-km 1
+  let trans-res patch-size-km / 1
+  resize-world 0 (( gis:width-of basemap - 1 ) / trans-res ) 0 (( gis:height-of basemap - 1 ) / trans-res )
+  set-patch-size ( 2 * patch-size-km )                                   ;; This roughly keeps the size of the world window manageable
+  gis:set-world-envelope gis:envelope-of basemap                         ;; This formats the window to the right dimensions based on the DEM
+  gis:set-sampling-method basemap "BICUBIC_2"                            ;; Sets the resampling (if applicable) to cubic
+
+
+  gis:apply-raster basemap cost
 
   set min-cost gis:minimum-of basemap
   set max-cost gis:maximum-of basemap
-  set snow-line gis:maximum-of basemap
 
+  set res-m 1000 * 0.5 ;; 0.5 = patch-size-km
+
+  ;;need to think about this and what the impassable value should be
   ask patches [
     ifelse ( cost <= 0 ) or ( cost > 0 )
     [ set cost cost ]
     [ set cost 0 ]
   ]
 
-  ask patches [ update-colors ]
+  ask patches [
+    update-colors
+    ifelse cost = -999999
+    [ set impassable true ]
+    [ set impassable false ]
+  ]
+
+  let land patches with [ impassable = false ]
+
+  ask one-of land [ stp-hikers ]
+  let other-land-patches land with [ self != origin ]
+  ask one-of other-land-patches [ stp-goal ]
 
 end
 
@@ -58,10 +89,10 @@ to stp-hikers                                                        ;; Patch pr
 
   sprout-hikers 1
   [ set color 14
-    set size 5
+    set size 10
     set shape "person"
     pen-down
-    ;set hiker-n who                                                  ;; Records the hiker's ID number as a global variable
+    set hiker-n who                                                  ;; Records the hiker's ID number as a global variable
     set winner-patch patch-here                                      ;; Allows the hiker to start walking as soon as the run starts
     set origin patch-here
     set coord-start list ([xcor] of self) ([ycor] of self)
@@ -71,41 +102,148 @@ to stp-hikers                                                        ;; Patch pr
 
 end
 
+to stp-goal                                                          ;; Patch procedure that creates one goal with specific attributes.
+
+  sprout-targets 1
+  [ set color blue
+    set size 10
+    set shape "house"
+    set goal patch-here                                              ;; Records the goal's ID number as a global variable
+    set coord-end list ([xcor] of self) ([ycor] of self)
+
+    if any? hikers
+    [ set crow-fly ( distance hiker hiker-n * patch-size )]]      ;; Automatically calculates the distance between the hiker and its target
+
+end
 
 
 to go
 
-  ;;fix this
-  ask one-of patches [ stp-hikers ]
+  ;;prevents agents from walking on patches over and over again
+  ask patches with [ patch-counter != 0 ]
+  [ set patch-counter patch-counter - 1 ]
+
+  ask hikers [
+    set hiker-dist-to-goal distance goal
+    ask patch-here [
+      set occupied-by myself
+      set patch-counter 20
+    ]
+  ]
+
+  ;; stop model if hiker reaches goal
+  if [ hiker-dist-to-goal ] of hiker hiker-n = 0
+  [ ask patches [ update-colors ]
+    stop
+  ]
+
+  ask hiker hiker-n
+  [ if patch-here = winner-patch
+    [ ifelse distance goal <= 1.42
+      [ set winner-patch goal
+        let wp goal
+        ;;ask patch-here [ assign-values wp true ]
+        move
+      ]
+      [ find-least-cost-path ]
+    ]
+  ]
+
+  tick-advance 1
+
+end
+
+to find-least-cost-path
+
+  let patch-under-me patch-here
+  let hiker-distance [ hiker-dist-to-goal ] of self
+  let wp 0
+
+  face goal
+
+  set patch-vision patches in-cone 2.5 200
+  ask patch-vision [ set dist-to-goal distance goal ]
+  set patch-vision patch-vision with [ impassable = false ]
+  set patch-vision patch-vision with [(([ dist-to-goal ] of self ) <= hiker-distance + ( hiker-distance * 0 ))]  ;;0 = switch, no switchback
+  set patch-vision patch-vision with [ patch-counter = 0 ]
+
+  while [ not any? patch-vision ] ;; if no good patches found by previous procedure -> widen search area
+  [ set patch-vision patches in-cone 2.5 360
+    set patch-vision patch-vision with [ impassable = false ]
+    set patch-vision patch-vision with [ patch-counter = 0 ]
+  ]
+
+ ask patch-vision
+  [ set pcolor blue
+   set len distance hiker hiker-n * res-m
+  ]
+
+  let flat patch-vision with [ cost < 500 ]
+  let gentle patch-vision with [ (cost >= 500) and (cost < 1200)]
+
+  ifelse any? flat
+  [ set winner-patch one-of flat with-min [ dist-to-goal ]]
+  [ ifelse any? gentle
+    [ set winner-patch one-of gentle with-min [ dist-to-goal ]]
+    [ set winner-patch one-of patch-vision with-min [ dist-to-goal]]
+  ]
+
+  set wp winner-patch
+  ifelse winner-patch = nobody
+  [ stop ]
+  [ face winner-patch
+    move ]
+
+end
+
+to move
+
+  let dist-winner-patch distance winner-patch
+  ifelse dist-winner-patch > 2
+  [ fd 0.74
+  update-plots
+  fd 0.74
+  update-plots
+  move-to winner-patch
+  update-plots ]
+  [ ifelse dist-winner-patch > 1
+  [ fd 1
+    update-plots
+    move-to winner-patch
+    update-plots ]
+  [ move-to winner-patch
+    update-plots ]]
+
+  let patch-size-km 1
+  set dist-traveled dist-traveled + ( dist-winner-patch * patch-size-km )  ;; The total distance traveled gets updated...
+
 
 end
 
 
 
-;; fix this
+
+
+;; fix this for cost function instead of elevation
 to update-colors
 
-ifelse (cost <= 0) or (cost >= 0)
-  [ ifelse cost <= 0
-    [ set pcolor scale-color blue cost min-cost 1000 ]
-    [ ifelse cost > ( snow-line )
-      [ set pcolor white ]
-      [ set pcolor scale-color green cost max-cost -400 ]]]
-  [ ;set water "true"
-    set cost 0
-    ;set effective-slope 0
-  ]
+  ;; need to think about what the impassable value will be
+  ifelse cost = -999999
+    [ set impassable "true" ]
+    [ set pcolor scale-color grey cost max-cost -400 ]
+
+
 
 end
 @#$#@#$#@
 GRAPHICS-WINDOW
 301
 10
-738
-448
+1307
+937
 -1
 -1
-13.0
+2.0
 1
 10
 1
@@ -115,10 +253,10 @@ GRAPHICS-WINDOW
 1
 1
 1
--16
-16
--16
-16
+0
+498
+0
+458
 0
 0
 1
@@ -149,7 +287,7 @@ BUTTON
 88
 NIL
 go
-NIL
+T
 1
 T
 OBSERVER
