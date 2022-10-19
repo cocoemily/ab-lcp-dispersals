@@ -5,6 +5,9 @@ extensions [
 
 globals [
   basemap
+  start-area
+  end-area
+
   goal
   coord-start
   coord-end
@@ -51,8 +54,8 @@ to setup
   set basemap gis:load-dataset "/Users/emilycoco/Desktop/ab-lcp-dispersals/test-data/DEM/DEM_test.asc"
 
   ;; let trans-res patch-size-km / map-resolution-km ;;need to figure out these parameters for each basemap
-  let patch-size-km 1
-  let trans-res patch-size-km / 1
+  ;;set patch-size-km 1
+  let trans-res patch-size-km / map-resolution-km
   resize-world 0 (( gis:width-of basemap - 1 ) / trans-res ) 0 (( gis:height-of basemap - 1 ) / trans-res )
   set-patch-size ( 2 * patch-size-km )                                   ;; This roughly keeps the size of the world window manageable
   gis:set-world-envelope gis:envelope-of basemap                         ;; This formats the window to the right dimensions based on the DEM
@@ -85,18 +88,35 @@ to setup
 
   ;; RANDOM CHOICE OF SITES
 
-  ask one-of land [ stp-hikers ]
-  let other-land-patches land with [ self != origin ]
-  ask one-of other-land-patches [ stp-goal ]
+  ;;ask one-of land [ stp-hikers ]
+  ;;let other-land-patches land with [ self != origin ]
+  ;;ask one-of other-land-patches [ stp-goal ]
 
   ;;IMPORT SITES FOR START AND END LOCATION
-  ;; TODO
+  set start-area gis:load-dataset "/Users/emilycoco/Desktop/ab-lcp-dispersals/test-data/area1.shp"
+  gis:set-drawing-color green
+  gis:draw start-area 2
+  let start-patches patches gis:intersecting start-area
 
-  set stamp1 random-float 1
-  set file-1 (word "/Users/emilycoco/Desktop/ab-lcp-dispersals/test-outputs/" "outputs_path_" origin "_" goal "_" stamp1 ".csv") ;; is there a way to do arguments -- check behavior space
-  if file-exists? file-1
-  [ file-delete file-1 ]
-  file-open file-1
+  set end-area gis:load-dataset "/Users/emilycoco/Desktop/ab-lcp-dispersals/test-data/area2.shp"
+  gis:set-drawing-color red
+  gis:draw end-area 2
+  let end-patches patches gis:intersecting end-area
+
+  let list-start-grid sort start-patches
+  let list-end-grid sort end-patches
+
+  ask one-of start-patches [ stp-hikers ] ;; will need to update this to iterate through every start square
+  ask one-of end-patches [ stp-goal ] ;; will need to update this to iterate through every end square
+
+
+  if output? [
+    set stamp1 random-float 1
+    set file-1 (word "/Users/emilycoco/Desktop/ab-lcp-dispersals/test-outputs/" "outputs_path_" origin "_" goal "_" stamp1 ".csv") ;; is there a way to do arguments -- check behavior space
+    if file-exists? file-1
+    [ file-delete file-1 ]
+    file-open file-1
+  ]
 
 
 end
@@ -105,7 +125,7 @@ to stp-hikers                                                        ;; Patch pr
 
   sprout-hikers 1
   [ set color 14
-    set size 10
+    set size 5
     set shape "person"
     pen-down
     set hiker-n who                                                  ;; Records the hiker's ID number as a global variable
@@ -122,7 +142,7 @@ to stp-goal                                                          ;; Patch pr
 
   sprout-targets 1
   [ set color blue
-    set size 10
+    set size 5
     set shape "house"
     set goal patch-here                                              ;; Records the goal's ID number as a global variable
     set coord-end list ([xcor] of self) ([ycor] of self)
@@ -150,7 +170,7 @@ to go
   ;; stop model if hiker reaches goal
   if [ hiker-dist-to-goal ] of hiker hiker-n = 0
   [ ask patches [ update-colors ]
-    export-path
+    if output? [ export-path ]
     stop
   ]
 
@@ -231,7 +251,6 @@ to move
   [ move-to winner-patch
     update-plots ]]
 
-  let patch-size-km 1
   set dist-traveled dist-traveled + ( dist-winner-patch * patch-size-km )  ;; The total distance traveled gets updated...
 
 
@@ -261,11 +280,11 @@ end
 GRAPHICS-WINDOW
 301
 10
-1307
-937
+1309
+939
 -1
 -1
-2.0
+4.0
 1
 10
 1
@@ -276,9 +295,9 @@ GRAPHICS-WINDOW
 0
 1
 0
-498
+249
 0
-458
+229
 0
 0
 1
@@ -354,6 +373,39 @@ NIL
 NIL
 NIL
 1
+
+INPUTBOX
+151
+328
+245
+388
+patch-size-km
+2.0
+1
+0
+Number
+
+INPUTBOX
+20
+328
+143
+388
+map-resolution-km
+1.0
+1
+0
+Number
+
+SWITCH
+75
+278
+179
+311
+output?
+output?
+0
+1
+-1000
 
 @#$#@#$#@
 ## WHAT IS IT?
