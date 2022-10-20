@@ -42,4 +42,6 @@ vignettes/*.pdf
 # Other files
 test-data/*
 test-outputs/*
+cost-rasters/input-data/*
+cost-rasters/articles/*
 
