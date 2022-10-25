@@ -94,8 +94,8 @@ dat$value <- dat$value / max(dat$value)
 dat.final <- dat
 rm(dat)
 # Transform into a raster with the same coordinates as the imported DEM
-dat.final$x <- (dat.final$x * xres(DEM) ) + xmin(DEM) + (xres(DEM) / 2) # xmin extent of the original map 
-dat.final$y <- (dat.final$y * yres(DEM) ) + ymin(DEM) + (yres(DEM) / 2) # ymin extent of the original map
+dat.final$x <- (dat.final$x * xres(costRast) ) + xmin(costRast) + (xres(costRast) / 2) # xmin extent of the original map 
+dat.final$y <- (dat.final$y * yres(costRast) ) + ymin(costRast) + (yres(costRast) / 2) # ymin extent of the original map
 # Create the raster
 r.sub <- rasterFromXYZ(dat.final)
 plot(r.sub)

@@ -106,8 +106,8 @@ to setup
   let list-start-grid sort start-patches
   let list-end-grid sort end-patches
 
-  ask one-of start-patches [ stp-hikers ] ;; will need to update this to iterate through every start square
-  ask one-of end-patches [ stp-goal ] ;; will need to update this to iterate through every end square
+  ask item iter-start list-start-grid [ stp-hikers ] ;; will need to update this to iterate through every start square
+  ask item iter-end list-end-grid [ stp-goal ] ;; will need to update this to iterate through every end square
 
 
   if output? [
@@ -406,6 +406,38 @@ output?
 0
 1
 -1000
+
+INPUTBOX
+21
+403
+86
+463
+iter-start
+1.0
+1
+0
+Number
+
+INPUTBOX
+89
+404
+154
+464
+iter-end
+603.0
+1
+0
+Number
+
+TEXTBOX
+165
+402
+273
+488
+chooses square in start and end grids, respectively, to set as start location and goal location
+11
+0.0
+1
 
 @#$#@#$#@
 ## WHAT IS IT?
@@ -753,6 +785,24 @@ NetLogo 6.2.1
 @#$#@#$#@
 @#$#@#$#@
 @#$#@#$#@
+<experiments>
+  <experiment name="test-1" repetitions="1" sequentialRunOrder="false" runMetricsEveryStep="false">
+    <setup>setup</setup>
+    <go>go</go>
+    <metric>count turtles</metric>
+    <enumeratedValueSet variable="output?">
+      <value value="true"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="map-resolution-km">
+      <value value="1"/>
+    </enumeratedValueSet>
+    <steppedValueSet variable="iter-end" first="1" step="1" last="905"/>
+    <enumeratedValueSet variable="patch-size-km">
+      <value value="2"/>
+    </enumeratedValueSet>
+    <steppedValueSet variable="iter-start" first="1" step="1" last="746"/>
+  </experiment>
+</experiments>
 @#$#@#$#@
 @#$#@#$#@
 default
