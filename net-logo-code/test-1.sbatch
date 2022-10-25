@@ -10,11 +10,11 @@ module purge
 
 MODEL_PATH=/home/ec3307/ab-lcp-dispersals/net-logo-code
 PATH=$PATH:/home/ec3307/NetLogo
-cd $MODEL_PATH
+##cd $MODEL_PATH
 
 RUN_NO=1
 EXP_NAME=test-1
 
-bash netlogo-headless.sh \
+./NetLogo_Console --headless \
   --model $MODEL_PATH/ab-lcp_v1.nlogo \
   --experiment $EXP_NAME\
