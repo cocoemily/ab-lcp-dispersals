@@ -17,5 +17,5 @@ RUN_NO=1
 EXP_NAME=test-1
 
 ./home/ec3307/NetLogo/netlogo-headless.sh \
-  --model $MODEL_PATH/ab-lcp_v1.nlogo \
+  --model $MODEL_PATH/ab-lcp_v1_hpc.nlogo \
   --experiment $EXP_NAME\
