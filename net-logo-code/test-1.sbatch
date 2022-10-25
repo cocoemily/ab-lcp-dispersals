@@ -15,6 +15,6 @@ PATH=$PATH:/home/ec3307/NetLogo
 RUN_NO=1
 EXP_NAME=test-1
 
-./home/ec3307/NetLogo/NetLogo_Console --headless \
+netlogo-headless.sh \
   --model $MODEL_PATH/ab-lcp_v1.nlogo \
   --experiment $EXP_NAME\
