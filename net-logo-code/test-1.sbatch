@@ -8,7 +8,7 @@
 
 module purge
 
-MODEL_PATH=/home/ec3307/ab-lcp-dispersal/net-logo-code
+MODEL_PATH=/home/ec3307/ab-lcp-dispersals/net-logo-code
 PATH=$PATH:/home/ec3307/NetLogo
 cd $MODEL_PATH
 
