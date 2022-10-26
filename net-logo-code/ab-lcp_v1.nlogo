@@ -51,13 +51,14 @@ to setup
   ca
   reset-ticks
 
-  set basemap gis:load-dataset "/Users/emilycoco/Desktop/ab-lcp-dispersals/test-data/DEM/DEM_test.asc"
+  ;;set basemap gis:load-dataset "/Users/emilycoco/Desktop/ab-lcp-dispersals/test-data/DEM/DEM_test.asc"
+  set basemap gis:load-dataset "/Users/emilycoco/Desktop/ab-lcp-dispersals/cost-rasters/DEM_1km.asc"
 
   ;; let trans-res patch-size-km / map-resolution-km ;;need to figure out these parameters for each basemap
   ;;set patch-size-km 1
   let trans-res patch-size-km / map-resolution-km
   resize-world 0 (( gis:width-of basemap - 1 ) / trans-res ) 0 (( gis:height-of basemap - 1 ) / trans-res )
-  set-patch-size ( 2 * patch-size-km )                                   ;; This roughly keeps the size of the world window manageable
+  set-patch-size ( 0.25 * patch-size-km )                                   ;; This roughly keeps the size of the world window manageable
   gis:set-world-envelope gis:envelope-of basemap                         ;; This formats the window to the right dimensions based on the DEM
   gis:set-sampling-method basemap "BICUBIC_2"                            ;; Sets the resampling (if applicable) to cubic
 
@@ -93,12 +94,14 @@ to setup
   ;;ask one-of other-land-patches [ stp-goal ]
 
   ;;IMPORT SITES FOR START AND END LOCATION
-  set start-area gis:load-dataset "/Users/emilycoco/Desktop/ab-lcp-dispersals/test-data/area1.shp"
+  ;;set start-area gis:load-dataset "/Users/emilycoco/Desktop/ab-lcp-dispersals/test-data/area1.shp" ;;1-746 for iteration
+  set start-area gis:load-dataset "/Users/emilycoco/Desktop/ab-lcp-dispersals/start-end-locations/test-start.shp" ;;1-313 for iteration
   gis:set-drawing-color green
   gis:draw start-area 2
   let start-patches patches gis:intersecting start-area
 
-  set end-area gis:load-dataset "/Users/emilycoco/Desktop/ab-lcp-dispersals/test-data/area2.shp"
+  ;;set end-area gis:load-dataset "/Users/emilycoco/Desktop/ab-lcp-dispersals/test-data/area2.shp";;1-905 for iteration
+  set end-area gis:load-dataset "/Users/emilycoco/Desktop/ab-lcp-dispersals/start-end-locations/test-end.shp" ;;1-225 for iteration
   gis:set-drawing-color red
   gis:draw end-area 2
   let end-patches patches gis:intersecting end-area
@@ -280,11 +283,11 @@ end
 GRAPHICS-WINDOW
 301
 10
-1309
-939
+1624
+1096
 -1
 -1
-4.0
+1.25
 1
 10
 1
@@ -295,9 +298,9 @@ GRAPHICS-WINDOW
 0
 1
 0
-249
+1051
 0
-229
+861
 0
 0
 1
@@ -380,7 +383,7 @@ INPUTBOX
 245
 388
 patch-size-km
-2.0
+5.0
 1
 0
 Number
@@ -403,7 +406,7 @@ SWITCH
 311
 output?
 output?
-0
+1
 1
 -1000
 
@@ -424,7 +427,7 @@ INPUTBOX
 154
 464
 iter-end
-603.0
+1.0
 1
 0
 Number
@@ -781,7 +784,7 @@ false
 Polygon -7500403 true true 270 75 225 30 30 225 75 270
 Polygon -7500403 true true 30 75 75 30 270 225 225 270
 @#$#@#$#@
-NetLogo 6.2.1
+NetLogo 6.3.0
 @#$#@#$#@
 @#$#@#$#@
 @#$#@#$#@

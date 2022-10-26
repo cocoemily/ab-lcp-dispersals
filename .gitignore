@@ -44,4 +44,7 @@ test-data/*
 test-outputs/*
 cost-rasters/input-data/*
 cost-rasters/articles/*
-
+cost-rasters/DEM*
+cost-rasters/*.qgz
+start-end-locations/test-start*
+start-end-locations/test-end*
