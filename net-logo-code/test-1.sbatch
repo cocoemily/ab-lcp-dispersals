@@ -16,4 +16,6 @@ PATH=$PATH:/home/ec3307/NetLogo
 RUN_NO=1
 EXP_NAME="test-1"
 
-bash /home/ec3307/NetLogo/netlogo-headless.sh --model "home/ec3307/ab-lcp-dispersals/net-logo-code/ab-lcp_v1_hpc.nlogo" --experiment $EXP_NAME
+export _JAVA_OPTIONS='-Dcom.sun.media.jai.disableMediaLib=true'
+
+bash /home/ec3307/NetLogo/netlogo-headless.sh  --model "ab-lcp_v1_hpc.nlogo" --experiment $EXP_NAME
