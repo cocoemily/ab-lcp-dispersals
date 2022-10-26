@@ -98,7 +98,7 @@ to setup
   gis:draw start-area 2
   let start-patches patches gis:intersecting start-area
 
-  set end-area gis:load-dataset "/home/ec3307/Desktop/ab-lcp-dispersals/test-data/area2.shp"
+  set end-area gis:load-dataset "/home/ec3307/ab-lcp-dispersals/test-data/area2.shp"
   gis:set-drawing-color red
   gis:draw end-area 2
   let end-patches patches gis:intersecting end-area
@@ -781,7 +781,7 @@ false
 Polygon -7500403 true true 270 75 225 30 30 225 75 270
 Polygon -7500403 true true 30 75 75 30 270 225 225 270
 @#$#@#$#@
-NetLogo 6.2.1
+NetLogo 6.3.0
 @#$#@#$#@
 @#$#@#$#@
 @#$#@#$#@
