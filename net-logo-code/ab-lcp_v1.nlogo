@@ -58,7 +58,7 @@ to setup
   ;;set patch-size-km 1
   let trans-res patch-size-km / map-resolution-km
   resize-world 0 (( gis:width-of basemap - 1 ) / trans-res ) 0 (( gis:height-of basemap - 1 ) / trans-res )
-  set-patch-size ( 0.25 * patch-size-km )                                   ;; This roughly keeps the size of the world window manageable
+  set-patch-size ( 0.1 * patch-size-km )                                   ;; This roughly keeps the size of the world window manageable
   gis:set-world-envelope gis:envelope-of basemap                         ;; This formats the window to the right dimensions based on the DEM
   gis:set-sampling-method basemap "BICUBIC_2"                            ;; Sets the resampling (if applicable) to cubic
 
@@ -109,8 +109,8 @@ to setup
   let list-start-grid sort start-patches
   let list-end-grid sort end-patches
 
-  ask item iter-start list-start-grid [ stp-hikers ] ;; will need to update this to iterate through every start square
-  ask item iter-end list-end-grid [ stp-goal ] ;; will need to update this to iterate through every end square
+  ;;ask item iter-start list-start-grid [ stp-hikers ] ;; will need to update this to iterate through every start square
+  ;;ask item iter-end list-end-grid [ stp-goal ] ;; will need to update this to iterate through every end square
 
 
   if output? [
@@ -283,11 +283,11 @@ end
 GRAPHICS-WINDOW
 301
 10
-1624
-1096
+1152
+682
 -1
 -1
-1.25
+0.5
 1
 10
 1
@@ -298,9 +298,9 @@ GRAPHICS-WINDOW
 0
 1
 0
-1051
+1685
 0
-861
+1325
 0
 0
 1
@@ -406,7 +406,7 @@ SWITCH
 311
 output?
 output?
-1
+0
 1
 -1000
 
