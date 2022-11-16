@@ -42,8 +42,18 @@ vignettes/*.pdf
 # Other files
 test-data/*
 test-outputs/*
-cost-rasters/input-data/*
-cost-rasters/articles/*
-cost-rasters/DEM*
+cost-rasters/input-data/*.tif
+cost-rasters/input-data/deserts/*.tif
+cost-rasters/input-data/ice/Batchelor*
+cost-rasters/input-data/ice/ice-rasters/*.tif
+cost-rasters/input-data/lakes/base-data/*
+cost-rasters/input-data/lakes/flooded-lakes/*
+cost-rasters/input-data/lakes/*.qgz
+cost-rasters/input-data/other-water/base-data/*
+cost-rasters/input-data/other-water/rasters/*
+cost-rasters/input-data/precip/*
+cost-rasters/input-data/slope-cost/*.tif
+cost-rasters/input-data/unaltered-DEMs/*
 cost-rasters/*.qgz
 cost-rasters/base-cost-raster/Llobera-Sluckin/*
+
