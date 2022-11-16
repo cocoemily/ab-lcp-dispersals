@@ -56,4 +56,4 @@ cost-rasters/input-data/slope-cost/*.tif
 cost-rasters/input-data/unaltered-DEMs/*
 cost-rasters/*.qgz
 cost-rasters/base-cost-raster/Llobera-Sluckin/*
-
+cost-rasters/model-input-costs/LS-deserts-20/*
