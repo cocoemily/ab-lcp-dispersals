@@ -1,10 +1,4 @@
----
-editor_options: 
-  markdown: 
-    wrap: 72
----
-
-## **DEM from OpenTopography STRM15+** 
+## **DEM from OpenTopography STRM15+**
 
 450m resolution, coord system: WGS84 (ESPG:4326), units:meter
 <https://portal.opentopography.org/raster?opentopoID=OTSRTM.122019.4326.1>
@@ -14,7 +8,7 @@ Wessel, P. (2019). Global bathymetry and topography at 15 arc sec:
 SRTM15+. Distributed by OpenTopography.
 <https://doi.org/10.5069/G92R3PT9>. Accessed: 2022-10-26*
 
-## Climate data from pastclim R package 
+## Climate data from pastclim R package
 
 <https://rdrr.io/github/EvolEcolGroup/pastclim/>
 
@@ -31,7 +25,7 @@ reconstructions. 2022.05.18.492456 Preprint at
 Northern Hemisphere ice sheets through the Quaternary. Nat Commun 10,
 3713 (2019). <https://doi.org/10.1038/s41467-019-11601-2>*
 
-## Modern rivers and lakes from HydroSheds 
+## Modern rivers and lakes from HydroSheds
 
 <https://www.hydrosheds.org/products>
 
