@@ -453,7 +453,7 @@ INPUTBOX
 86
 463
 iter-start
-1.0
+5.0
 1
 0
 Number
@@ -464,7 +464,7 @@ INPUTBOX
 154
 463
 iter-end
-1.0
+5.0
 1
 0
 Number
@@ -858,29 +858,6 @@ NetLogo 6.3.0
 @#$#@#$#@
 @#$#@#$#@
 <experiments>
-  <experiment name="large-test-1" repetitions="1" runMetricsEveryStep="false">
-    <setup>setup</setup>
-    <go>go</go>
-    <timeLimit steps="10000"/>
-    <metric>count turtles</metric>
-    <enumeratedValueSet variable="output?">
-      <value value="true"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="limit-ticks">
-      <value value="10000"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="map-resolution-km">
-      <value value="1"/>
-    </enumeratedValueSet>
-    <steppedValueSet variable="iter-end" first="1" step="1" last="306"/>
-    <enumeratedValueSet variable="patch-size-km">
-      <value value="10"/>
-    </enumeratedValueSet>
-    <steppedValueSet variable="iter-start" first="1" step="1" last="257"/>
-    <enumeratedValueSet variable="lost-output?">
-      <value value="true"/>
-    </enumeratedValueSet>
-  </experiment>
   <experiment name="MIS3-abm-lcp" repetitions="5" runMetricsEveryStep="false">
     <setup>setup</setup>
     <go>go</go>

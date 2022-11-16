@@ -15,7 +15,7 @@ cost.y <- dim(costRast)[1]
 # optimization <- unique(master$optimization)
 
 # Assign the folder in which all the individual simulation output files are located 
-my_dir = paste0(getwd(),"/test-outputs")
+my_dir = paste0(getwd(),"/test-outputs/MIS3/")
 # Create a list of all the file names in the identified folder
 all_files = list.files(path = my_dir, all.files = TRUE, full.names = TRUE, pattern = "\\.csv$")
 list_size = length(all_files)
