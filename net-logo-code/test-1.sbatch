@@ -1,7 +1,7 @@
 #!/bin/bash
 #SBATCH --nodes=1
 #SBATCH --time=10:00:00
-#SBATCH --mem=3GB
+#SBATCH --mem=8GB
 #SBATCH --job-name=ab-lcp-test
 #SBATCH --mail-type=END
 #SBATCH --mail-user=ec3307@nyu.edu
@@ -14,7 +14,7 @@ PATH=$PATH:/home/ec3307/NetLogo
 ##cd $MODEL_PATH
 
 RUN_NO=1
-EXP_NAME="test-1"
+EXP_NAME="TEST_MIS3-abm-lcp"
 
 export _JAVA_OPTIONS='-Dcom.sun.media.jai.disableMediaLib=true'
 
