@@ -46,6 +46,8 @@ hikers-own [
   patch-vision
   winner-patch
   time-walked
+  step-lengths
+  cur-step-length
 ]
 
 to setup
@@ -53,17 +55,17 @@ to setup
   reset-ticks
 
   ;;set basemap gis:load-dataset "/Users/emilycoco/Desktop/ab-lcp-dispersals/test-data/DEM/DEM_test.asc"
-  ;;set basemap gis:load-dataset "/Users/emilycoco/Desktop/ab-lcp-dispersals/cost-rasters/DEM_1km.asc"
+  ;;set basemap gis:load-dataset "/Users/emilycoco/Desktop/ab-lcp-dispersals/cost-rasters/model-input-costs/test.asc"
 
   if (time-period = "MIS3" ) [
-    set basemap gis:load-dataset "/home/ec3307/ab-lcp-dispersals/cost-rasters/model-input-costs/LS-deserts-20/MIS3.asc"
+    set basemap gis:load-dataset "/Users/emilycoco/Desktop/ab-lcp-dispersals/cost-rasters/model-input-costs/LS-deserts-20/MIS3.asc"
   ]
   if (time-period = "MIS6 big Kara") [
-    set basemap gis:load-dataset "/home/ec3307/ab-lcp-dispersals/cost-rasters/model-input-costs/LS-deserts-20/MIS6_bigKara.asc"
+    set basemap gis:load-dataset "/Users/emilycoco/Desktop/ab-lcp-dispersals/cost-rasters/model-input-costs/LS-deserts-20/MIS6_bigKara.asc"
   ]
 
   if (time-period = "MIS6 small Kara") [
-    set basemap gis:load-dataset "/home/ec3307/ab-lcp-dispersals/cost-rasters/model-input-costs/LS-deserts-20/MIS6_smallKara.asc"
+    set basemap gis:load-dataset "/Users/emilycoco/Desktop/ab-lcp-dispersals/cost-rasters/model-input-costs/LS-deserts-20/MIS6_smallKara.asc"
   ]
 
   ;; let trans-res patch-size-km / map-resolution-km ;;need to figure out these parameters for each basemap
@@ -107,13 +109,13 @@ to setup
 
   ;;IMPORT SITES FOR START AND END LOCATION
   ;;set start-area gis:load-dataset "/Users/emilycoco/Desktop/ab-lcp-dispersals/test-data/area1.shp" ;;1-746 for iteration
-  set start-area gis:load-dataset "/home/ec3307/ab-lcp-dispersals/start-end-locations/test-start.shp" ;;1-306 for iteration
+  set start-area gis:load-dataset "/Users/emilycoco/Desktop/ab-lcp-dispersals/start-end-locations/test-start.shp" ;;1-306 for iteration
   gis:set-drawing-color green
   gis:draw start-area 2
   let start-patches patches gis:intersecting start-area
 
   ;;set end-area gis:load-dataset "/Users/emilycoco/Desktop/ab-lcp-dispersals/test-data/area2.shp";;1-905 for iteration
-  set end-area gis:load-dataset "/home/ec3307/ab-lcp-dispersals/start-end-locations/test-end.shp" ;;1-257 for iteration
+  set end-area gis:load-dataset "/Users/emilycoco/Desktop/ab-lcp-dispersals/start-end-locations/test-end.shp" ;;1-257 for iteration
   gis:set-drawing-color red
   gis:draw end-area 2
   let end-patches patches gis:intersecting end-area
@@ -122,22 +124,22 @@ to setup
   let list-end-grid sort end-patches
 
   ask item iter-start list-start-grid [ stp-hikers ] ;; will need to update this to iterate through every start square
-  ask item iter-end list-end-grid [ stp-goal ] ;; will need to update this to iterate through every end square
+  ask one-of list-end-grid [ stp-goal ] ;; will need to update this to iterate through every end square
 
 
   if output? [
     set stamp1 random-float 1
 
-    set file-1 (word "/home/ec3307/ab-lcp-dispersals/test-outputs/" "outputs_path_" origin "_" goal "_" time-period "_" patch-size-km "_" stamp1 ".csv")
+     set file-1 (word "/Users/emilycoco/Desktop/ab-lcp-dispersals/test-outputs/" "outputs_path_" origin "_" time-period "_" patch-size-km "_" stamp1 ".csv")
 
 ;    if (time-period = "MIS3") [
-;      set file-1 (word "/home/ec3307/ab-lcp-dispersals/test-outputs/MIS3/" "outputs_path_" origin "_" goal "_" stamp1 ".csv")
+;      set file-1 (word "/Users/emilycoco/Desktop/ab-lcp-dispersals/test-outputs/MIS3/" "outputs_path_" origin "_" goal "_" stamp1 ".csv")
 ;    ]
 ;    if (time-period = "MIS6 small Kara") [
-;      set file-1 (word "/home/ec3307/ab-lcp-dispersals/test-outputs/MIS6_smallKara/" "outputs_path_" origin "_" goal "_" stamp1 ".csv")
+;      set file-1 (word "/Users/emilycoco/Desktop/ab-lcp-dispersals/test-outputs/MIS6_smallKara/" "outputs_path_" origin "_" goal "_" stamp1 ".csv")
 ;    ]
 ;    if (time-period = "MIS6 big Kara") [
-;      set file-1 (word "/home/ec3307/ab-lcp-dispersals/test-outputs/MIS6_bigKara/" "outputs_path_" origin "_" goal "_" stamp1 ".csv")
+;      set file-1 (word "/Users/emilycoco/Desktop/ab-lcp-dispersals/test-outputs/MIS6_bigKara/" "outputs_path_" origin "_" goal "_" stamp1 ".csv")
 ;    ]
 
     if file-exists? file-1
@@ -151,7 +153,7 @@ end
 to stp-hikers                                                        ;; Patch procedure that creates one hiker with specific attributes.
 
   sprout-hikers 1
-  [ set color 14
+  [ set color violet
     set size 5
     set shape "person"
     pen-down
@@ -159,6 +161,7 @@ to stp-hikers                                                        ;; Patch pr
     set winner-patch patch-here                                      ;; Allows the hiker to start walking as soon as the run starts
     set origin patch-here
     set coord-start list ([xcor] of self) ([ycor] of self)
+    set step-lengths []
 
     if any? targets
     [ set crow-fly ( distance goal * patch-size )]]               ;; Automatically calculates the distance between the hiker and its target
@@ -208,32 +211,24 @@ to go
   [ set patch-counter patch-counter - 1 ]
 
   ask hikers [
-    set hiker-dist-to-goal distance goal
+    ;set hiker-dist-to-goal distance goal
     ask patch-here [
       set occupied-by myself
-      set patch-counter 20
+      set patch-counter 50 ;; prevents hikers from walking on the same patch too many times
     ]
   ]
 
   ;; stop model if hiker reaches goal
-  if [ hiker-dist-to-goal ] of hiker hiker-n = 0
-  [ ask patches [ update-colors ]
-    if output? [ export-path ]
-    set hiker-status "alive"
-    stop
-  ]
+;  if [ hiker-dist-to-goal ] of hiker hiker-n = 0
+;  [ ask patches [ update-colors ]
+;    if output? [ export-path ]
+;    set hiker-status "alive"
+;    stop
+;  ]
 
   ;; agent-based least cost path
-  ask hiker hiker-n
-  [ if patch-here = winner-patch
-    [ ifelse distance goal <= 1.42
-      [ set winner-patch goal
-        let wp goal
-        ;;ask patch-here [ assign-values wp true ]
-        move
-      ]
-      [ find-least-cost-path ]
-    ]
+  ask hiker hiker-n [
+    find-least-cost-path
   ]
 
   tick-advance 1
@@ -247,27 +242,22 @@ to find-least-cost-path
   let hiker-distance [ hiker-dist-to-goal ] of self
   let wp 0
 
-  face goal
-
-  set patch-vision patches in-cone 2.5 200
-  ask patch-vision [ set dist-to-goal distance goal ]
-  set patch-vision patch-vision with [ impassable = false ]
-  ;;set patch-vision patch-vision with [(([ dist-to-goal ] of self ) <= hiker-distance + ( hiker-distance * 0 ))]  ;;0 = switch, no switchback
-  set patch-vision patch-vision with [ patch-counter = 0 ]
-
-  while [ not any? patch-vision ] ;; if no good patches found by previous procedure -> widen search area
-  [ set patch-vision patches in-cone 2.5 360
-    set patch-vision patch-vision with [ impassable = false ]
-    set patch-vision patch-vision with [ patch-counter = 0 ]
-
-    set c c + 1
-    if c = 5 [ die ]
+  ifelse face-east? [
+    face goal
+    set patch-vision patches in-cone 2.5 200 ;; set hikers in direction of end goal
+  ] [
+    set patch-vision patches in-cone 2.5 360
   ]
 
 
+  set patch-vision patch-vision with [ impassable = false ]
+  set patch-vision patch-vision with [ patch-counter = 0 ]
+
+  set c c + 1
+  if c = 5 [ die ]
 
   ask patch-vision
-  [ set pcolor blue
+  [ set pcolor pink
    set len distance hiker hiker-n * res-m
   ]
 
@@ -285,35 +275,72 @@ to find-least-cost-path
   ifelse winner-patch = nobody
   [ stop ]
   [ face winner-patch
-    move ]
+    get-step-length
+    move
+  ]
+
+end
+
+to get-step-length
+  set cur-step-length (random-float 1.000) ^ (-1 / levy_mu)
+  set step-lengths lput cur-step-length step-lengths
+
+  set dist-traveled dist-traveled + ( cur-step-length * patch-size-km )  ;; The total distance traveled gets updated...
+
 
 end
 
 to move
 
-  let dist-winner-patch distance winner-patch
-  ifelse dist-winner-patch > 2
-  [ fd 0.74
-  update-plots
-  fd 0.74
-  update-plots
-  move-to winner-patch
-  update-plots ]
-  [ ifelse dist-winner-patch > 1
-  [ fd 1
-    update-plots
-    move-to winner-patch
-    update-plots ]
-  [ move-to winner-patch
-    update-plots ]]
+  foreach (range 1 cur-step-length) [
 
-  set dist-traveled dist-traveled + ( dist-winner-patch * patch-size-km )  ;; The total distance traveled gets updated...
+    let dist-winner-patch distance winner-patch
+    ifelse dist-winner-patch > 2
+    [ fd 0.74
+      update-plots
+      fd 0.74
+      update-plots
+      move-to winner-patch
+      update-plots ]
+    [ ifelse dist-winner-patch > 1
+      [ fd 1
+        update-plots
+        move-to winner-patch
+        update-plots ]
+      [ move-to winner-patch
+        update-plots ]]
+
+    set dist-traveled dist-traveled + ( dist-winner-patch * patch-size-km )
+
+    set patch-vision patches in-cone 2.5 200 ;; keeps hikers headed in relatively the same direction as the original choice before the Levy walk
+    set patch-vision patch-vision with [ impassable = false ]
+    set patch-vision patch-vision with [ patch-counter = 0 ]
+
+    ask patch-vision [
+      set pcolor pink
+      set len distance hiker hiker-n * res-m
+    ]
+
+    let flat patch-vision with [ cost < 2.7 ]
+    let gentle patch-vision with [ (cost >= 2.7) and (cost < 3.2)]
+
+    ifelse any? flat
+    [ set winner-patch one-of flat with-min [ cost ]]
+    [ ifelse any? gentle
+      [ set winner-patch one-of gentle with-min [ cost ]]
+      [ set winner-patch one-of patch-vision with-min [ cost ]]
+    ]
+
+    ifelse winner-patch = nobody
+    [ stop ]
+    [ face winner-patch ]
+  ]
 
 
 end
 
-
 to update-colors
+
   ifelse cost = -999999
     [ set impassable "true"
       set pcolor blue ]
@@ -331,8 +358,8 @@ end
 GRAPHICS-WINDOW
 301
 10
-1154
-908
+1153
+899
 -1
 -1
 0.5
@@ -447,31 +474,10 @@ INPUTBOX
 86
 463
 iter-start
-5.0
+10.0
 1
 0
 Number
-
-INPUTBOX
-89
-403
-154
-463
-iter-end
-5.0
-1
-0
-Number
-
-TEXTBOX
-165
-402
-273
-488
-chooses square in start and end grids, respectively, to set as start location and goal location
-11
-0.0
-1
 
 SWITCH
 131
@@ -496,14 +502,35 @@ limit-ticks
 Number
 
 CHOOSER
-21
-492
-169
-537
+22
+532
+170
+577
 time-period
 time-period
 "MIS3" "MIS6 big Kara" "MIS6 small Kara"
 0
+
+CHOOSER
+94
+404
+186
+449
+levy_mu
+levy_mu
+1 2 3
+0
+
+SWITCH
+24
+488
+144
+521
+face-east?
+face-east?
+1
+1
+-1000
 
 @#$#@#$#@
 ## WHAT IS IT?
@@ -852,93 +879,18 @@ NetLogo 6.3.0
 @#$#@#$#@
 @#$#@#$#@
 <experiments>
-  <experiment name="MIS3-abm-lcp" repetitions="5" runMetricsEveryStep="false">
+  <experiment name="TEST_MIS3_Levy" repetitions="2" runMetricsEveryStep="false">
     <setup>setup</setup>
     <go>go</go>
-    <timeLimit steps="10000"/>
+    <timeLimit steps="5000"/>
     <enumeratedValueSet variable="output?">
       <value value="true"/>
     </enumeratedValueSet>
-    <enumeratedValueSet variable="lost-output?">
-      <value value="true"/>
-    </enumeratedValueSet>
     <enumeratedValueSet variable="limit-ticks">
-      <value value="5000"/>
+      <value value="3000"/>
     </enumeratedValueSet>
-    <enumeratedValueSet variable="map-resolution-km">
-      <value value="1"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="patch-size-km">
-      <value value="1"/>
-    </enumeratedValueSet>
-    <steppedValueSet variable="iter-end" first="1" step="1" last="306"/>
-    <steppedValueSet variable="iter-start" first="1" step="1" last="257"/>
-    <enumeratedValueSet variable="time-period">
-      <value value="&quot;MIS3&quot;"/>
-    </enumeratedValueSet>
-  </experiment>
-  <experiment name="MIS6sk-abm-lcp" repetitions="5" runMetricsEveryStep="false">
-    <setup>setup</setup>
-    <go>go</go>
-    <timeLimit steps="10000"/>
-    <enumeratedValueSet variable="output?">
-      <value value="true"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="lost-output?">
-      <value value="true"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="limit-ticks">
-      <value value="5000"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="map-resolution-km">
-      <value value="1"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="patch-size-km">
-      <value value="1"/>
-    </enumeratedValueSet>
-    <steppedValueSet variable="iter-end" first="1" step="1" last="306"/>
-    <steppedValueSet variable="iter-start" first="1" step="1" last="257"/>
-    <enumeratedValueSet variable="time-period">
-      <value value="&quot;MIS6 small Kara&quot;"/>
-    </enumeratedValueSet>
-  </experiment>
-  <experiment name="MIS6bk-abm-lcp" repetitions="5" runMetricsEveryStep="false">
-    <setup>setup</setup>
-    <go>go</go>
-    <timeLimit steps="10000"/>
-    <enumeratedValueSet variable="output?">
-      <value value="true"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="lost-output?">
-      <value value="true"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="limit-ticks">
-      <value value="5000"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="map-resolution-km">
-      <value value="1"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="patch-size-km">
-      <value value="1"/>
-    </enumeratedValueSet>
-    <steppedValueSet variable="iter-end" first="1" step="1" last="306"/>
-    <steppedValueSet variable="iter-start" first="1" step="1" last="257"/>
-    <enumeratedValueSet variable="time-period">
-      <value value="&quot;MIS6 big Kara&quot;"/>
-    </enumeratedValueSet>
-  </experiment>
-  <experiment name="TEST_MIS3-abm-lcp" repetitions="5" runMetricsEveryStep="false">
-    <setup>setup</setup>
-    <go>go</go>
-    <timeLimit steps="10000"/>
-    <enumeratedValueSet variable="output?">
-      <value value="true"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="lost-output?">
-      <value value="true"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="limit-ticks">
-      <value value="5000"/>
+    <enumeratedValueSet variable="face-east?">
+      <value value="false"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="map-resolution-km">
       <value value="1"/>
@@ -946,10 +898,45 @@ NetLogo 6.3.0
     <enumeratedValueSet variable="patch-size-km">
       <value value="10"/>
     </enumeratedValueSet>
-    <steppedValueSet variable="iter-end" first="1" step="1" last="5"/>
-    <steppedValueSet variable="iter-start" first="1" step="1" last="5"/>
+    <steppedValueSet variable="iter-start" first="1" step="1" last="10"/>
     <enumeratedValueSet variable="time-period">
       <value value="&quot;MIS3&quot;"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="levy_mu">
+      <value value="1"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="lost-output?">
+      <value value="true"/>
+    </enumeratedValueSet>
+  </experiment>
+  <experiment name="MIS3_levy-walks" repetitions="10" runMetricsEveryStep="false">
+    <setup>setup</setup>
+    <go>go</go>
+    <timeLimit steps="10000"/>
+    <enumeratedValueSet variable="output?">
+      <value value="true"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="lost-output?">
+      <value value="true"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="limit-ticks">
+      <value value="5000"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="face-east?">
+      <value value="false"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="map-resolution-km">
+      <value value="1"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="patch-size-km">
+      <value value="1"/>
+    </enumeratedValueSet>
+    <steppedValueSet variable="iter-start" first="1" step="1" last="257"/>
+    <enumeratedValueSet variable="time-period">
+      <value value="&quot;MIS3&quot;"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="levy_mu">
+      <value value="1"/>
     </enumeratedValueSet>
   </experiment>
 </experiments>

@@ -43,10 +43,10 @@ for(l in 1:list_size[1]){
   filename.split = strsplit(new.file,"_") 
   filename.split = unlist(filename.split)
   origin = gsub("\\)|\\(", "", filename.split[3]) # Origin of the run 
-  goal = gsub("\\)|\\(", "", filename.split[4]) # Goal of the run
+  #goal = gsub("\\)|\\(", "", filename.split[4])
   
-  patch_res_km = as.numeric(filename.split[6])
-  time_period = filename.split[5]
+  patch_res_km = as.numeric(filename.split[5])
+  time_period = filename.split[4]
   
   # Import the data without headers
   ds <- read.table(paste(my_dir, "/", new.file,sep=""), fill = TRUE, skip = 19, stringsAsFactors = FALSE, sep = ",")
@@ -56,18 +56,7 @@ for(l in 1:list_size[1]){
   colnames(ds) <- c("x","y")
   ds$x <- as.integer(ds$x)
   ds$y <- as.integer(ds$y)
-  # Remove duplicates cells created because of knight movements that often stops on cell edges before reaching its destination
-  ds <- ds [!duplicated(ds[c(1,2)]),]
-  # Extract the coordinates of the path's start and end points 
-  start.x.raw <- unlist(strsplit(gsub("[[:punct:]]", "", origin), " ")) 
-  start.x <- start.x.raw[2]
-  start.y <- start.x.raw[3]
-  end.x.raw <- unlist(strsplit(gsub("[[:punct:]]", "", goal), " ")) 
-  end.x <- end.x.raw[2]
-  end.y <- end.x.raw[3]
-  # Remove the origin and goal's patches (if present) to avoid skewing the data 
-  ds<-ds[!(ds$x==start.x & ds$y==start.y),]
-  ds<-ds[!(ds$x==end.x & ds$y==end.y),]
+  
   # For each path, each cell is walked on only once 
   ds$value <- 1
 # If this is not an empty dataset 
@@ -96,7 +85,7 @@ dat <- dat[,c(4,5,3)]
 dat$value <- dat$value / max(dat$value)
 # Create the final dataset and remove the dat dataset to avoid errors in subsequent loop iterations 
 dat.final <- dat
-rm(dat)
+#rm(dat)
 
 # Transform into a raster with the same coordinates as the imported DEM
 # if 1:1 ratio on DEM to patches
@@ -108,6 +97,6 @@ dat.final$y <- (dat.final$y * yres(costRast) * patch_res_km ) + ymin(costRast) +
 # Create the raster
 r.sub <- rasterFromXYZ(dat.final)
 crs(r.sub) = crs
-#plot(r.sub)
+plot(r.sub)
 #plot(costRast)
 writeRaster(r.sub, paste0(getwd(), "/test-outputs/routes.asc"), overwrite = T)
