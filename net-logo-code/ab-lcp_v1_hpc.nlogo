@@ -128,17 +128,17 @@ to setup
   if output? [
     set stamp1 random-float 1
 
-    set file-1 (word "/home/ec3307/ab-lcp-dispersals/test-outputs/" "outputs_path_" origin "_" goal "_" stamp1 ".csv")
+    set file-1 (word "/home/ec3307/ab-lcp-dispersals/test-outputs/" "outputs_path_" origin "_" goal "_" time-period "_" patch-size-km "_" stamp1 ".csv")
 
-    if (time-period = "MIS3") [
-      set file-1 (word "/home/ec3307/ab-lcp-dispersals/test-outputs/MIS3/" "outputs_path_" origin "_" goal "_" stamp1 ".csv")
-    ]
-    if (time-period = "MIS6 small Kara") [
-      set file-1 (word "/home/ec3307/ab-lcp-dispersals/test-outputs/MIS6_smallKara/" "outputs_path_" origin "_" goal "_" stamp1 ".csv")
-    ]
-    if (time-period = "MIS6 big Kara") [
-      set file-1 (word "/home/ec3307/ab-lcp-dispersals/test-outputs/MIS6_bigKara/" "outputs_path_" origin "_" goal "_" stamp1 ".csv")
-    ]
+;    if (time-period = "MIS3") [
+;      set file-1 (word "/home/ec3307/ab-lcp-dispersals/test-outputs/MIS3/" "outputs_path_" origin "_" goal "_" stamp1 ".csv")
+;    ]
+;    if (time-period = "MIS6 small Kara") [
+;      set file-1 (word "/home/ec3307/ab-lcp-dispersals/test-outputs/MIS6_smallKara/" "outputs_path_" origin "_" goal "_" stamp1 ".csv")
+;    ]
+;    if (time-period = "MIS6 big Kara") [
+;      set file-1 (word "/home/ec3307/ab-lcp-dispersals/test-outputs/MIS6_bigKara/" "outputs_path_" origin "_" goal "_" stamp1 ".csv")
+;    ]
 
     if file-exists? file-1
     [ file-delete file-1 ]
