@@ -15,7 +15,7 @@ PATH=$PATH:/home/ec3307/NetLogo
 
 RUN_NO=1
 EXP_NAME="MIS3_levy-walks"
-ehco $EXP_NAME
+echo $EXP_NAME
 
 export _JAVA_OPTIONS='-Dcom.sun.media.jai.disableMediaLib=true -Xmx32768m'
 
