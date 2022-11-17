@@ -4,6 +4,7 @@ library(tidyverse)
 
 costRast = raster(file.choose(), sep=",")
 # Get the dimensions of the raster to collate the route data 
+crs = crs(costRast)
 cost.x <- dim(costRast)[2]
 cost.y <- dim(costRast)[1]
 
@@ -15,7 +16,7 @@ cost.y <- dim(costRast)[1]
 # optimization <- unique(master$optimization)
 
 # Assign the folder in which all the individual simulation output files are located 
-my_dir = paste0(getwd(),"/test-outputs/MIS3/")
+my_dir = paste0(getwd(),"/test-outputs/")
 # Create a list of all the file names in the identified folder
 all_files = list.files(path = my_dir, all.files = TRUE, full.names = TRUE, pattern = "\\.csv$")
 list_size = length(all_files)
@@ -43,6 +44,9 @@ for(l in 1:list_size[1]){
   filename.split = unlist(filename.split)
   origin = gsub("\\)|\\(", "", filename.split[3]) # Origin of the run 
   goal = gsub("\\)|\\(", "", filename.split[4]) # Goal of the run
+  
+  patch_res_km = as.numeric(filename.split[6])
+  time_period = filename.split[5]
   
   # Import the data without headers
   ds <- read.table(paste(my_dir, "/", new.file,sep=""), fill = TRUE, skip = 19, stringsAsFactors = FALSE, sep = ",")
@@ -93,9 +97,17 @@ dat$value <- dat$value / max(dat$value)
 # Create the final dataset and remove the dat dataset to avoid errors in subsequent loop iterations 
 dat.final <- dat
 rm(dat)
+
 # Transform into a raster with the same coordinates as the imported DEM
-dat.final$x <- (dat.final$x * xres(costRast) ) + xmin(costRast) + (xres(costRast) / 2) # xmin extent of the original map 
-dat.final$y <- (dat.final$y * yres(costRast) ) + ymin(costRast) + (yres(costRast) / 2) # ymin extent of the original map
+# if 1:1 ratio on DEM to patches
+#dat.final$x <- (dat.final$x * xres(costRast) ) + xmin(costRast) + (xres(costRast) / 2) # xmin extent of the original map 
+#dat.final$y <- (dat.final$y * yres(costRast) ) + ymin(costRast) + (yres(costRast) / 2) # ymin extent of the original map
+dat.final$x <- (dat.final$x * xres(costRast) * patch_res_km ) + xmin(costRast) + (xres(costRast) * patch_res_km / 2) # xmin extent of the original map 
+dat.final$y <- (dat.final$y * yres(costRast) * patch_res_km ) + ymin(costRast) + (yres(costRast) * patch_res_km / 2) # ymin extent of the original map
+
 # Create the raster
 r.sub <- rasterFromXYZ(dat.final)
-plot(r.sub)
+crs(r.sub) = crs
+#plot(r.sub)
+#plot(costRast)
+writeRaster(r.sub, paste0(getwd(), "/test-outputs/routes.asc"), overwrite = T)
