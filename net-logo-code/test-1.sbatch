@@ -1,7 +1,7 @@
 #!/bin/bash
 #SBATCH --nodes=1
 #SBATCH --time=10:00:00
-#SBATCH --mem=8GB
+#SBATCH --mem=16GB
 #SBATCH --job-name=ab-lcp-test
 #SBATCH --mail-type=END
 #SBATCH --mail-user=ec3307@nyu.edu
@@ -16,6 +16,6 @@ PATH=$PATH:/home/ec3307/NetLogo
 RUN_NO=1
 EXP_NAME="TEST_MIS3-abm-lcp"
 
-export _JAVA_OPTIONS='-Dcom.sun.media.jai.disableMediaLib=true'
+export _JAVA_OPTIONS='-Dcom.sun.media.jai.disableMediaLib=true -Xmx16384m'
 
 bash /home/ec3307/NetLogo/netlogo-headless.sh  --model "ab-lcp_v1_hpc.nlogo" --experiment $EXP_NAME
