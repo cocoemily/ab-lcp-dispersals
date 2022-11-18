@@ -943,7 +943,7 @@ NetLogo 6.3.0
       <value value="1"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="time-period">
-      <value value="&quot;MIS6 small Kara&quot;"/>
+      <value value="&quot;MIS6-small-Kara&quot;"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="levy_mu">
       <value value="1"/>
@@ -972,7 +972,7 @@ NetLogo 6.3.0
       <value value="1"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="time-period">
-      <value value="&quot;MIS6 big Kara&quot;"/>
+      <value value="&quot;MIS6-big-Kara&quot;"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="levy_mu">
       <value value="1"/>
