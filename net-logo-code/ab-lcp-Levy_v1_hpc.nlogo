@@ -356,7 +356,7 @@ GRAPHICS-WINDOW
 908
 -1
 -1
-0.5
+0.991
 1
 10
 1
@@ -547,6 +547,44 @@ face-east?
 ## RELATED MODELS
 
 (models in the NetLogo Models Library and elsewhere which are of related interest)
+
+## CREDITS AND REFERENCES
+
+(a reference to the model's URL on the web if it has one, as well as any other necessary credits, citations, and links)## WHAT IS IT?
+
+This model simulates Lévy walks across a DEM-based cost raster surfaces, where each step take is based on the agent's evaluation of its local environment.
+
+## HOW IT WORKS
+
+The agent gets places at a random start location within a designated start area. The agent then looks at its local environment to find the least costly patch and faces that direction. Since the agent is moving via Lévy walks, a step length is determined for the agent's movement at each tick. The agent first moves to the previously determined least costly patch and then continues to find least costly patches to move to for each step from 1 to the step length. Once the end of the step length is reached, the process begins again. This process continues until the tick limit is reached.  
+
+## HOW TO USE IT
+
+The parameters in the interface tab allow you to determine four things for model run: 
+1. which time period the cost surface will be based on (time-period), 
+2. if the agent will initially face east (face-east?),
+3. how large the step lengths of the agent can be (levy_mu),
+4. whether outputs of the path should be recorded (outputs?, lost-outputs?)
+
+The interface also allows the user to set the resolution of the model (patch-size-km) and limit how long the model runs (limit-ticks).  
+
+This version of the model is setup for use on the NYU Greene HPC cluster. 
+
+
+## EXTENDING THE MODEL
+
+(suggested things to add or change in the Code tab to make the model more complicated, detailed, accurate, etc.)
+
+## NETLOGO FEATURES
+
+This model makes use of the NetLogo GIS Extension.
+
+## RELATED MODELS
+
+Gravel-Miguel, C., Murray, J. K., Schoville, B. J., Wren, C. D. & Marean, C. W. Exploring variability in lithic armature discard in the archaeological record. Journal of Human Evolution 155, 102981 (2021).
+
+Davies, B., Holdaway, S. & Fanning, P. C. Modeling Relationships Between Space, Movement, and Lithic Geometric Attributes. American Antiquity 83, 444–461 (2018).
+
 
 ## CREDITS AND REFERENCES
 
