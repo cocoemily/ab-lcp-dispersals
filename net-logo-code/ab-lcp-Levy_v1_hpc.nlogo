@@ -60,11 +60,17 @@ to setup
   if (time-period = "MIS3" ) [
     set basemap gis:load-dataset "/home/ec3307/ab-lcp-dispersals/cost-rasters/model-input-costs/LS-deserts-20/MIS3.asc"
   ]
-  if (time-period = "MIS6 big Kara") [
+  if (time-period = "MIS4-big-Caspian") [
+    set basemap gis:load-dataset "/home/ec3307/ab-lcp-dispersals/cost-rasters/model-input-costs/LS-deserts-20/MIS4_bigCaspian.asc"
+  ]
+  if (time-period = "MIS4-small-Caspian") [
+    set basemap gis:load-dataset "/home/ec3307/ab-lcp-dispersals/cost-rasters/model-input-costs/LS-deserts-20/MIS4_smallCaspian.asc"
+  ]
+  if (time-period = "MIS6-big-Kara") [
     set basemap gis:load-dataset "/home/ec3307/ab-lcp-dispersals/cost-rasters/model-input-costs/LS-deserts-20/MIS6_bigKara.asc"
   ]
 
-  if (time-period = "MIS6 small Kara") [
+  if (time-period = "MIS6-small-Kara") [
     set basemap gis:load-dataset "/home/ec3307/ab-lcp-dispersals/cost-rasters/model-input-costs/LS-deserts-20/MIS6_smallKara.asc"
   ]
 
@@ -121,7 +127,7 @@ to setup
   let list-start-grid sort start-patches
   let list-end-grid sort end-patches
 
-  ask item iter-start list-start-grid [ stp-hikers ] ;; will need to update this to iterate through every start square
+  ask one-of list-start-grid [ stp-hikers ] ;; will need to update this to iterate through every start square
   ask one-of list-end-grid [ stp-goal ] ;; will need to update this to iterate through every end square
 
 
@@ -456,17 +462,6 @@ output?
 1
 -1000
 
-INPUTBOX
-21
-403
-86
-463
-iter-start
-10.0
-1
-0
-Number
-
 SWITCH
 131
 278
@@ -490,19 +485,19 @@ limit-ticks
 Number
 
 CHOOSER
-22
-532
-170
-577
+19
+463
+192
+508
 time-period
 time-period
-"MIS3" "MIS6 big Kara" "MIS6 small Kara"
+"MIS3" "MIS4-big-Caspian" "MIS4-small-Caspian" "MIS5a" "MIS5b-high-water" "MIS5b-low-water" "MIS5c" "MIS5d" "MIS5e" "MIS6-big-Kara" "MIS6-small-Kara"
 0
 
 CHOOSER
-94
+20
 404
-186
+112
 449
 levy_mu
 levy_mu
@@ -510,10 +505,10 @@ levy_mu
 0
 
 SWITCH
-24
-488
-144
-521
+127
+407
+247
+440
 face-east?
 face-east?
 1
@@ -867,7 +862,7 @@ NetLogo 6.3.0
 @#$#@#$#@
 @#$#@#$#@
 <experiments>
-  <experiment name="TEST_MIS3_Levy" repetitions="2" runMetricsEveryStep="false">
+  <experiment name="TEST_MIS3_Levy" repetitions="5" runMetricsEveryStep="false">
     <setup>setup</setup>
     <go>go</go>
     <timeLimit steps="5000"/>
@@ -886,7 +881,6 @@ NetLogo 6.3.0
     <enumeratedValueSet variable="patch-size-km">
       <value value="10"/>
     </enumeratedValueSet>
-    <steppedValueSet variable="iter-start" first="1" step="1" last="10"/>
     <enumeratedValueSet variable="time-period">
       <value value="&quot;MIS3&quot;"/>
     </enumeratedValueSet>
@@ -897,7 +891,7 @@ NetLogo 6.3.0
       <value value="true"/>
     </enumeratedValueSet>
   </experiment>
-  <experiment name="MIS3_levy-walks" repetitions="10" runMetricsEveryStep="false">
+  <experiment name="MIS3_levy-walks" repetitions="20" runMetricsEveryStep="false">
     <setup>setup</setup>
     <go>go</go>
     <timeLimit steps="10000"/>
@@ -919,7 +913,6 @@ NetLogo 6.3.0
     <enumeratedValueSet variable="patch-size-km">
       <value value="1"/>
     </enumeratedValueSet>
-    <steppedValueSet variable="iter-start" first="1" step="1" last="257"/>
     <enumeratedValueSet variable="time-period">
       <value value="&quot;MIS3&quot;"/>
     </enumeratedValueSet>
@@ -927,7 +920,7 @@ NetLogo 6.3.0
       <value value="1"/>
     </enumeratedValueSet>
   </experiment>
-  <experiment name="MIS6sk_levy-walks" repetitions="10" runMetricsEveryStep="false">
+  <experiment name="MIS6sk_levy-walks" repetitions="20" runMetricsEveryStep="false">
     <setup>setup</setup>
     <go>go</go>
     <timeLimit steps="10000"/>
@@ -949,7 +942,6 @@ NetLogo 6.3.0
     <enumeratedValueSet variable="patch-size-km">
       <value value="1"/>
     </enumeratedValueSet>
-    <steppedValueSet variable="iter-start" first="1" step="1" last="257"/>
     <enumeratedValueSet variable="time-period">
       <value value="&quot;MIS6 small Kara&quot;"/>
     </enumeratedValueSet>
@@ -957,7 +949,7 @@ NetLogo 6.3.0
       <value value="1"/>
     </enumeratedValueSet>
   </experiment>
-  <experiment name="MIS6bk_levy-walks" repetitions="10" runMetricsEveryStep="false">
+  <experiment name="MIS6bk_levy-walks" repetitions="20" runMetricsEveryStep="false">
     <setup>setup</setup>
     <go>go</go>
     <timeLimit steps="10000"/>
@@ -979,9 +971,66 @@ NetLogo 6.3.0
     <enumeratedValueSet variable="patch-size-km">
       <value value="1"/>
     </enumeratedValueSet>
-    <steppedValueSet variable="iter-start" first="1" step="1" last="257"/>
     <enumeratedValueSet variable="time-period">
       <value value="&quot;MIS6 big Kara&quot;"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="levy_mu">
+      <value value="1"/>
+    </enumeratedValueSet>
+  </experiment>
+  <experiment name="MIS4sc_levy-walks" repetitions="20" runMetricsEveryStep="false">
+    <setup>setup</setup>
+    <go>go</go>
+    <timeLimit steps="10000"/>
+    <enumeratedValueSet variable="output?">
+      <value value="true"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="lost-output?">
+      <value value="true"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="limit-ticks">
+      <value value="5000"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="face-east?">
+      <value value="false"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="map-resolution-km">
+      <value value="1"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="patch-size-km">
+      <value value="1"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="time-period">
+      <value value="&quot;MIS4-small-Caspian&quot;"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="levy_mu">
+      <value value="1"/>
+    </enumeratedValueSet>
+  </experiment>
+  <experiment name="MIS4bc_levy-walks" repetitions="20" runMetricsEveryStep="false">
+    <setup>setup</setup>
+    <go>go</go>
+    <timeLimit steps="10000"/>
+    <enumeratedValueSet variable="output?">
+      <value value="true"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="lost-output?">
+      <value value="true"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="limit-ticks">
+      <value value="5000"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="face-east?">
+      <value value="false"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="map-resolution-km">
+      <value value="1"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="patch-size-km">
+      <value value="1"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="time-period">
+      <value value="&quot;MIS4-big-Caspian&quot;"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="levy_mu">
       <value value="1"/>

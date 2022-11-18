@@ -2,7 +2,7 @@
 #SBATCH --nodes=1
 #SBATCH --time=144:00:00
 #SBATCH --mem=64GB
-#SBATCH --job-name=MIS3-levy
+#SBATCH --job-name=MIS4sc-levy
 #SBATCH --mail-type=END
 #SBATCH --mail-user=ec3307@nyu.edu
 
@@ -14,7 +14,7 @@ PATH=$PATH:/home/ec3307/NetLogo
 ##cd $MODEL_PATH
 
 RUN_NO=1
-EXP_NAME="MIS3_levy-walks"
+EXP_NAME="MIS4sc_levy-walks"
 echo $EXP_NAME
 
 export _JAVA_OPTIONS='-Dcom.sun.media.jai.disableMediaLib=true -Xmx65536m'
