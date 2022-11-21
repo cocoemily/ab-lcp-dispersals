@@ -58,3 +58,4 @@ cost-rasters/*.qgz
 cost-rasters/base-cost-raster/Llobera-Sluckin/*
 cost-rasters/model-input-costs/LS-deserts-20/*
 outputs/
+routes/
