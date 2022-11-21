@@ -929,10 +929,10 @@ NetLogo 6.3.0
       <value value="true"/>
     </enumeratedValueSet>
   </experiment>
-  <experiment name="MIS3_levy-walks" repetitions="20" runMetricsEveryStep="false">
+  <experiment name="MIS3_levy-walks" repetitions="10" runMetricsEveryStep="false">
     <setup>setup</setup>
     <go>go</go>
-    <timeLimit steps="10000"/>
+    <timeLimit steps="20000"/>
     <enumeratedValueSet variable="output?">
       <value value="true"/>
     </enumeratedValueSet>
@@ -940,7 +940,7 @@ NetLogo 6.3.0
       <value value="true"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="limit-ticks">
-      <value value="5000"/>
+      <value value="20000"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="face-east?">
       <value value="false"/>
@@ -958,10 +958,10 @@ NetLogo 6.3.0
       <value value="1"/>
     </enumeratedValueSet>
   </experiment>
-  <experiment name="MIS6sk_levy-walks" repetitions="20" runMetricsEveryStep="false">
+  <experiment name="MIS6sk_levy-walks" repetitions="10" runMetricsEveryStep="false">
     <setup>setup</setup>
     <go>go</go>
-    <timeLimit steps="10000"/>
+    <timeLimit steps="200000"/>
     <enumeratedValueSet variable="output?">
       <value value="true"/>
     </enumeratedValueSet>
@@ -969,7 +969,7 @@ NetLogo 6.3.0
       <value value="true"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="limit-ticks">
-      <value value="5000"/>
+      <value value="20000"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="face-east?">
       <value value="false"/>
@@ -987,10 +987,10 @@ NetLogo 6.3.0
       <value value="1"/>
     </enumeratedValueSet>
   </experiment>
-  <experiment name="MIS6bk_levy-walks" repetitions="20" runMetricsEveryStep="false">
+  <experiment name="MIS6bk_levy-walks" repetitions="10" runMetricsEveryStep="false">
     <setup>setup</setup>
     <go>go</go>
-    <timeLimit steps="10000"/>
+    <timeLimit steps="200000"/>
     <enumeratedValueSet variable="output?">
       <value value="true"/>
     </enumeratedValueSet>
@@ -998,7 +998,7 @@ NetLogo 6.3.0
       <value value="true"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="limit-ticks">
-      <value value="5000"/>
+      <value value="20000"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="face-east?">
       <value value="false"/>
@@ -1016,10 +1016,10 @@ NetLogo 6.3.0
       <value value="1"/>
     </enumeratedValueSet>
   </experiment>
-  <experiment name="MIS4sc_levy-walks" repetitions="20" runMetricsEveryStep="false">
+  <experiment name="MIS4sc_levy-walks" repetitions="10" runMetricsEveryStep="false">
     <setup>setup</setup>
     <go>go</go>
-    <timeLimit steps="10000"/>
+    <timeLimit steps="20000"/>
     <enumeratedValueSet variable="output?">
       <value value="true"/>
     </enumeratedValueSet>
@@ -1027,7 +1027,7 @@ NetLogo 6.3.0
       <value value="true"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="limit-ticks">
-      <value value="5000"/>
+      <value value="20000"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="face-east?">
       <value value="false"/>
@@ -1045,10 +1045,10 @@ NetLogo 6.3.0
       <value value="1"/>
     </enumeratedValueSet>
   </experiment>
-  <experiment name="MIS4bc_levy-walks" repetitions="20" runMetricsEveryStep="false">
+  <experiment name="MIS4bc_levy-walks" repetitions="10" runMetricsEveryStep="false">
     <setup>setup</setup>
     <go>go</go>
-    <timeLimit steps="10000"/>
+    <timeLimit steps="20000"/>
     <enumeratedValueSet variable="output?">
       <value value="true"/>
     </enumeratedValueSet>
@@ -1056,7 +1056,7 @@ NetLogo 6.3.0
       <value value="true"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="limit-ticks">
-      <value value="5000"/>
+      <value value="20000"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="face-east?">
       <value value="false"/>
