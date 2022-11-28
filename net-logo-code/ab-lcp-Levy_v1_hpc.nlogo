@@ -58,20 +58,45 @@ to setup
   ;;set basemap gis:load-dataset "/Users/emilycoco/Desktop/ab-lcp-dispersals/cost-rasters/model-input-costs/test.asc"
 
   if (time-period = "MIS3" ) [
-    set basemap gis:load-dataset "/home/ec3307/ab-lcp-dispersals/cost-rasters/model-input-costs/LS-deserts-20/MIS3.asc"
+    if (desert-cost = "20%") [
+      set basemap gis:load-dataset "/home/ec3307/ab-lcp-dispersals/cost-rasters/model-input-costs/LS-deserts-20/MIS3.asc"
+    ]
+    if (desert-cost = "10%") [
+      set basemap gis:load-dataset "/home/ec3307/ab-lcp-dispersals/cost-rasters/model-input-costs/LS-deserts-10/MIS3.asc"
+    ]
   ]
   if (time-period = "MIS4-big-Caspian") [
-    set basemap gis:load-dataset "/home/ec3307/ab-lcp-dispersals/cost-rasters/model-input-costs/LS-deserts-20/MIS4_bigCaspian.asc"
+    if (desert-cost = "20%") [
+      set basemap gis:load-dataset "/home/ec3307/ab-lcp-dispersals/cost-rasters/model-input-costs/LS-deserts-20/MIS4_bigCaspian.asc"
+    ]
+    if (desert-cost = "10%") [
+      set basemap gis:load-dataset "/home/ec3307/ab-lcp-dispersals/cost-rasters/model-input-costs/LS-deserts-10/MIS4_bigCaspian.asc"
+    ]
   ]
   if (time-period = "MIS4-small-Caspian") [
-    set basemap gis:load-dataset "/home/ec3307/ab-lcp-dispersals/cost-rasters/model-input-costs/LS-deserts-20/MIS4_smallCaspian.asc"
+    if (desert-cost = "20%") [
+      set basemap gis:load-dataset "/home/ec3307/ab-lcp-dispersals/cost-rasters/model-input-costs/LS-deserts-20/MIS4_smallCaspian.asc"
+    ]
+    if (desert-cost = "10%") [
+      set basemap gis:load-dataset "/home/ec3307/ab-lcp-dispersals/cost-rasters/model-input-costs/LS-deserts-10/MIS4_smallCaspian.asc"
+    ]
   ]
   if (time-period = "MIS6-big-Kara") [
-    set basemap gis:load-dataset "/home/ec3307/ab-lcp-dispersals/cost-rasters/model-input-costs/LS-deserts-20/MIS6_bigKara.asc"
+    if (desert-cost = "20%") [
+      set basemap gis:load-dataset "/home/ec3307/ab-lcp-dispersals/cost-rasters/model-input-costs/LS-deserts-20/MIS6_bigKara.asc"
+    ]
+    if (desert-cost = "10%") [
+      set basemap gis:load-dataset "/home/ec3307/ab-lcp-dispersals/cost-rasters/model-input-costs/LS-deserts-10/MIS6_bigKara.asc"
+    ]
   ]
 
   if (time-period = "MIS6-small-Kara") [
-    set basemap gis:load-dataset "/home/ec3307/ab-lcp-dispersals/cost-rasters/model-input-costs/LS-deserts-20/MIS6_smallKara.asc"
+    if (desert-cost = "20%") [
+      set basemap gis:load-dataset "/home/ec3307/ab-lcp-dispersals/cost-rasters/model-input-costs/LS-deserts-20/MIS6_smallKara.asc"
+    ]
+    if (desert-cost = "10%") [
+      set basemap gis:load-dataset "/home/ec3307/ab-lcp-dispersals/cost-rasters/model-input-costs/LS-deserts-10/MIS6_smallKara.asc"
+    ]
   ]
 
   ;; let trans-res patch-size-km / map-resolution-km ;;need to figure out these parameters for each basemap
@@ -486,9 +511,9 @@ Number
 
 CHOOSER
 19
-463
-192
-508
+469
+111
+514
 time-period
 time-period
 "MIS3" "MIS4-big-Caspian" "MIS4-small-Caspian" "MIS5a" "MIS5b-high-water" "MIS5b-low-water" "MIS5c" "MIS5d" "MIS5e" "MIS6-big-Kara" "MIS6-small-Kara"
@@ -514,6 +539,16 @@ face-east?
 1
 1
 -1000
+
+CHOOSER
+122
+470
+214
+515
+desert-cost
+desert-cost
+"20%" "10%"
+1
 
 @#$#@#$#@
 ## WHAT IS IT?
@@ -929,7 +964,7 @@ NetLogo 6.3.0
       <value value="true"/>
     </enumeratedValueSet>
   </experiment>
-  <experiment name="MIS3_levy-walks" repetitions="10" runMetricsEveryStep="false">
+  <experiment name="MIS3_levy-walks" repetitions="5" runMetricsEveryStep="false">
     <setup>setup</setup>
     <go>go</go>
     <timeLimit steps="20000"/>
@@ -954,11 +989,14 @@ NetLogo 6.3.0
     <enumeratedValueSet variable="time-period">
       <value value="&quot;MIS3&quot;"/>
     </enumeratedValueSet>
+    <enumeratedValueSet variable="desert-cost">
+      <value value="&quot;20%&quot;"/>
+    </enumeratedValueSet>
     <enumeratedValueSet variable="levy_mu">
       <value value="1"/>
     </enumeratedValueSet>
   </experiment>
-  <experiment name="MIS6sk_levy-walks" repetitions="10" runMetricsEveryStep="false">
+  <experiment name="MIS6sk_levy-walks" repetitions="5" runMetricsEveryStep="false">
     <setup>setup</setup>
     <go>go</go>
     <timeLimit steps="200000"/>
@@ -983,11 +1021,14 @@ NetLogo 6.3.0
     <enumeratedValueSet variable="time-period">
       <value value="&quot;MIS6-small-Kara&quot;"/>
     </enumeratedValueSet>
+    <enumeratedValueSet variable="desert-cost">
+      <value value="&quot;20%&quot;"/>
+    </enumeratedValueSet>
     <enumeratedValueSet variable="levy_mu">
       <value value="1"/>
     </enumeratedValueSet>
   </experiment>
-  <experiment name="MIS6bk_levy-walks" repetitions="10" runMetricsEveryStep="false">
+  <experiment name="MIS6bk_levy-walks" repetitions="5" runMetricsEveryStep="false">
     <setup>setup</setup>
     <go>go</go>
     <timeLimit steps="200000"/>
@@ -1012,11 +1053,14 @@ NetLogo 6.3.0
     <enumeratedValueSet variable="time-period">
       <value value="&quot;MIS6-big-Kara&quot;"/>
     </enumeratedValueSet>
+    <enumeratedValueSet variable="desert-cost">
+      <value value="&quot;20%&quot;"/>
+    </enumeratedValueSet>
     <enumeratedValueSet variable="levy_mu">
       <value value="1"/>
     </enumeratedValueSet>
   </experiment>
-  <experiment name="MIS4sc_levy-walks" repetitions="10" runMetricsEveryStep="false">
+  <experiment name="MIS4sc_levy-walks" repetitions="5" runMetricsEveryStep="false">
     <setup>setup</setup>
     <go>go</go>
     <timeLimit steps="20000"/>
@@ -1041,11 +1085,14 @@ NetLogo 6.3.0
     <enumeratedValueSet variable="time-period">
       <value value="&quot;MIS4-small-Caspian&quot;"/>
     </enumeratedValueSet>
+    <enumeratedValueSet variable="desert-cost">
+      <value value="&quot;20%&quot;"/>
+    </enumeratedValueSet>
     <enumeratedValueSet variable="levy_mu">
       <value value="1"/>
     </enumeratedValueSet>
   </experiment>
-  <experiment name="MIS4bc_levy-walks" repetitions="10" runMetricsEveryStep="false">
+  <experiment name="MIS4bc_levy-walks" repetitions="5" runMetricsEveryStep="false">
     <setup>setup</setup>
     <go>go</go>
     <timeLimit steps="20000"/>
@@ -1069,6 +1116,9 @@ NetLogo 6.3.0
     </enumeratedValueSet>
     <enumeratedValueSet variable="time-period">
       <value value="&quot;MIS4-big-Caspian&quot;"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="desert-cost">
+      <value value="&quot;20%&quot;"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="levy_mu">
       <value value="1"/>
