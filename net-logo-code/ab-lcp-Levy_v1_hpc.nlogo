@@ -984,7 +984,7 @@ NetLogo 6.3.0
       <value value="1"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="patch-size-km">
-      <value value="1"/>
+      <value value="5"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="time-period">
       <value value="&quot;MIS3&quot;"/>
@@ -1016,7 +1016,7 @@ NetLogo 6.3.0
       <value value="1"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="patch-size-km">
-      <value value="1"/>
+      <value value="5"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="time-period">
       <value value="&quot;MIS6-small-Kara&quot;"/>
@@ -1048,7 +1048,7 @@ NetLogo 6.3.0
       <value value="1"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="patch-size-km">
-      <value value="1"/>
+      <value value="5"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="time-period">
       <value value="&quot;MIS6-big-Kara&quot;"/>
@@ -1080,7 +1080,7 @@ NetLogo 6.3.0
       <value value="1"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="patch-size-km">
-      <value value="1"/>
+      <value value="5"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="time-period">
       <value value="&quot;MIS4-small-Caspian&quot;"/>
@@ -1112,7 +1112,7 @@ NetLogo 6.3.0
       <value value="1"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="patch-size-km">
-      <value value="1"/>
+      <value value="5"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="time-period">
       <value value="&quot;MIS4-big-Caspian&quot;"/>
