@@ -1343,6 +1343,39 @@ NetLogo 6.3.0
       <value value="1"/>
     </enumeratedValueSet>
   </experiment>
+  <experiment name="MIS5c_levy-walks" repetitions="5" runMetricsEveryStep="false">
+    <setup>setup</setup>
+    <go>go</go>
+    <timeLimit steps="10000"/>
+    <enumeratedValueSet variable="output?">
+      <value value="true"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="lost-output?">
+      <value value="true"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="limit-ticks">
+      <value value="10000"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="face-east?">
+      <value value="false"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="map-resolution-km">
+      <value value="1"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="patch-size-km">
+      <value value="5"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="time-period">
+      <value value="&quot;MIS5c&quot;"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="desert-cost">
+      <value value="&quot;20%&quot;"/>
+      <value value="&quot;10%&quot;"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="levy_mu">
+      <value value="1"/>
+    </enumeratedValueSet>
+  </experiment>
 </experiments>
 @#$#@#$#@
 @#$#@#$#@
