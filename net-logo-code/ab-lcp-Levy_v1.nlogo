@@ -415,11 +415,11 @@ end
 GRAPHICS-WINDOW
 301
 10
-735
-463
+1153
+899
 -1
 -1
-0.5
+0.25
 1
 10
 1
@@ -430,9 +430,9 @@ GRAPHICS-WINDOW
 0
 1
 0
-852
+1704
 0
-888
+1777
 0
 0
 1
@@ -498,7 +498,7 @@ INPUTBOX
 245
 388
 patch-size-km
-10.0
+5.0
 1
 0
 Number
@@ -542,7 +542,7 @@ INPUTBOX
 242
 93
 limit-ticks
-2500.0
+5000.0
 1
 0
 Number
@@ -586,7 +586,7 @@ CHOOSER
 desert-cost
 desert-cost
 "20%" "10%"
-0
+1
 
 @#$#@#$#@
 ## WHAT IS IT?
@@ -973,7 +973,7 @@ NetLogo 6.3.0
 @#$#@#$#@
 @#$#@#$#@
 <experiments>
-  <experiment name="MIS3_levy-walks" repetitions="5" runMetricsEveryStep="false">
+  <experiment name="MIS3_levy-walks" repetitions="2" runMetricsEveryStep="false">
     <setup>setup</setup>
     <go>go</go>
     <timeLimit steps="20000"/>
@@ -984,7 +984,7 @@ NetLogo 6.3.0
       <value value="true"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="limit-ticks">
-      <value value="20000"/>
+      <value value="5000"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="face-east?">
       <value value="false"/>
@@ -999,7 +999,7 @@ NetLogo 6.3.0
       <value value="&quot;MIS3&quot;"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="desert-cost">
-      <value value="&quot;20%&quot;"/>
+      <value value="&quot;10%&quot;"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="levy_mu">
       <value value="1"/>
