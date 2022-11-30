@@ -340,41 +340,30 @@ to find-least-cost-path
 end
 
 to get-step-length
+
   set cur-step-length (random-float 1.000) ^ (-1 / levy_mu)
   set step-lengths lput cur-step-length step-lengths
 
-  set dist-traveled dist-traveled + ( cur-step-length * patch-size-km )  ;; The total distance traveled gets updated...
+  ;;set dist-traveled dist-traveled + ( cur-step-length * patch-size-km )  ;; The total distance traveled gets updated...
 
 
 end
 
 to move
 
+  let c 0
+
   foreach (range 1 cur-step-length) [
 
     ask patch-here [
-      set patch-counter 20
+      set patch-counter 100
     ]
 
     let dist-winner-patch distance winner-patch
-    ifelse dist-winner-patch > 2
-    [ fd 0.74
-      update-plots
-      fd 0.74
-      update-plots
-      move-to winner-patch
-      update-plots ]
-    [ ifelse dist-winner-patch > 1
-      [ fd 1
-        update-plots
-        move-to winner-patch
-        update-plots ]
-      [ move-to winner-patch
-        update-plots ]]
+    move-to winner-patch
+    update-plots
 
     set dist-traveled dist-traveled + ( dist-winner-patch * patch-size-km )
-
-    let c 0
 
     set patch-vision patches in-cone 2.5 200 ;; keeps hikers headed in relatively the same direction as the original choice before the Levy walk
     set patch-vision patch-vision with [ impassable = false ]
@@ -396,7 +385,11 @@ to move
     ]
 
     ifelse winner-patch = nobody
-    [ stop ]
+    [
+      set c c + 1
+      if c = 5 [ die ]
+      stop
+    ]
     [ face winner-patch ]
   ]
 
@@ -505,7 +498,7 @@ INPUTBOX
 245
 388
 patch-size-km
-20.0
+10.0
 1
 0
 Number
@@ -549,7 +542,7 @@ INPUTBOX
 242
 93
 limit-ticks
-2000.0
+2500.0
 1
 0
 Number
@@ -991,7 +984,7 @@ NetLogo 6.3.0
       <value value="true"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="limit-ticks">
-      <value value="10000"/>
+      <value value="5000"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="face-east?">
       <value value="false"/>
@@ -1024,7 +1017,7 @@ NetLogo 6.3.0
       <value value="true"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="limit-ticks">
-      <value value="10000"/>
+      <value value="5000"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="face-east?">
       <value value="false"/>
@@ -1057,7 +1050,7 @@ NetLogo 6.3.0
       <value value="true"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="limit-ticks">
-      <value value="10000"/>
+      <value value="5000"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="face-east?">
       <value value="false"/>
@@ -1090,7 +1083,7 @@ NetLogo 6.3.0
       <value value="true"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="limit-ticks">
-      <value value="10000"/>
+      <value value="5000"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="face-east?">
       <value value="false"/>
@@ -1123,7 +1116,7 @@ NetLogo 6.3.0
       <value value="true"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="limit-ticks">
-      <value value="10000"/>
+      <value value="5000"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="face-east?">
       <value value="false"/>
@@ -1156,7 +1149,7 @@ NetLogo 6.3.0
       <value value="true"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="limit-ticks">
-      <value value="10000"/>
+      <value value="5000"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="face-east?">
       <value value="false"/>
@@ -1189,7 +1182,7 @@ NetLogo 6.3.0
       <value value="true"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="limit-ticks">
-      <value value="10000"/>
+      <value value="5000"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="face-east?">
       <value value="false"/>
@@ -1222,7 +1215,7 @@ NetLogo 6.3.0
       <value value="true"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="limit-ticks">
-      <value value="10000"/>
+      <value value="5000"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="face-east?">
       <value value="false"/>
@@ -1255,7 +1248,7 @@ NetLogo 6.3.0
       <value value="true"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="limit-ticks">
-      <value value="10000"/>
+      <value value="5000"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="face-east?">
       <value value="false"/>
@@ -1288,7 +1281,7 @@ NetLogo 6.3.0
       <value value="true"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="limit-ticks">
-      <value value="10000"/>
+      <value value="5000"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="face-east?">
       <value value="false"/>
@@ -1321,7 +1314,7 @@ NetLogo 6.3.0
       <value value="true"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="limit-ticks">
-      <value value="10000"/>
+      <value value="5000"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="face-east?">
       <value value="false"/>
@@ -1354,7 +1347,7 @@ NetLogo 6.3.0
       <value value="true"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="limit-ticks">
-      <value value="10000"/>
+      <value value="5000"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="face-east?">
       <value value="false"/>
