@@ -57,5 +57,7 @@ cost-rasters/input-data/unaltered-DEMs/*
 cost-rasters/*.qgz
 cost-rasters/base-cost-raster/Llobera-Sluckin/*
 cost-rasters/model-input-costs/LS-deserts-20/*
+cost-rasters/model-input-costs/LS-deserts-10/*
+start-end-locations/middle-pal-sites.csv
 outputs/
 routes/
