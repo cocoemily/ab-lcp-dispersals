@@ -7,10 +7,8 @@ globals [
   basemap
   start-area
   end-area
-
   goal
   coord-start
-  coord-end
   dist-traveled
 
   min-cost
@@ -19,7 +17,6 @@ globals [
   res-m
 
   origin
-  crow-fly
 
   hiker-n
   hiker-status
@@ -33,19 +30,14 @@ patches-own [
   impassable
 
   patch-counter
-  occupied-by
-  dist-to-goal
-  len
 ]
 
 breed [ hikers hiker ]
 breed [ targets target ]
 
 hikers-own [
-  hiker-dist-to-goal
   patch-vision
   winner-patch
-  time-walked
   step-lengths
   cur-step-length
 ]
@@ -160,7 +152,7 @@ to setup
   resize-world 0 (( gis:width-of basemap - 1 ) / trans-res ) 0 (( gis:height-of basemap - 1 ) / trans-res )
   set-patch-size ( 0.05 * patch-size-km )                                   ;; This roughly keeps the size of the world window manageable
   gis:set-world-envelope gis:envelope-of basemap                         ;; This formats the window to the right dimensions based on the DEM
-  gis:set-sampling-method basemap "BICUBIC_2"                            ;; Sets the resampling (if applicable) to cubic
+  gis:set-sampling-method basemap "BICUBIC_2"
 
 
   gis:apply-raster basemap cost
@@ -168,7 +160,7 @@ to setup
   set min-cost gis:minimum-of basemap
   set max-cost gis:maximum-of basemap
 
-  set res-m 1000 * patch-size-km ;; 0.5 = patch-size-km
+  set res-m 1000 * patch-size-km
 
   ;;need to think about this and what the impassable value should be
   ask patches [
@@ -186,14 +178,7 @@ to setup
 
   let land patches with [ impassable = false ]
 
-
-  ;; RANDOM CHOICE OF SITES
-
-  ;;ask one-of land [ stp-hikers ]
-  ;;let other-land-patches land with [ self != origin ]
-  ;;ask one-of other-land-patches [ stp-goal ]
-
-  ;;IMPORT SITES FOR START AND END LOCATION
+  ;;IMPORT AREA FOR START LOCATION
   set start-area gis:load-dataset "/home/ec3307/ab-lcp-dispersals/start-end-locations/start-Caucacus.shp"
   gis:set-drawing-color green
   gis:draw start-area 2
@@ -236,9 +221,7 @@ to stp-hikers                                                        ;; Patch pr
     set origin patch-here
     set coord-start list ([xcor] of self) ([ycor] of self)
     set step-lengths []
-
-    if any? targets
-    [ set crow-fly ( distance goal * patch-size )]]               ;; Automatically calculates the distance between the hiker and its target
+  ]
 
 end
 
@@ -248,12 +231,8 @@ to stp-goal                                                          ;; Patch pr
   [ set color blue
     set size 5
     set shape "house"
-    set goal patch-here                                              ;; Records the goal's ID number as a global variable
-    set coord-end list ([xcor] of self) ([ycor] of self)
-
-    if any? hikers
-    [ set crow-fly ( distance hiker hiker-n * patch-size )]]      ;; Automatically calculates the distance between the hiker and its target
-
+    set goal patch-here
+  ]
 end
 
 
@@ -297,8 +276,6 @@ to find-least-cost-path
   let patch-under-me patch-here
 
   let c 0
-  let hiker-distance [ hiker-dist-to-goal ] of self
-  let wp 0
 
   ifelse face-east? [
     face goal
@@ -306,7 +283,6 @@ to find-least-cost-path
   ] [
     set patch-vision patches in-cone 2.5 360
   ]
-
 
   set patch-vision patch-vision with [ impassable = false ]
   set patch-vision patch-vision with [ patch-counter = 0 ]
@@ -316,7 +292,6 @@ to find-least-cost-path
 
   ask patch-vision
   [ set pcolor pink
-   set len distance hiker hiker-n * res-m
   ]
 
   let flat patch-vision with [ cost < 2.7 ]
@@ -329,7 +304,6 @@ to find-least-cost-path
     [ set winner-patch one-of patch-vision with-min [ cost ]]
   ]
 
-  set wp winner-patch
   ifelse winner-patch = nobody
   [ stop ]
   [ face winner-patch
@@ -343,9 +317,6 @@ to get-step-length
 
   set cur-step-length (random-float 1.000) ^ (-1 / levy_mu)
   set step-lengths lput cur-step-length step-lengths
-
-  ;;set dist-traveled dist-traveled + ( cur-step-length * patch-size-km )  ;; The total distance traveled gets updated...
-
 
 end
 
@@ -371,7 +342,6 @@ to move
 
     ask patch-vision [
       set pcolor pink
-      set len distance hiker hiker-n * res-m
     ]
 
     let flat patch-vision with [ cost < 2.7 ]
@@ -401,7 +371,7 @@ to update-colors
   ifelse cost = -999999
     [ set impassable "true"
       set pcolor blue ]
-    [ set pcolor scale-color green cost (min-cost * 10) (max-cost * 10) ]
+    [ set pcolor scale-color green cost (min-cost * 100) (max-cost * 100) ]
 
 end
 
@@ -1363,6 +1333,38 @@ NetLogo 6.3.0
     </enumeratedValueSet>
     <enumeratedValueSet variable="desert-cost">
       <value value="&quot;20%&quot;"/>
+      <value value="&quot;10%&quot;"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="levy_mu">
+      <value value="1"/>
+    </enumeratedValueSet>
+  </experiment>
+  <experiment name="test_MIS3_levy-walks" repetitions="5" runMetricsEveryStep="false">
+    <setup>setup</setup>
+    <go>go</go>
+    <timeLimit steps="10000"/>
+    <enumeratedValueSet variable="output?">
+      <value value="true"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="lost-output?">
+      <value value="true"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="limit-ticks">
+      <value value="10000"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="face-east?">
+      <value value="false"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="map-resolution-km">
+      <value value="1"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="patch-size-km">
+      <value value="5"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="time-period">
+      <value value="&quot;MIS3&quot;"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="desert-cost">
       <value value="&quot;10%&quot;"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="levy_mu">
