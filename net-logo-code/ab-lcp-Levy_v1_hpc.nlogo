@@ -1350,10 +1350,10 @@ NetLogo 6.3.0
       <value value="true"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="limit-ticks">
-      <value value="10000"/>
+      <value value="7500"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="face-east?">
-      <value value="false"/>
+      <value value="true"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="map-resolution-km">
       <value value="1"/>
