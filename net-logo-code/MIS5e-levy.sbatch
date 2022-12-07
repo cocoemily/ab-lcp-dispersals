@@ -1,6 +1,6 @@
 #!/bin/bash
 #SBATCH --nodes=1
-#SBATCH --time=96:00:00
+#SBATCH --time=120:00:00
 #SBATCH --mem=64GB
 #SBATCH --job-name=MIS5e-levy
 #SBATCH --mail-type=END
