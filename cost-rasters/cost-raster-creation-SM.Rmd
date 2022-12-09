@@ -1,0 +1,131 @@
+---
+title: "Cost Raster Creation Worklfow"
+date: "`r Sys.Date()`"
+output:
+  html_document:
+    df_print: paged
+  pdf_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Data Sources
+
+#### DEM from OpenTopography STRM15+
+
+450m resolution, coord system: WGS84 (ESPG:4326), units:meter <https://portal.opentopography.org/raster?opentopoID=OTSRTM.122019.4326.1>
+
+*Tozer, B, Sandwell, D. T., Smith, W. H. F., Olson, C., Beale, J. R., & Wessel, P. (2019). Global bathymetry and topography at 15 arc sec: SRTM15+. Distributed by OpenTopography. <https://doi.org/10.5069/G92R3PT9>. Accessed: 2022-10-26*
+
+#### Climate data from pastclim R package
+
+<https://rdrr.io/github/EvolEcolGroup/pastclim/>
+
+*Leonardi, M., Hallett, E. Y., Beyer, R., Krapp, M. & Manica, A. pastclim: an R package to easily access and use paleoclimatic reconstructions. 2022.05.18.492456 Preprint at <https://doi.org/10.1101/2022.05.18.492456> (2022).*
+
+#### Glacier extents from Batchelor et al 2019
+
+<https://osf.io/7jen3/>
+
+*Batchelor, C.L., Margold, M., Krapp, M. et al. The configuration of Northern Hemisphere ice sheets through the Quaternary. Nat Commun 10, 3713 (2019). <https://doi.org/10.1038/s41467-019-11601-2>*
+
+#### Modern rivers and lakes from HydroSheds
+
+<https://www.hydrosheds.org/products>
+
+*Messager, M.L., Lehner, B., Grill, G., Nedeva, I., Schmitt, O. (2016). Estimating the volume and age of water stored in global lakes using a geo-statistical approach. Nature Communications, 7: 13603. <https://doi.org/10.1038/ncomms13603>*
+
+*Lehner, B., Grill G. (2013). Global river hydrography and network routing: baseline data and new approaches to study the world's large river systems. Hydrological Processes, 27(15): 2171--2186. <https://doi.org/10.1002/hyp.9740>*
+
+#### Modern oceans from Marine Regions
+
+<https://www.marineregions.org/downloads.php>
+
+*Flanders Marine Institute (2018). IHO Sea Areas, version 3. Available online at <https://www.marineregions.org/><https://doi.org/10.14284/323>*
+
+***
+
+## Calculating slope cost from DEM
+1. calculate the slope of the terrain from the DEM
+2. use Raster Calculator to calculate the Llobera & Sulkin walker cost via the following function
+
+$Cost(s) = 2.635­+­17.37s­+­42.37s^{2}­ –­21.43s^{3}­+­14.93s^{4}$
+
+where $s$ is the mathematical slope of the DEM
+
+## Creating desert rasters
+1. use get-climate-data.R script to produce tiff files for average annual precipitation
+2. reclassify each precipitation raster to 1 if annnual precipitation is less than 250mm
+
+## Creating ice rasters
+1. pull ice estimate shapefile to QGIS
+2. pull DEM into QGIS
+3. clip ice shapefile using the DEM extent
+4. clip the DEM by mask layer using the clipped shape file
+5. fill NODATA cells of clipped DEM with unique no data value (i.e. 999999 used for this study)
+6. raster calculator on new raster such that where values are not the no data value set them to impassable value (i.e. -999999 used for this study)
+
+## Creating lake rasters via lake flooding
+1. find shapefiles for lake extents for all lakes that will be flooded
+2. reproject lake shapefile to be in same projection as DEM
+3. use SAGA Clip raster with polygon to clip the DEM
+4. use Raster Calculator to multiply all cells with values in the clipped raster by the level you want to flood to ( raster >= -99999 (or another null value)) * lake level )
+  + MAKE SURE TO SET EXTENT TO OVERALL DEM
+5. use SAGA Lake Flood to create Surface layer
+6. reclassify the surface raster so that cells with values equal to the desired lake level are coded as 1 and all others are 0
+
+For our analysis we used the following lake levels:
+```{r lake-levels, echo = F, warning = F}
+library(readxl)
+library(knitr)
+library(kableExtra)
+opts <- options(knitr.kable.NA = "")
+
+
+lakes = read_excel("../cost-rasters/input-data/lakes/lake-levels.xlsx", 
+    sheet = "Sheet2")
+
+lakes %>%
+  kbl(align = "lcccccl") %>%
+  kable_styling(bootstrap_options = c("striped", "hover"),
+                fixed_thead = TRUE,
+                font_size = 10)
+
+```
+
+We also included modern lakes that had a volume greater than or equal to 1 cubic kilometer. These modern lakes were saved as a separate known lakes raster where cells with lakes were coded as 1 and all others were coded as 0. Modern oceans that were not subjected to the above flooding procedure were also included. 
+
+## Creating river raster
+1. calculate river width using Moody and Troutman equation (2002)
+2. create variable distance buffer around rivers by river width variable
+3. rivers are split into impassable and passable rivers; impassable rivers are those with a width greater than 1 kilometer
+4. for both impassable and passable rivers, clip DEM raster by buffered river polygons
+5. for both impassable and passable rivers, reclassify raster from step #4 so that areas where the polygons were are equal to 1
+
+
+## Creating cost rasters
+The following process was done for each of the Marine Isotope Stages and water amounts as shown in the table above.
+
+1. using the Raster Calculator, multiple the slope cost by the desert raster 
+  + $Cost(s) * if(desert = 1, multipler, 1)$
+  + for this study, we increased the cost of desert squares by 10% and 20%, so the mulitpler would be 1.1 and 1.2, respectively
+
+2. using the Raster Calculator, multiple the result of step #1 by the ice raster
+  + $Cost'(s) * if ( ice = -999999, -1, 1)$
+  + because the ice raster has an impassable value already, we used negative and positive values to determine where the ice was for creating our cost rasters
+
+3. using the Raster Calculator, reclassify the result of step #2
+  + $if( Cost'(s) < 0, -999999, Cost'(s))$
+  
+4. using the Raster Calculator, reclassify the result of step #3 with the known ocean, known lake, impassable rivers rasters, and flooded rivers
+  + $if (oceans = 1 \text{ OR } lakes = 1  \text{ OR } rivers = 1 \text{ OR } ... , -999999, Cost''(s))$
+  + since each flooded river is an individual raster, those will be included as separate conditions in the if statement
+    + for example, $... \text{ OR } aral = 1 \text{ OR } ... $
+  
+5. using the Raster Calculator, add in the river crossing multipler to the raster from step #4
+  + for this study, we increased the cost of river cells by 20%
+  + $if(rivers = 1  \text{ AND } Cost'''(s) != -999999, Cost'''(s) * 1.2, Cost'''(s))$
+
+
