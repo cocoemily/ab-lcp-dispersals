@@ -279,9 +279,9 @@ to find-least-cost-path
 
   ifelse face-east? [
     face goal
-    set patch-vision patches in-cone 2.5 200 ;; set hikers in direction of end goal
+    set patch-vision patches in-cone 1.5 200 ;; set hikers in direction of end goal
   ] [
-    set patch-vision patches in-cone 2.5 360
+    set patch-vision patches in-cone 1.5 360
   ]
 
   set patch-vision patch-vision with [ impassable = false ]
@@ -336,7 +336,7 @@ to move
 
     set dist-traveled dist-traveled + ( dist-winner-patch * patch-size-km )
 
-    set patch-vision patches in-cone 2.5 200 ;; keeps hikers headed in relatively the same direction as the original choice before the Levy walk
+    set patch-vision patches in-cone 1.5 200 ;; keeps hikers headed in relatively the same direction as the original choice before the Levy walk
     set patch-vision patch-vision with [ impassable = false ]
     set patch-vision patch-vision with [ patch-counter = 0 ]
 
