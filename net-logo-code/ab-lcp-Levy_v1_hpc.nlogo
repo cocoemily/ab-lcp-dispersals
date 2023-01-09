@@ -179,10 +179,12 @@ to setup
   let land patches with [ impassable = false ]
 
   ;;IMPORT AREA FOR START LOCATION
-  set start-area gis:load-dataset "/home/ec3307/ab-lcp-dispersals/start-end-locations/start-Caucacus.shp"
+  ;;set start-area gis:load-dataset "/home/ec3307/ab-lcp-dispersals/start-end-locations/start-Caucacus.shp"
+  set start-area gis:load-dataset "/home/ec3307/ab-lcp-dispersals/start-end-locations/start-Azov.shp"
   gis:set-drawing-color green
   gis:draw start-area 2
   let start-patches patches gis:intersecting start-area
+  set start-patches start-patches with [ impassable = false ]
 
   set end-area gis:load-dataset "/home/ec3307/ab-lcp-dispersals/start-end-locations/end-Altai.shp"
   gis:set-drawing-color red
