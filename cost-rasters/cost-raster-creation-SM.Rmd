@@ -2,9 +2,9 @@
 title: "Cost Raster Creation Worklfow"
 date: "`r Sys.Date()`"
 output:
+  pdf_document: default
   html_document:
     df_print: paged
-  pdf_document: default
 ---
 
 ```{r setup, include=FALSE}
