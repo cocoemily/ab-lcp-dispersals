@@ -338,7 +338,7 @@ to move
 
     set dist-traveled dist-traveled + ( dist-winner-patch * patch-size-km )
 
-    set patch-vision patches in-cone 1.5 200 ;; keeps hikers headed in relatively the same direction as the original choice before the Levy walk
+    set patch-vision patches in-cone 1.5 100 ;; keeps hikers headed in relatively the same direction as the original choice before the Levy walk
     set patch-vision patch-vision with [ impassable = false ]
     set patch-vision patch-vision with [ patch-counter = 0 ]
 
@@ -959,7 +959,7 @@ NetLogo 6.3.0
       <value value="7500"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="face-east?">
-      <value value="true"/>
+      <value value="false"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="map-resolution-km">
       <value value="1"/>
@@ -992,7 +992,7 @@ NetLogo 6.3.0
       <value value="7500"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="face-east?">
-      <value value="true"/>
+      <value value="false"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="map-resolution-km">
       <value value="1"/>
@@ -1025,7 +1025,7 @@ NetLogo 6.3.0
       <value value="7500"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="face-east?">
-      <value value="true"/>
+      <value value="false"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="map-resolution-km">
       <value value="1"/>
@@ -1058,7 +1058,7 @@ NetLogo 6.3.0
       <value value="7500"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="face-east?">
-      <value value="true"/>
+      <value value="false"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="map-resolution-km">
       <value value="1"/>
@@ -1091,7 +1091,7 @@ NetLogo 6.3.0
       <value value="7500"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="face-east?">
-      <value value="true"/>
+      <value value="false"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="map-resolution-km">
       <value value="1"/>
@@ -1124,7 +1124,7 @@ NetLogo 6.3.0
       <value value="7500"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="face-east?">
-      <value value="true"/>
+      <value value="false"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="map-resolution-km">
       <value value="1"/>
@@ -1157,7 +1157,7 @@ NetLogo 6.3.0
       <value value="7500"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="face-east?">
-      <value value="true"/>
+      <value value="false"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="map-resolution-km">
       <value value="1"/>
@@ -1190,7 +1190,7 @@ NetLogo 6.3.0
       <value value="7500"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="face-east?">
-      <value value="true"/>
+      <value value="false"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="map-resolution-km">
       <value value="1"/>
@@ -1223,7 +1223,7 @@ NetLogo 6.3.0
       <value value="7500"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="face-east?">
-      <value value="true"/>
+      <value value="false"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="map-resolution-km">
       <value value="1"/>
@@ -1256,7 +1256,7 @@ NetLogo 6.3.0
       <value value="7500"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="face-east?">
-      <value value="true"/>
+      <value value="false"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="map-resolution-km">
       <value value="1"/>
@@ -1289,7 +1289,7 @@ NetLogo 6.3.0
       <value value="7500"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="face-east?">
-      <value value="true"/>
+      <value value="false"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="map-resolution-km">
       <value value="1"/>
@@ -1322,7 +1322,7 @@ NetLogo 6.3.0
       <value value="7500"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="face-east?">
-      <value value="true"/>
+      <value value="false"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="map-resolution-km">
       <value value="1"/>
