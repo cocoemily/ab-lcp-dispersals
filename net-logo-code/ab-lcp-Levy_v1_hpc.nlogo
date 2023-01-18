@@ -286,8 +286,9 @@ to find-least-cost-path
     set patch-vision patches in-cone 1.5 360
   ]
 
-  set patch-vision patch-vision with [ impassable = false ]
   set patch-vision patch-vision with [ patch-counter = 0 ]
+  let new-territory count patch-vision
+  set patch-vision patch-vision with [ impassable = false ]
 
   set c c + 1
   if c = 5 [ die ]
@@ -310,6 +311,14 @@ to find-least-cost-path
   [ stop ]
   [ face winner-patch
     get-step-length
+
+    if explore? [
+    ;;if ([patch-counter] of winner-patch) = 0 [
+      if new-territory >= 5 [
+        set cur-step-length (cur-step-length * 2)
+      ]
+    ]
+
     move
   ]
 
@@ -387,11 +396,11 @@ end
 GRAPHICS-WINDOW
 301
 10
-736
-464
+870
+603
 -1
 -1
-1.0
+1.314
 1
 10
 1
@@ -520,10 +529,10 @@ limit-ticks
 Number
 
 CHOOSER
-19
-469
-111
-514
+21
+491
+113
+536
 time-period
 time-period
 "MIS3" "MIS4-big-Caspian" "MIS4-small-Caspian" "MIS5a" "MIS5b-high-water" "MIS5b-low-water" "MIS5c" "MIS5d-high-water" "MIS5d-low-water" "MIS5e" "MIS6-big-Kara" "MIS6-small-Kara"
@@ -540,10 +549,10 @@ levy_mu
 0
 
 SWITCH
-127
-407
-247
-440
+123
+405
+243
+438
 face-east?
 face-east?
 1
@@ -551,14 +560,25 @@ face-east?
 -1000
 
 CHOOSER
-122
-469
-214
-514
+124
+491
+216
+536
 desert-cost
 desert-cost
 "20%" "10%"
 1
+
+SWITCH
+124
+446
+242
+479
+explore?
+explore?
+1
+1
+-1000
 
 @#$#@#$#@
 ## WHAT IS IT?
@@ -956,10 +976,13 @@ NetLogo 6.3.0
       <value value="true"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="limit-ticks">
-      <value value="7500"/>
+      <value value="5000"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="face-east?">
       <value value="false"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="explore?">
+      <value value="true"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="map-resolution-km">
       <value value="1"/>
@@ -989,10 +1012,13 @@ NetLogo 6.3.0
       <value value="true"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="limit-ticks">
-      <value value="7500"/>
+      <value value="5000"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="face-east?">
       <value value="false"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="explore?">
+      <value value="true"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="map-resolution-km">
       <value value="1"/>
@@ -1022,10 +1048,13 @@ NetLogo 6.3.0
       <value value="true"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="limit-ticks">
-      <value value="7500"/>
+      <value value="5000"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="face-east?">
       <value value="false"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="explore?">
+      <value value="true"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="map-resolution-km">
       <value value="1"/>
@@ -1055,10 +1084,13 @@ NetLogo 6.3.0
       <value value="true"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="limit-ticks">
-      <value value="7500"/>
+      <value value="5000"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="face-east?">
       <value value="false"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="explore?">
+      <value value="true"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="map-resolution-km">
       <value value="1"/>
@@ -1088,10 +1120,13 @@ NetLogo 6.3.0
       <value value="true"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="limit-ticks">
-      <value value="7500"/>
+      <value value="5000"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="face-east?">
       <value value="false"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="explore?">
+      <value value="true"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="map-resolution-km">
       <value value="1"/>
@@ -1121,10 +1156,13 @@ NetLogo 6.3.0
       <value value="true"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="limit-ticks">
-      <value value="7500"/>
+      <value value="5000"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="face-east?">
       <value value="false"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="explore?">
+      <value value="true"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="map-resolution-km">
       <value value="1"/>
@@ -1154,10 +1192,13 @@ NetLogo 6.3.0
       <value value="true"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="limit-ticks">
-      <value value="7500"/>
+      <value value="5000"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="face-east?">
       <value value="false"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="explore?">
+      <value value="true"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="map-resolution-km">
       <value value="1"/>
@@ -1176,7 +1217,7 @@ NetLogo 6.3.0
       <value value="1"/>
     </enumeratedValueSet>
   </experiment>
-  <experiment name="MIS5bl_levy-walks" repetitions="5" runMetricsEveryStep="false">
+  <experiment name="MIS5bl_levy-walks" repetitions="2" runMetricsEveryStep="false">
     <setup>setup</setup>
     <go>go</go>
     <timeLimit steps="10000"/>
@@ -1187,10 +1228,13 @@ NetLogo 6.3.0
       <value value="true"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="limit-ticks">
-      <value value="7500"/>
+      <value value="5000"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="face-east?">
       <value value="false"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="explore?">
+      <value value="true"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="map-resolution-km">
       <value value="1"/>
@@ -1220,10 +1264,13 @@ NetLogo 6.3.0
       <value value="true"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="limit-ticks">
-      <value value="7500"/>
+      <value value="5000"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="face-east?">
       <value value="false"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="explore?">
+      <value value="true"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="map-resolution-km">
       <value value="1"/>
@@ -1253,10 +1300,13 @@ NetLogo 6.3.0
       <value value="true"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="limit-ticks">
-      <value value="7500"/>
+      <value value="5000"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="face-east?">
       <value value="false"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="explore?">
+      <value value="true"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="map-resolution-km">
       <value value="1"/>
@@ -1286,10 +1336,13 @@ NetLogo 6.3.0
       <value value="true"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="limit-ticks">
-      <value value="7500"/>
+      <value value="5000"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="face-east?">
       <value value="false"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="explore?">
+      <value value="true"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="map-resolution-km">
       <value value="1"/>
@@ -1319,10 +1372,13 @@ NetLogo 6.3.0
       <value value="true"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="limit-ticks">
-      <value value="7500"/>
+      <value value="5000"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="face-east?">
       <value value="false"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="explore?">
+      <value value="true"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="map-resolution-km">
       <value value="1"/>

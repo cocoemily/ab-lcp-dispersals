@@ -302,14 +302,14 @@ to find-least-cost-path
 
   ifelse face-east? [
     face goal
-    set patch-vision patches in-cone 2.5 200 ;; set hikers in direction of end goal
+    set patch-vision patches in-cone 1.5 200 ;; set hikers in direction of end goal
   ] [
-    set patch-vision patches in-cone 2.5 360
+    set patch-vision patches in-cone 1.5 360
   ]
 
-
-  set patch-vision patch-vision with [ impassable = false ]
   set patch-vision patch-vision with [ patch-counter = 0 ]
+  let new-territory count patch-vision
+  set patch-vision patch-vision with [ impassable = false ]
 
   set c c + 1
   if c = 5 [ die ]
@@ -334,6 +334,13 @@ to find-least-cost-path
   [ stop ]
   [ face winner-patch
     get-step-length
+
+    ;;if ([patch-counter] of winner-patch) = 0 [
+    if new-territory >= 4 [
+      set cur-step-length (cur-step-length * 2)
+    ]
+
+    print(cur-step-length)
     move
   ]
 
@@ -365,7 +372,7 @@ to move
 
     set dist-traveled dist-traveled + ( dist-winner-patch * patch-size-km )
 
-    set patch-vision patches in-cone 2.5 200 ;; keeps hikers headed in relatively the same direction as the original choice before the Levy walk
+    set patch-vision patches in-cone 2.5 100 ;; keeps hikers headed in relatively the same direction as the original choice before the Levy walk
     set patch-vision patch-vision with [ impassable = false ]
     set patch-vision patch-vision with [ patch-counter = 0 ]
 
@@ -391,6 +398,7 @@ to move
       stop
     ]
     [ face winner-patch ]
+
   ]
 
 
@@ -415,11 +423,11 @@ end
 GRAPHICS-WINDOW
 301
 10
-1153
-899
+870
+612
 -1
 -1
-0.25
+0.75
 1
 10
 1
@@ -430,9 +438,9 @@ GRAPHICS-WINDOW
 0
 1
 0
-1704
+568
 0
-1777
+592
 0
 0
 1
@@ -498,7 +506,7 @@ INPUTBOX
 245
 388
 patch-size-km
-5.0
+15.0
 1
 0
 Number
@@ -521,7 +529,7 @@ SWITCH
 311
 output?
 output?
-0
+1
 1
 -1000
 
@@ -532,7 +540,7 @@ SWITCH
 311
 lost-output?
 lost-output?
-0
+1
 1
 -1000
 
