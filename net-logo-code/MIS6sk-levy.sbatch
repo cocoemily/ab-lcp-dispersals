@@ -1,7 +1,7 @@
 #!/bin/bash
 #SBATCH --nodes=1
 #SBATCH --time=160:00:00
-#SBATCH --mem=82GB
+#SBATCH --mem=100GB
 #SBATCH --job-name=MIS6sk-levy
 #SBATCH --mail-type=END
 #SBATCH --mail-user=ec3307@nyu.edu
@@ -17,6 +17,6 @@ RUN_NO=1
 EXP_NAME="MIS6sk_levy-walks"
 echo $EXP_NAME
 
-export _JAVA_OPTIONS='-Dcom.sun.media.jai.disableMediaLib=true -Xmx83968m'
+export _JAVA_OPTIONS='-Dcom.sun.media.jai.disableMediaLib=true -Xmx102400m'
 
 bash /home/ec3307/NetLogo/netlogo-headless.sh  --model "ab-lcp-Levy_v1_hpc.nlogo" --experiment $EXP_NAME
