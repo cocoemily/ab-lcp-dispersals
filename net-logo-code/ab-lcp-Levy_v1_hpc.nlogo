@@ -202,6 +202,7 @@ to setup
     set stamp1 random-float 1
 
      set file-1 (word "/home/ec3307/ab-lcp-dispersals/outputs/" "outputs_path_" origin "_" time-period "_" desert-cost "_" patch-size-km "_" stamp1 ".csv")
+     output-print file-1
 
     if file-exists? file-1
     [ file-delete file-1 ]
