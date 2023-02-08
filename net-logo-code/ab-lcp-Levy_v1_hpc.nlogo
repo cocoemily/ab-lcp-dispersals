@@ -390,6 +390,7 @@ end
 to export-path
 
   export-plot "path" file-1
+  output-print file-read-line
   file-close
 
 end
