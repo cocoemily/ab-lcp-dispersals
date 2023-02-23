@@ -7,10 +7,8 @@ globals [
   basemap
   start-area
   end-area
-
   goal
   coord-start
-  coord-end
   dist-traveled
 
   min-cost
@@ -19,7 +17,6 @@ globals [
   res-m
 
   origin
-  crow-fly
 
   hiker-n
   hiker-status
@@ -33,19 +30,14 @@ patches-own [
   impassable
 
   patch-counter
-  occupied-by
-  dist-to-goal
-  len
 ]
 
 breed [ hikers hiker ]
 breed [ targets target ]
 
 hikers-own [
-  hiker-dist-to-goal
   patch-vision
   winner-patch
-  time-walked
   step-lengths
   cur-step-length
 ]
@@ -65,102 +57,102 @@ to setup
       set basemap gis:load-dataset "/Users/emilycoco/Desktop/ab-lcp-dispersals/cost-rasters/model-input-costs/LS-deserts-10/MIS3.asc"
     ]
   ]
-  if (time-period = "MIS4-big-Caspian") [
-    if (desert-cost = "20%") [
-      set basemap gis:load-dataset "/Users/emilycoco/Desktop/ab-lcp-dispersals/cost-rasters/model-input-costs/LS-deserts-20/MIS4_bigCaspian.asc"
-    ]
-    if (desert-cost = "10%") [
-      set basemap gis:load-dataset "/Users/emilycoco/Desktop/ab-lcp-dispersals/cost-rasters/model-input-costs/LS-deserts-10/MIS4_bigCaspian.asc"
-    ]
-  ]
-  if (time-period = "MIS4-small-Caspian") [
-    if (desert-cost = "20%") [
-      set basemap gis:load-dataset "/Users/emilycoco/Desktop/ab-lcp-dispersals/cost-rasters/model-input-costs/LS-deserts-20/MIS4_smallCaspian.asc"
-    ]
-    if (desert-cost = "10%") [
-      set basemap gis:load-dataset "/Users/emilycoco/Desktop/ab-lcp-dispersals/cost-rasters/model-input-costs/LS-deserts-10/MIS4_smallCaspian.asc"
-    ]
-  ]
-  if (time-period = "MIS5a") [
-    if (desert-cost = "20%") [
-      set basemap gis:load-dataset "/Users/emilycoco/Desktop/ab-lcp-dispersals/cost-rasters/model-input-costs/LS-deserts-20/MIS5a.asc"
-    ]
-    if (desert-cost = "10%") [
-      set basemap gis:load-dataset "/Users/emilycoco/Desktop/ab-lcp-dispersals/cost-rasters/model-input-costs/LS-deserts-10/MIS5a.asc"
-    ]
-  ]
-  if (time-period = "MIS5b-high-water") [
-    if (desert-cost = "20%") [
-      set basemap gis:load-dataset "/Users/emilycoco/Desktop/ab-lcp-dispersals/cost-rasters/model-input-costs/LS-deserts-20/MIS5b_high.asc"
-    ]
-    if (desert-cost = "10%") [
-      set basemap gis:load-dataset "/Users/emilycoco/Desktop/ab-lcp-dispersals/cost-rasters/model-input-costs/LS-deserts-10/MIS5b_high.asc"
-    ]
-  ]
-  if (time-period = "MIS5b-low-water") [
-    if (desert-cost = "20%") [
-      set basemap gis:load-dataset "/Users/emilycoco/Desktop/ab-lcp-dispersals/cost-rasters/model-input-costs/LS-deserts-20/MIS5b_low.asc"
-    ]
-    if (desert-cost = "10%") [
-      set basemap gis:load-dataset "/Users/emilycoco/Desktop/ab-lcp-dispersals/cost-rasters/model-input-costs/LS-deserts-10/MIS5b_low.asc"
-    ]
-  ]
-  if (time-period = "MIS5c") [
-    if (desert-cost = "20%") [
-      set basemap gis:load-dataset "/Users/emilycoco/Desktop/ab-lcp-dispersals/cost-rasters/model-input-costs/LS-deserts-20/MIS5c.asc"
-    ]
-    if (desert-cost = "10%") [
-      set basemap gis:load-dataset "/Users/emilycoco/Desktop/ab-lcp-dispersals/cost-rasters/model-input-costs/LS-deserts-10/MIS5c.asc"
-    ]
-  ]
-  if (time-period = "MIS5d-high-water") [
-    if (desert-cost = "20%") [
-      set basemap gis:load-dataset "/Users/emilycoco/Desktop/ab-lcp-dispersals/cost-rasters/model-input-costs/LS-deserts-20/MIS5d_high.asc"
-    ]
-    if (desert-cost = "10%") [
-      set basemap gis:load-dataset "/Users/emilycoco/Desktop/ab-lcp-dispersals/cost-rasters/model-input-costs/LS-deserts-10/MIS5d_high.asc"
-    ]
-  ]
-  if (time-period = "MIS5d-low-water") [
-    if (desert-cost = "20%") [
-      set basemap gis:load-dataset "/Users/emilycoco/Desktop/ab-lcp-dispersals/cost-rasters/model-input-costs/LS-deserts-20/MIS5d_low.asc"
-    ]
-    if (desert-cost = "10%") [
-      set basemap gis:load-dataset "/Users/emilycoco/Desktop/ab-lcp-dispersals/cost-rasters/model-input-costs/LS-deserts-10/MIS5d_low.asc"
-    ]
-  ]
-  if (time-period = "MIS5e") [
-    if (desert-cost = "20%") [
-      set basemap gis:load-dataset "/Users/emilycoco/Desktop/ab-lcp-dispersals/cost-rasters/model-input-costs/LS-deserts-20/MIS5e.asc"
-    ]
-    if (desert-cost = "10%") [
-      set basemap gis:load-dataset "/Users/emilycoco/Desktop/ab-lcp-dispersals/cost-rasters/model-input-costs/LS-deserts-10/MIS5e.asc"
-    ]
-  ]
-  if (time-period = "MIS6-big-Kara") [
-    if (desert-cost = "20%") [
-      set basemap gis:load-dataset "/Users/emilycoco/Desktop/ab-lcp-dispersals/cost-rasters/model-input-costs/LS-deserts-20/MIS6_bigKara.asc"
-    ]
-    if (desert-cost = "10%") [
-      set basemap gis:load-dataset "/Users/emilycoco/Desktop/ab-lcp-dispersals/cost-rasters/model-input-costs/LS-deserts-10/MIS6_bigKara.asc"
-    ]
-  ]
-  if (time-period = "MIS6-small-Kara") [
-    if (desert-cost = "20%") [
-      set basemap gis:load-dataset "/Users/emilycoco/Desktop/ab-lcp-dispersals/cost-rasters/model-input-costs/LS-deserts-20/MIS6_smallKara.asc"
-    ]
-    if (desert-cost = "10%") [
-      set basemap gis:load-dataset "/Users/emilycoco/Desktop/ab-lcp-dispersals/cost-rasters/model-input-costs/LS-deserts-10/MIS6_smallKara.asc"
-    ]
-  ]
+;  if (time-period = "MIS4-big-Caspian") [
+;    if (desert-cost = "20%") [
+;      set basemap gis:load-dataset "/home/ec3307/ab-lcp-dispersals/cost-rasters/model-input-costs/LS-deserts-20/MIS4_bigCaspian.asc"
+;    ]
+;    if (desert-cost = "10%") [
+;      set basemap gis:load-dataset "/home/ec3307/ab-lcp-dispersals/cost-rasters/model-input-costs/LS-deserts-10/MIS4_bigCaspian.asc"
+;    ]
+;  ]
+;  if (time-period = "MIS4-small-Caspian") [
+;    if (desert-cost = "20%") [
+;      set basemap gis:load-dataset "/home/ec3307/ab-lcp-dispersals/cost-rasters/model-input-costs/LS-deserts-20/MIS4_smallCaspian.asc"
+;    ]
+;    if (desert-cost = "10%") [
+;      set basemap gis:load-dataset "/home/ec3307/ab-lcp-dispersals/cost-rasters/model-input-costs/LS-deserts-10/MIS4_smallCaspian.asc"
+;    ]
+;  ]
+;  if (time-period = "MIS5a") [
+;    if (desert-cost = "20%") [
+;      set basemap gis:load-dataset "/home/ec3307/ab-lcp-dispersals/cost-rasters/model-input-costs/LS-deserts-20/MIS5a.asc"
+;    ]
+;    if (desert-cost = "10%") [
+;      set basemap gis:load-dataset "/home/ec3307/ab-lcp-dispersals/cost-rasters/model-input-costs/LS-deserts-10/MIS5a.asc"
+;    ]
+;  ]
+;  if (time-period = "MIS5b-high-water") [
+;    if (desert-cost = "20%") [
+;      set basemap gis:load-dataset "/home/ec3307/ab-lcp-dispersals/cost-rasters/model-input-costs/LS-deserts-20/MIS5b_high.asc"
+;    ]
+;    if (desert-cost = "10%") [
+;      set basemap gis:load-dataset "/home/ec3307/ab-lcp-dispersals/cost-rasters/model-input-costs/LS-deserts-10/MIS5b_high.asc"
+;    ]
+;  ]
+;  if (time-period = "MIS5b-low-water") [
+;    if (desert-cost = "20%") [
+;      set basemap gis:load-dataset "/home/ec3307/ab-lcp-dispersals/cost-rasters/model-input-costs/LS-deserts-20/MIS5b_low.asc"
+;    ]
+;    if (desert-cost = "10%") [
+;      set basemap gis:load-dataset "/home/ec3307/Desktop/ab-lcp-dispersals/cost-rasters/model-input-costs/LS-deserts-10/MIS5b_low.asc"
+;    ]
+;  ]
+;  if (time-period = "MIS5c") [
+;    if (desert-cost = "20%") [
+;      set basemap gis:load-dataset "/home/ec3307/ab-lcp-dispersals/cost-rasters/model-input-costs/LS-deserts-20/MIS5c.asc"
+;    ]
+;    if (desert-cost = "10%") [
+;      set basemap gis:load-dataset "/home/ec3307/ab-lcp-dispersals/cost-rasters/model-input-costs/LS-deserts-10/MIS5c.asc"
+;    ]
+;  ]
+;  if (time-period = "MIS5d-high-water") [
+;    if (desert-cost = "20%") [
+;      set basemap gis:load-dataset "/home/ec3307/ab-lcp-dispersals/cost-rasters/model-input-costs/LS-deserts-20/MIS5d_high.asc"
+;    ]
+;    if (desert-cost = "10%") [
+;      set basemap gis:load-dataset "/home/ec3307/ab-lcp-dispersals/cost-rasters/model-input-costs/LS-deserts-10/MIS5d_high.asc"
+;    ]
+;  ]
+;  if (time-period = "MIS5d-low-water") [
+;    if (desert-cost = "20%") [
+;      set basemap gis:load-dataset "/home/ec3307/ab-lcp-dispersals/cost-rasters/model-input-costs/LS-deserts-20/MIS5d_low.asc"
+;    ]
+;    if (desert-cost = "10%") [
+;      set basemap gis:load-dataset "/home/ec3307/ab-lcp-dispersals/cost-rasters/model-input-costs/LS-deserts-10/MIS5d_low.asc"
+;    ]
+;  ]
+;  if (time-period = "MIS5e") [
+;    if (desert-cost = "20%") [
+;      set basemap gis:load-dataset "/home/ec3307/ab-lcp-dispersals/cost-rasters/model-input-costs/LS-deserts-20/MIS5e.asc"
+;    ]
+;    if (desert-cost = "10%") [
+;      set basemap gis:load-dataset "/home/ec3307/ab-lcp-dispersals/cost-rasters/model-input-costs/LS-deserts-10/MIS5e.asc"
+;    ]
+;  ]
+;  if (time-period = "MIS6-big-Kara") [
+;    if (desert-cost = "20%") [
+;      set basemap gis:load-dataset "/home/ec3307/ab-lcp-dispersals/cost-rasters/model-input-costs/LS-deserts-20/MIS6_bigKara.asc"
+;    ]
+;    if (desert-cost = "10%") [
+;      set basemap gis:load-dataset "/home/ec3307/ab-lcp-dispersals/cost-rasters/model-input-costs/LS-deserts-10/MIS6_bigKara.asc"
+;    ]
+;  ]
+;  if (time-period = "MIS6-small-Kara") [
+;    if (desert-cost = "20%") [
+;      set basemap gis:load-dataset "/home/ec3307/ab-lcp-dispersals/cost-rasters/model-input-costs/LS-deserts-20/MIS6_smallKara.asc"
+;    ]
+;    if (desert-cost = "10%") [
+;      set basemap gis:load-dataset "/home/ec3307/ab-lcp-dispersals/cost-rasters/model-input-costs/LS-deserts-10/MIS6_smallKara.asc"
+;    ]
+;  ]
 
   ;; let trans-res patch-size-km / map-resolution-km ;;need to figure out these parameters for each basemap
   ;;set patch-size-km 1
   let trans-res patch-size-km / map-resolution-km
   resize-world 0 (( gis:width-of basemap - 1 ) / trans-res ) 0 (( gis:height-of basemap - 1 ) / trans-res )
-  set-patch-size ( 0.05 * patch-size-km )                                   ;; This roughly keeps the size of the world window manageable
+  set-patch-size ( 0.1 * patch-size-km )                                   ;; This roughly keeps the size of the world window manageable
   gis:set-world-envelope gis:envelope-of basemap                         ;; This formats the window to the right dimensions based on the DEM
-  gis:set-sampling-method basemap "BICUBIC_2"                            ;; Sets the resampling (if applicable) to cubic
+  gis:set-sampling-method basemap "BICUBIC_2"
 
 
   gis:apply-raster basemap cost
@@ -168,7 +160,7 @@ to setup
   set min-cost gis:minimum-of basemap
   set max-cost gis:maximum-of basemap
 
-  set res-m 1000 * patch-size-km ;; 0.5 = patch-size-km
+  set res-m 1000 * patch-size-km
 
   ;;need to think about this and what the impassable value should be
   ask patches [
@@ -186,18 +178,13 @@ to setup
 
   let land patches with [ impassable = false ]
 
-
-  ;; RANDOM CHOICE OF SITES
-
-  ;;ask one-of land [ stp-hikers ]
-  ;;let other-land-patches land with [ self != origin ]
-  ;;ask one-of other-land-patches [ stp-goal ]
-
-  ;;IMPORT SITES FOR START AND END LOCATION
-  set start-area gis:load-dataset "/Users/emilycoco/Desktop/ab-lcp-dispersals/start-end-locations/start-Caucacus.shp"
+  ;;IMPORT AREA FOR START LOCATION
+  ;;set start-area gis:load-dataset "/home/ec3307/ab-lcp-dispersals/start-end-locations/start-Caucacus.shp"
+  set start-area gis:load-dataset "/Users/emilycoco/Desktop/ab-lcp-dispersals/start-end-locations/start-Azov.shp"
   gis:set-drawing-color green
   gis:draw start-area 2
   let start-patches patches gis:intersecting start-area
+  set start-patches start-patches with [ impassable = false ]
 
   set end-area gis:load-dataset "/Users/emilycoco/Desktop/ab-lcp-dispersals/start-end-locations/end-Altai.shp"
   gis:set-drawing-color red
@@ -215,6 +202,7 @@ to setup
     set stamp1 random-float 1
 
      set file-1 (word "/Users/emilycoco/Desktop/ab-lcp-dispersals/test-outputs/" "outputs_path_" origin "_" time-period "_" desert-cost "_" patch-size-km "_" stamp1 ".csv")
+     output-print file-1
 
     if file-exists? file-1
     [ file-delete file-1 ]
@@ -236,9 +224,7 @@ to stp-hikers                                                        ;; Patch pr
     set origin patch-here
     set coord-start list ([xcor] of self) ([ycor] of self)
     set step-lengths []
-
-    if any? targets
-    [ set crow-fly ( distance goal * patch-size )]]               ;; Automatically calculates the distance between the hiker and its target
+  ]
 
 end
 
@@ -248,12 +234,8 @@ to stp-goal                                                          ;; Patch pr
   [ set color blue
     set size 5
     set shape "house"
-    set goal patch-here                                              ;; Records the goal's ID number as a global variable
-    set coord-end list ([xcor] of self) ([ycor] of self)
-
-    if any? hikers
-    [ set crow-fly ( distance hiker hiker-n * patch-size )]]      ;; Automatically calculates the distance between the hiker and its target
-
+    set goal patch-here
+  ]
 end
 
 
@@ -297,8 +279,6 @@ to find-least-cost-path
   let patch-under-me patch-here
 
   let c 0
-  let hiker-distance [ hiker-dist-to-goal ] of self
-  let wp 0
 
   ifelse face-east? [
     face goal
@@ -308,15 +288,17 @@ to find-least-cost-path
   ]
 
   set patch-vision patch-vision with [ patch-counter = 0 ]
-  let new-territory count patch-vision
   set patch-vision patch-vision with [ impassable = false ]
 
   set c c + 1
-  if c = 5 [ die ]
+  if c = 100 [
+    die
+    output-print "hiker died"
+    stop
+  ]
 
   ask patch-vision
   [ set pcolor pink
-   set len distance hiker hiker-n * res-m
   ]
 
   let flat patch-vision with [ cost < 2.7 ]
@@ -329,18 +311,10 @@ to find-least-cost-path
     [ set winner-patch one-of patch-vision with-min [ cost ]]
   ]
 
-  set wp winner-patch
   ifelse winner-patch = nobody
   [ stop ]
   [ face winner-patch
     get-step-length
-
-    ;;if ([patch-counter] of winner-patch) = 0 [
-    if new-territory >= 4 [
-      set cur-step-length (cur-step-length * 2)
-    ]
-
-    print(cur-step-length)
     move
   ]
 
@@ -349,10 +323,18 @@ end
 to get-step-length
 
   set cur-step-length (random-float 1.000) ^ (-1 / levy_mu)
+
+  let new-territory count patch-vision
+  if explore? [
+    ;;if ([patch-counter] of winner-patch) = 0 [
+      if new-territory >= 5 [
+        set cur-step-length (cur-step-length * 2)
+      ]
+    ]
+
+  set cur-step-length ( ceiling cur-step-length )
+
   set step-lengths lput cur-step-length step-lengths
-
-  ;;set dist-traveled dist-traveled + ( cur-step-length * patch-size-km )  ;; The total distance traveled gets updated...
-
 
 end
 
@@ -361,6 +343,7 @@ to move
   let c 0
 
   foreach (range 1 cur-step-length) [
+;    x -> show (word x " -> " round x)
 
     ask patch-here [
       set patch-counter 100
@@ -372,13 +355,12 @@ to move
 
     set dist-traveled dist-traveled + ( dist-winner-patch * patch-size-km )
 
-    set patch-vision patches in-cone 2.5 100 ;; keeps hikers headed in relatively the same direction as the original choice before the Levy walk
+    set patch-vision patches in-cone 1.5 90 ;; keeps hikers headed in relatively the same direction as the original choice before the Levy walk
     set patch-vision patch-vision with [ impassable = false ]
     set patch-vision patch-vision with [ patch-counter = 0 ]
 
     ask patch-vision [
       set pcolor pink
-      set len distance hiker hiker-n * res-m
     ]
 
     let flat patch-vision with [ cost < 2.7 ]
@@ -394,11 +376,13 @@ to move
     ifelse winner-patch = nobody
     [
       set c c + 1
-      if c = 5 [ die ]
+      if c = 100 [
+        die
+        output-print "hiker died"
+      ]
       stop
     ]
     [ face winner-patch ]
-
   ]
 
 
@@ -409,13 +393,14 @@ to update-colors
   ifelse cost = -999999
     [ set impassable "true"
       set pcolor blue ]
-    [ set pcolor scale-color green cost (min-cost * 10) (max-cost * 10) ]
+    [ set pcolor scale-color green cost (min-cost * 100) (max-cost * 100) ]
 
 end
 
 to export-path
 
   export-plot "path" file-1
+  output-print file-read-line
   file-close
 
 end
@@ -423,11 +408,11 @@ end
 GRAPHICS-WINDOW
 301
 10
-870
-612
+1162
+908
 -1
 -1
-0.75
+1.0
 1
 10
 1
@@ -438,9 +423,9 @@ GRAPHICS-WINDOW
 0
 1
 0
-568
+852
 0
-592
+888
 0
 0
 1
@@ -487,7 +472,7 @@ PLOT
 249
 270
 path
-step
+tick
 coord
 0.0
 10.0
@@ -506,7 +491,7 @@ INPUTBOX
 245
 388
 patch-size-km
-15.0
+10.0
 1
 0
 Number
@@ -529,7 +514,7 @@ SWITCH
 311
 output?
 output?
-1
+0
 1
 -1000
 
@@ -540,7 +525,7 @@ SWITCH
 311
 lost-output?
 lost-output?
-1
+0
 1
 -1000
 
@@ -550,19 +535,19 @@ INPUTBOX
 242
 93
 limit-ticks
-5000.0
+1000.0
 1
 0
 Number
 
 CHOOSER
-19
-469
-111
-514
+21
+492
+159
+537
 time-period
 time-period
-"MIS3" "MIS4-big-Caspian" "MIS4-small-Caspian" "MIS5a" "MIS5b-high-water" "MIS5b-low-water" "MIS5c" "MIS5d-high-water" "MIS5d-low-water" "MIS5e" "MIS6-big-Kara" "MIS6-small-Kara"
+"MIS3"
 0
 
 CHOOSER
@@ -576,10 +561,10 @@ levy_mu
 0
 
 SWITCH
-127
-407
-247
-440
+123
+405
+243
+438
 face-east?
 face-east?
 1
@@ -587,13 +572,41 @@ face-east?
 -1000
 
 CHOOSER
-122
-469
-214
-514
+166
+493
+258
+538
 desert-cost
 desert-cost
 "20%" "10%"
+1
+
+SWITCH
+124
+446
+242
+479
+explore?
+explore?
+0
+1
+-1000
+
+BUTTON
+53
+11
+138
+44
+go-once
+go
+NIL
+1
+T
+OBSERVER
+NIL
+NIL
+NIL
+NIL
 1
 
 @#$#@#$#@
@@ -981,10 +994,10 @@ NetLogo 6.3.0
 @#$#@#$#@
 @#$#@#$#@
 <experiments>
-  <experiment name="MIS3_levy-walks" repetitions="2" runMetricsEveryStep="false">
+  <experiment name="MIS3_levy-walks" repetitions="5" runMetricsEveryStep="false">
     <setup>setup</setup>
     <go>go</go>
-    <timeLimit steps="20000"/>
+    <timeLimit steps="10000"/>
     <enumeratedValueSet variable="output?">
       <value value="true"/>
     </enumeratedValueSet>
@@ -992,21 +1005,25 @@ NetLogo 6.3.0
       <value value="true"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="limit-ticks">
-      <value value="5000"/>
+      <value value="10000"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="face-east?">
       <value value="false"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="explore?">
+      <value value="true"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="map-resolution-km">
       <value value="1"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="patch-size-km">
-      <value value="5"/>
+      <value value="1"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="time-period">
       <value value="&quot;MIS3&quot;"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="desert-cost">
+      <value value="&quot;20%&quot;"/>
       <value value="&quot;10%&quot;"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="levy_mu">
@@ -1016,7 +1033,7 @@ NetLogo 6.3.0
   <experiment name="MIS6sk_levy-walks" repetitions="5" runMetricsEveryStep="false">
     <setup>setup</setup>
     <go>go</go>
-    <timeLimit steps="200000"/>
+    <timeLimit steps="100000"/>
     <enumeratedValueSet variable="output?">
       <value value="true"/>
     </enumeratedValueSet>
@@ -1024,22 +1041,26 @@ NetLogo 6.3.0
       <value value="true"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="limit-ticks">
-      <value value="20000"/>
+      <value value="10000"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="face-east?">
       <value value="false"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="explore?">
+      <value value="true"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="map-resolution-km">
       <value value="1"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="patch-size-km">
-      <value value="5"/>
+      <value value="1"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="time-period">
       <value value="&quot;MIS6-small-Kara&quot;"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="desert-cost">
       <value value="&quot;20%&quot;"/>
+      <value value="&quot;10%&quot;"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="levy_mu">
       <value value="1"/>
@@ -1048,7 +1069,7 @@ NetLogo 6.3.0
   <experiment name="MIS6bk_levy-walks" repetitions="5" runMetricsEveryStep="false">
     <setup>setup</setup>
     <go>go</go>
-    <timeLimit steps="200000"/>
+    <timeLimit steps="100000"/>
     <enumeratedValueSet variable="output?">
       <value value="true"/>
     </enumeratedValueSet>
@@ -1056,22 +1077,26 @@ NetLogo 6.3.0
       <value value="true"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="limit-ticks">
-      <value value="20000"/>
+      <value value="10000"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="face-east?">
       <value value="false"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="explore?">
+      <value value="true"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="map-resolution-km">
       <value value="1"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="patch-size-km">
-      <value value="5"/>
+      <value value="1"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="time-period">
       <value value="&quot;MIS6-big-Kara&quot;"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="desert-cost">
       <value value="&quot;20%&quot;"/>
+      <value value="&quot;10%&quot;"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="levy_mu">
       <value value="1"/>
@@ -1080,7 +1105,7 @@ NetLogo 6.3.0
   <experiment name="MIS4sc_levy-walks" repetitions="5" runMetricsEveryStep="false">
     <setup>setup</setup>
     <go>go</go>
-    <timeLimit steps="20000"/>
+    <timeLimit steps="10000"/>
     <enumeratedValueSet variable="output?">
       <value value="true"/>
     </enumeratedValueSet>
@@ -1088,22 +1113,26 @@ NetLogo 6.3.0
       <value value="true"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="limit-ticks">
-      <value value="20000"/>
+      <value value="10000"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="face-east?">
       <value value="false"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="explore?">
+      <value value="true"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="map-resolution-km">
       <value value="1"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="patch-size-km">
-      <value value="5"/>
+      <value value="1"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="time-period">
       <value value="&quot;MIS4-small-Caspian&quot;"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="desert-cost">
       <value value="&quot;20%&quot;"/>
+      <value value="&quot;10%&quot;"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="levy_mu">
       <value value="1"/>
@@ -1112,7 +1141,7 @@ NetLogo 6.3.0
   <experiment name="MIS4bc_levy-walks" repetitions="5" runMetricsEveryStep="false">
     <setup>setup</setup>
     <go>go</go>
-    <timeLimit steps="20000"/>
+    <timeLimit steps="10000"/>
     <enumeratedValueSet variable="output?">
       <value value="true"/>
     </enumeratedValueSet>
@@ -1120,22 +1149,310 @@ NetLogo 6.3.0
       <value value="true"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="limit-ticks">
-      <value value="20000"/>
+      <value value="10000"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="face-east?">
       <value value="false"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="explore?">
+      <value value="true"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="map-resolution-km">
       <value value="1"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="patch-size-km">
-      <value value="5"/>
+      <value value="1"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="time-period">
       <value value="&quot;MIS4-big-Caspian&quot;"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="desert-cost">
       <value value="&quot;20%&quot;"/>
+      <value value="&quot;10%&quot;"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="levy_mu">
+      <value value="1"/>
+    </enumeratedValueSet>
+  </experiment>
+  <experiment name="MIS5a_levy-walks" repetitions="5" runMetricsEveryStep="false">
+    <setup>setup</setup>
+    <go>go</go>
+    <timeLimit steps="10000"/>
+    <enumeratedValueSet variable="output?">
+      <value value="true"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="lost-output?">
+      <value value="true"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="limit-ticks">
+      <value value="10000"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="face-east?">
+      <value value="false"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="explore?">
+      <value value="true"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="map-resolution-km">
+      <value value="1"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="patch-size-km">
+      <value value="1"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="time-period">
+      <value value="&quot;MIS5a&quot;"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="desert-cost">
+      <value value="&quot;20%&quot;"/>
+      <value value="&quot;10%&quot;"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="levy_mu">
+      <value value="1"/>
+    </enumeratedValueSet>
+  </experiment>
+  <experiment name="MIS5bh_levy-walks" repetitions="5" runMetricsEveryStep="false">
+    <setup>setup</setup>
+    <go>go</go>
+    <timeLimit steps="10000"/>
+    <enumeratedValueSet variable="output?">
+      <value value="true"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="lost-output?">
+      <value value="true"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="limit-ticks">
+      <value value="10000"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="face-east?">
+      <value value="false"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="explore?">
+      <value value="true"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="map-resolution-km">
+      <value value="1"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="patch-size-km">
+      <value value="1"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="time-period">
+      <value value="&quot;MIS5b-high-water&quot;"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="desert-cost">
+      <value value="&quot;20%&quot;"/>
+      <value value="&quot;10%&quot;"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="levy_mu">
+      <value value="1"/>
+    </enumeratedValueSet>
+  </experiment>
+  <experiment name="MIS5bl_levy-walks" repetitions="2" runMetricsEveryStep="false">
+    <setup>setup</setup>
+    <go>go</go>
+    <timeLimit steps="10000"/>
+    <enumeratedValueSet variable="output?">
+      <value value="true"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="lost-output?">
+      <value value="true"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="limit-ticks">
+      <value value="10000"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="face-east?">
+      <value value="false"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="explore?">
+      <value value="true"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="map-resolution-km">
+      <value value="1"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="patch-size-km">
+      <value value="1"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="time-period">
+      <value value="&quot;MIS5b-low-water&quot;"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="desert-cost">
+      <value value="&quot;20%&quot;"/>
+      <value value="&quot;10%&quot;"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="levy_mu">
+      <value value="1"/>
+    </enumeratedValueSet>
+  </experiment>
+  <experiment name="MIS5e_levy-walks" repetitions="5" runMetricsEveryStep="false">
+    <setup>setup</setup>
+    <go>go</go>
+    <timeLimit steps="10000"/>
+    <enumeratedValueSet variable="output?">
+      <value value="true"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="lost-output?">
+      <value value="true"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="limit-ticks">
+      <value value="10000"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="face-east?">
+      <value value="false"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="explore?">
+      <value value="true"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="map-resolution-km">
+      <value value="1"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="patch-size-km">
+      <value value="1"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="time-period">
+      <value value="&quot;MIS5e&quot;"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="desert-cost">
+      <value value="&quot;20%&quot;"/>
+      <value value="&quot;10%&quot;"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="levy_mu">
+      <value value="1"/>
+    </enumeratedValueSet>
+  </experiment>
+  <experiment name="MIS5dh_levy-walks" repetitions="5" runMetricsEveryStep="false">
+    <setup>setup</setup>
+    <go>go</go>
+    <timeLimit steps="10000"/>
+    <enumeratedValueSet variable="output?">
+      <value value="true"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="lost-output?">
+      <value value="true"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="limit-ticks">
+      <value value="10000"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="face-east?">
+      <value value="false"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="explore?">
+      <value value="true"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="map-resolution-km">
+      <value value="1"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="patch-size-km">
+      <value value="1"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="time-period">
+      <value value="&quot;MIS5d-high-water&quot;"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="desert-cost">
+      <value value="&quot;20%&quot;"/>
+      <value value="&quot;10%&quot;"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="levy_mu">
+      <value value="1"/>
+    </enumeratedValueSet>
+  </experiment>
+  <experiment name="MIS5dl_levy-walks" repetitions="5" runMetricsEveryStep="false">
+    <setup>setup</setup>
+    <go>go</go>
+    <timeLimit steps="10000"/>
+    <enumeratedValueSet variable="output?">
+      <value value="true"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="lost-output?">
+      <value value="true"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="limit-ticks">
+      <value value="10000"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="face-east?">
+      <value value="false"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="explore?">
+      <value value="true"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="map-resolution-km">
+      <value value="1"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="patch-size-km">
+      <value value="1"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="time-period">
+      <value value="&quot;MIS5d-low-water&quot;"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="desert-cost">
+      <value value="&quot;20%&quot;"/>
+      <value value="&quot;10%&quot;"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="levy_mu">
+      <value value="1"/>
+    </enumeratedValueSet>
+  </experiment>
+  <experiment name="MIS5c_levy-walks" repetitions="5" runMetricsEveryStep="false">
+    <setup>setup</setup>
+    <go>go</go>
+    <timeLimit steps="10000"/>
+    <enumeratedValueSet variable="output?">
+      <value value="true"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="lost-output?">
+      <value value="true"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="limit-ticks">
+      <value value="10000"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="face-east?">
+      <value value="false"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="explore?">
+      <value value="true"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="map-resolution-km">
+      <value value="1"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="patch-size-km">
+      <value value="1"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="time-period">
+      <value value="&quot;MIS5c&quot;"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="desert-cost">
+      <value value="&quot;20%&quot;"/>
+      <value value="&quot;10%&quot;"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="levy_mu">
+      <value value="1"/>
+    </enumeratedValueSet>
+  </experiment>
+  <experiment name="test_MIS3_levy-walks" repetitions="5" runMetricsEveryStep="false">
+    <setup>setup</setup>
+    <go>go</go>
+    <timeLimit steps="10000"/>
+    <enumeratedValueSet variable="output?">
+      <value value="true"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="lost-output?">
+      <value value="true"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="limit-ticks">
+      <value value="7500"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="face-east?">
+      <value value="true"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="map-resolution-km">
+      <value value="1"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="patch-size-km">
+      <value value="1"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="time-period">
+      <value value="&quot;MIS3&quot;"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="desert-cost">
+      <value value="&quot;10%&quot;"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="levy_mu">
       <value value="1"/>

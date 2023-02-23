@@ -288,11 +288,14 @@ to find-least-cost-path
   ]
 
   set patch-vision patch-vision with [ patch-counter = 0 ]
-  let new-territory count patch-vision
   set patch-vision patch-vision with [ impassable = false ]
 
   set c c + 1
-  if c = 5 [ die ]
+  if c = 100 [
+    die
+    output-print "hiker died"
+    stop
+  ]
 
   ask patch-vision
   [ set pcolor pink
@@ -312,14 +315,6 @@ to find-least-cost-path
   [ stop ]
   [ face winner-patch
     get-step-length
-
-    if explore? [
-    ;;if ([patch-counter] of winner-patch) = 0 [
-      if new-territory >= 5 [
-        set cur-step-length (cur-step-length * 2)
-      ]
-    ]
-
     move
   ]
 
@@ -328,6 +323,17 @@ end
 to get-step-length
 
   set cur-step-length (random-float 1.000) ^ (-1 / levy_mu)
+
+  let new-territory count patch-vision
+  if explore? [
+    ;;if ([patch-counter] of winner-patch) = 0 [
+      if new-territory >= 5 [
+        set cur-step-length (cur-step-length * 2)
+      ]
+    ]
+
+  set cur-step-length ( ceiling cur-step-length )
+
   set step-lengths lput cur-step-length step-lengths
 
 end
@@ -337,9 +343,10 @@ to move
   let c 0
 
   foreach (range 1 cur-step-length) [
+;    x -> show (word x " -> " round x)
 
     ask patch-here [
-      set patch-counter 500
+      set patch-counter 100
     ]
 
     let dist-winner-patch distance winner-patch
@@ -348,7 +355,7 @@ to move
 
     set dist-traveled dist-traveled + ( dist-winner-patch * patch-size-km )
 
-    set patch-vision patches in-cone 1.5 100 ;; keeps hikers headed in relatively the same direction as the original choice before the Levy walk
+    set patch-vision patches in-cone 1.5 90 ;; keeps hikers headed in relatively the same direction as the original choice before the Levy walk
     set patch-vision patch-vision with [ impassable = false ]
     set patch-vision patch-vision with [ patch-counter = 0 ]
 
@@ -369,7 +376,10 @@ to move
     ifelse winner-patch = nobody
     [
       set c c + 1
-      if c = 5 [ die ]
+      if c = 100 [
+        die
+        output-print "hiker died"
+      ]
       stop
     ]
     [ face winner-patch ]
