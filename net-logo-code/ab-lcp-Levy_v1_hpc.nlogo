@@ -1420,9 +1420,12 @@ NetLogo 6.3.0
       <value value="true"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="limit-ticks">
-      <value value="7500"/>
+      <value value="5000"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="face-east?">
+      <value value="false"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="explore?">
       <value value="true"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="map-resolution-km">
@@ -1435,7 +1438,7 @@ NetLogo 6.3.0
       <value value="&quot;MIS3&quot;"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="desert-cost">
-      <value value="&quot;10%&quot;"/>
+      <value value="&quot;20%&quot;"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="levy_mu">
       <value value="1"/>
