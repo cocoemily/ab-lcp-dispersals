@@ -344,6 +344,7 @@ to move
 
   foreach (range 1 cur-step-length) [
 ;    x -> show (word x " -> " round x)
+    output-print list xcor ycor
 
     ask patch-here [
       set patch-counter 100
