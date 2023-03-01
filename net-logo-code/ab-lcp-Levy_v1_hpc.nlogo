@@ -204,8 +204,8 @@ to setup
      set file-1 (word "/home/ec3307/ab-lcp-dispersals/outputs/" "outputs_path_" origin "_" time-period "_" desert-cost "_" patch-size-km "_" stamp1 ".csv")
      output-print file-1
 
-    if file-exists? file-1
-    [ file-delete file-1 ]
+;    if file-exists? file-1
+;    [ file-delete file-1 ]
     file-open file-1
   ]
 
@@ -301,15 +301,17 @@ to find-least-cost-path
   [ set pcolor pink
   ]
 
-  let flat patch-vision with [ cost < 2.7 ]
-  let gentle patch-vision with [ (cost >= 2.7) and (cost < 3.0)]
+;  let flat patch-vision with [ cost < 2.7 ]
+;  let gentle patch-vision with [ (cost >= 2.7) and (cost < 3.0)]
+;
+;  ifelse any? flat
+;  [ set winner-patch one-of flat with-min [ cost ]]
+;  [ ifelse any? gentle
+;    [ set winner-patch one-of gentle with-min [ cost ]]
+;    [ set winner-patch one-of patch-vision with-min [ cost ]]
+;  ]
 
-  ifelse any? flat
-  [ set winner-patch one-of flat with-min [ cost ]]
-  [ ifelse any? gentle
-    [ set winner-patch one-of gentle with-min [ cost ]]
-    [ set winner-patch one-of patch-vision with-min [ cost ]]
-  ]
+  set winner-patch one-of patch-vision with-min [cost]
 
   ifelse winner-patch = nobody
   [ stop ]
@@ -343,20 +345,19 @@ to move
   let c 0
 
   foreach (range 1 cur-step-length) [
-;    x -> show (word x " -> " round x)
-    output-print list xcor ycor
+
+    let dist-winner-patch distance winner-patch
+    move-to winner-patch
+    update-plots
+    output-print patch-here
 
     ask patch-here [
       set patch-counter 100
     ]
 
-    let dist-winner-patch distance winner-patch
-    move-to winner-patch
-    update-plots
-
     set dist-traveled dist-traveled + ( dist-winner-patch * patch-size-km )
 
-    set patch-vision patches in-cone 1.5 90 ;; keeps hikers headed in relatively the same direction as the original choice before the Levy walk
+    set patch-vision patches in-cone 1.5 100 ;; keeps hikers headed in relatively the same direction as the original choice before the Levy walk
     set patch-vision patch-vision with [ impassable = false ]
     set patch-vision patch-vision with [ patch-counter = 0 ]
 
@@ -364,15 +365,18 @@ to move
       set pcolor pink
     ]
 
-    let flat patch-vision with [ cost < 2.7 ]
-    let gentle patch-vision with [ (cost >= 2.7) and (cost < 3.0)]
+;    let flat patch-vision with [ cost < 2.7 ]
+;    let gentle patch-vision with [ (cost >= 2.7) and (cost < 3.0)]
+;
+;    ifelse any? flat
+;    [ set winner-patch one-of flat with-min [ cost ]]
+;    [ ifelse any? gentle
+;      [ set winner-patch one-of gentle with-min [ cost ]]
+;      [ set winner-patch one-of patch-vision with-min [ cost ]]
+;    ]
 
-    ifelse any? flat
-    [ set winner-patch one-of flat with-min [ cost ]]
-    [ ifelse any? gentle
-      [ set winner-patch one-of gentle with-min [ cost ]]
-      [ set winner-patch one-of patch-vision with-min [ cost ]]
-    ]
+    set winner-patch one-of patch-vision with-min [cost]
+    ;output-print (word "agent wants to go to " winner-patch)
 
     ifelse winner-patch = nobody
     [
