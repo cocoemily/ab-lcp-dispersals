@@ -1,6 +1,7 @@
 extensions [
   GIS
   profiler
+  CSV
 ]
 
 globals [
@@ -22,6 +23,7 @@ globals [
   hiker-status
 
   file-1
+  file-2
   stamp1
 ]
 
@@ -40,6 +42,8 @@ hikers-own [
   winner-patch
   step-lengths
   cur-step-length
+
+  coord-list
 ]
 
 to setup
@@ -202,11 +206,14 @@ to setup
     set stamp1 random-float 1
 
      set file-1 (word "/Users/emilycoco/Desktop/ab-lcp-dispersals/test-outputs/" "outputs_path_" origin "_" time-period "_" desert-cost "_" patch-size-km "_" stamp1 ".csv")
+     set file-2 (word "/Users/emilycoco/Desktop/ab-lcp-dispersals/test-outputs/" "LIST_outputs_path_" origin "_" time-period "_" desert-cost "_" patch-size-km "_" stamp1 ".csv")
      output-print file-1
 
     if file-exists? file-1
     [ file-delete file-1 ]
-    file-open file-1
+
+    if file-exists? file-2
+    [ file-delete file-2 ]
   ]
 
 
@@ -224,6 +231,7 @@ to stp-hikers                                                        ;; Patch pr
     set origin patch-here
     set coord-start list ([xcor] of self) ([ycor] of self)
     set step-lengths []
+    set coord-list []
   ]
 
 end
@@ -245,7 +253,10 @@ to go
   if not any? hikers [
     ask patches [ update-colors ]
     if output? = true [
-      if lost-output? = true [ export-path ]
+      if lost-output? = true [
+        export-path
+        export-coord-list
+      ]
     ]
     set hiker-status "dead"
     stop
@@ -255,7 +266,10 @@ to go
   if ticks = limit-ticks [
     ask patches [ update-colors ]
     if output? = true [
-      if lost-output? = true [ export-path ]
+      if lost-output? = true [
+        export-path
+        export-coord-list
+      ]
     ]
     set hiker-status "dead"
     stop
@@ -349,6 +363,7 @@ to move
     let dist-winner-patch distance winner-patch
     move-to winner-patch
     update-plots
+    set coord-list lput (list ([pxcor] of winner-patch) ([pycor] of winner-patch)) coord-list
     output-print (word "agent is at " patch-here)
 
     ask patch-here [
@@ -403,11 +418,19 @@ to update-colors
 end
 
 to export-path
-
+  file-open file-1
   export-plot "path" file-1
   ;output-print file-read-line
   file-close
 
+end
+
+to export-coord-list
+  file-open file-2
+  ask hiker hiker-n [
+    csv:to-file file-2 coord-list
+  ]
+  file-close
 end
 @#$#@#$#@
 GRAPHICS-WINDOW
@@ -563,7 +586,7 @@ CHOOSER
 levy_mu
 levy_mu
 1 2 3
-1
+0
 
 SWITCH
 123
