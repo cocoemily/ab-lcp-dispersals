@@ -209,11 +209,11 @@ to setup
      set file-2 (word "/home/ec3307/ab-lcp-dispersals/outputs/" "LIST_outputs_path_" origin "_" time-period "_" desert-cost "_" patch-size-km "_" stamp1 ".csv")
      output-print file-2
 
-    if file-exists? file-1
-    [ file-delete file-1 ]
-
-    if file-exists? file-2
-    [ file-delete file-2 ]
+;    if file-exists? file-1
+;    [ file-delete file-1 ]
+;
+;    if file-exists? file-2
+;    [ file-delete file-2 ]
   ]
 
 
@@ -363,7 +363,7 @@ to move
     let dist-winner-patch distance winner-patch
     move-to winner-patch
     update-plots
-    output-print patch-here
+    ;output-print patch-here
 
     ask patch-here [
       set patch-counter 100
