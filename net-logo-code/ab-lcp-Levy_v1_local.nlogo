@@ -344,7 +344,7 @@ to get-step-length
   if explore? [
     ;;if ([patch-counter] of winner-patch) = 0 [
       if new-territory >= 5 [
-        set cur-step-length (cur-step-length * 2)
+        set cur-step-length (cur-step-length * 3)
       ]
     ]
 
@@ -364,7 +364,7 @@ to move
     move-to winner-patch
     update-plots
     set coord-list lput (list ([pxcor] of winner-patch) ([pycor] of winner-patch)) coord-list
-    output-print (word "agent is at " patch-here)
+    ;output-print (word "agent is at " patch-here)
 
     ask patch-here [
       set patch-counter 100
@@ -391,7 +391,7 @@ to move
 ;    ]
 
     set winner-patch one-of patch-vision with-min [cost]
-    output-print (word "agent wants to go to " winner-patch)
+    ;output-print (word "agent wants to go to " winner-patch)
 
     ifelse winner-patch = nobody
     [
@@ -426,6 +426,11 @@ to export-path
 end
 
 to export-coord-list
+
+  ask hiker hiker-n [
+    output-print step-lengths
+  ]
+
   file-open file-2
   ask hiker hiker-n [
     csv:to-file file-2 coord-list
@@ -436,11 +441,11 @@ end
 GRAPHICS-WINDOW
 301
 10
-1162
-908
+1163
+909
 -1
 -1
-1.0
+2.0
 1
 10
 1
@@ -451,9 +456,9 @@ GRAPHICS-WINDOW
 0
 1
 0
-852
+426
 0
-888
+444
 0
 0
 1
@@ -519,7 +524,7 @@ INPUTBOX
 245
 388
 patch-size-km
-10.0
+20.0
 1
 0
 Number
@@ -586,7 +591,7 @@ CHOOSER
 levy_mu
 levy_mu
 1 2 3
-0
+1
 
 SWITCH
 123
@@ -616,7 +621,7 @@ SWITCH
 479
 explore?
 explore?
-0
+1
 1
 -1000
 

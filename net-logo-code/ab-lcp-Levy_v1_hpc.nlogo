@@ -205,8 +205,8 @@ to setup
   if output? [
     set stamp1 random-float 1
 
-     set file-1 (word "/home/ec3307/ab-lcp-dispersals/outputs/" "outputs_path_" origin "_" time-period "_" desert-cost "_" patch-size-km "_" stamp1 ".csv")
-     set file-2 (word "/home/ec3307/ab-lcp-dispersals/outputs/" "LIST_outputs_path_" origin "_" time-period "_" desert-cost "_" patch-size-km "_" stamp1 ".csv")
+     set file-1 (word "/home/ec3307/ab-lcp-dispersals/outputs/" "outputs_path_" origin "_" time-period "_" desert-cost "_" levy_mu "_" patch-size-km "_" stamp1 ".csv")
+     set file-2 (word "/home/ec3307/ab-lcp-dispersals/outputs/" "LIST_outputs_path_" origin "_" time-period "_" desert-cost "_" levy_mu "_" patch-size-km "_" stamp1 ".csv")
      output-print file-2
 
 ;    if file-exists? file-1
@@ -1007,7 +1007,7 @@ NetLogo 6.3.0
 @#$#@#$#@
 @#$#@#$#@
 <experiments>
-  <experiment name="MIS3_levy-walks" repetitions="5" runMetricsEveryStep="false">
+  <experiment name="MIS3_levy-walks" repetitions="1" runMetricsEveryStep="false">
     <setup>setup</setup>
     <go>go</go>
     <timeLimit steps="10000"/>
@@ -1041,9 +1041,10 @@ NetLogo 6.3.0
     </enumeratedValueSet>
     <enumeratedValueSet variable="levy_mu">
       <value value="1"/>
+      <value value="2"/>
     </enumeratedValueSet>
   </experiment>
-  <experiment name="MIS6sk_levy-walks" repetitions="5" runMetricsEveryStep="false">
+  <experiment name="MIS6sk_levy-walks" repetitions="1" runMetricsEveryStep="false">
     <setup>setup</setup>
     <go>go</go>
     <timeLimit steps="100000"/>
@@ -1077,9 +1078,10 @@ NetLogo 6.3.0
     </enumeratedValueSet>
     <enumeratedValueSet variable="levy_mu">
       <value value="1"/>
+      <value value="2"/>
     </enumeratedValueSet>
   </experiment>
-  <experiment name="MIS6bk_levy-walks" repetitions="5" runMetricsEveryStep="false">
+  <experiment name="MIS6bk_levy-walks" repetitions="1" runMetricsEveryStep="false">
     <setup>setup</setup>
     <go>go</go>
     <timeLimit steps="100000"/>
@@ -1113,9 +1115,10 @@ NetLogo 6.3.0
     </enumeratedValueSet>
     <enumeratedValueSet variable="levy_mu">
       <value value="1"/>
+      <value value="2"/>
     </enumeratedValueSet>
   </experiment>
-  <experiment name="MIS4sc_levy-walks" repetitions="5" runMetricsEveryStep="false">
+  <experiment name="MIS4sc_levy-walks" repetitions="1" runMetricsEveryStep="false">
     <setup>setup</setup>
     <go>go</go>
     <timeLimit steps="10000"/>
@@ -1149,9 +1152,10 @@ NetLogo 6.3.0
     </enumeratedValueSet>
     <enumeratedValueSet variable="levy_mu">
       <value value="1"/>
+      <value value="2"/>
     </enumeratedValueSet>
   </experiment>
-  <experiment name="MIS4bc_levy-walks" repetitions="5" runMetricsEveryStep="false">
+  <experiment name="MIS4bc_levy-walks" repetitions="1" runMetricsEveryStep="false">
     <setup>setup</setup>
     <go>go</go>
     <timeLimit steps="10000"/>
@@ -1185,9 +1189,10 @@ NetLogo 6.3.0
     </enumeratedValueSet>
     <enumeratedValueSet variable="levy_mu">
       <value value="1"/>
+      <value value="2"/>
     </enumeratedValueSet>
   </experiment>
-  <experiment name="MIS5a_levy-walks" repetitions="5" runMetricsEveryStep="false">
+  <experiment name="MIS5a_levy-walks" repetitions="1" runMetricsEveryStep="false">
     <setup>setup</setup>
     <go>go</go>
     <timeLimit steps="10000"/>
@@ -1221,9 +1226,10 @@ NetLogo 6.3.0
     </enumeratedValueSet>
     <enumeratedValueSet variable="levy_mu">
       <value value="1"/>
+      <value value="2"/>
     </enumeratedValueSet>
   </experiment>
-  <experiment name="MIS5bh_levy-walks" repetitions="5" runMetricsEveryStep="false">
+  <experiment name="MIS5bh_levy-walks" repetitions="1" runMetricsEveryStep="false">
     <setup>setup</setup>
     <go>go</go>
     <timeLimit steps="10000"/>
@@ -1257,9 +1263,10 @@ NetLogo 6.3.0
     </enumeratedValueSet>
     <enumeratedValueSet variable="levy_mu">
       <value value="1"/>
+      <value value="2"/>
     </enumeratedValueSet>
   </experiment>
-  <experiment name="MIS5bl_levy-walks" repetitions="2" runMetricsEveryStep="false">
+  <experiment name="MIS5bl_levy-walks" repetitions="1" runMetricsEveryStep="false">
     <setup>setup</setup>
     <go>go</go>
     <timeLimit steps="10000"/>
@@ -1293,9 +1300,10 @@ NetLogo 6.3.0
     </enumeratedValueSet>
     <enumeratedValueSet variable="levy_mu">
       <value value="1"/>
+      <value value="2"/>
     </enumeratedValueSet>
   </experiment>
-  <experiment name="MIS5e_levy-walks" repetitions="5" runMetricsEveryStep="false">
+  <experiment name="MIS5e_levy-walks" repetitions="1" runMetricsEveryStep="false">
     <setup>setup</setup>
     <go>go</go>
     <timeLimit steps="10000"/>
@@ -1329,9 +1337,10 @@ NetLogo 6.3.0
     </enumeratedValueSet>
     <enumeratedValueSet variable="levy_mu">
       <value value="1"/>
+      <value value="2"/>
     </enumeratedValueSet>
   </experiment>
-  <experiment name="MIS5dh_levy-walks" repetitions="5" runMetricsEveryStep="false">
+  <experiment name="MIS5dh_levy-walks" repetitions="1" runMetricsEveryStep="false">
     <setup>setup</setup>
     <go>go</go>
     <timeLimit steps="10000"/>
@@ -1365,9 +1374,10 @@ NetLogo 6.3.0
     </enumeratedValueSet>
     <enumeratedValueSet variable="levy_mu">
       <value value="1"/>
+      <value value="2"/>
     </enumeratedValueSet>
   </experiment>
-  <experiment name="MIS5dl_levy-walks" repetitions="5" runMetricsEveryStep="false">
+  <experiment name="MIS5dl_levy-walks" repetitions="1" runMetricsEveryStep="false">
     <setup>setup</setup>
     <go>go</go>
     <timeLimit steps="10000"/>
@@ -1401,9 +1411,10 @@ NetLogo 6.3.0
     </enumeratedValueSet>
     <enumeratedValueSet variable="levy_mu">
       <value value="1"/>
+      <value value="2"/>
     </enumeratedValueSet>
   </experiment>
-  <experiment name="MIS5c_levy-walks" repetitions="5" runMetricsEveryStep="false">
+  <experiment name="MIS5c_levy-walks" repetitions="1" runMetricsEveryStep="false">
     <setup>setup</setup>
     <go>go</go>
     <timeLimit steps="10000"/>
@@ -1437,6 +1448,7 @@ NetLogo 6.3.0
     </enumeratedValueSet>
     <enumeratedValueSet variable="levy_mu">
       <value value="1"/>
+      <value value="2"/>
     </enumeratedValueSet>
   </experiment>
   <experiment name="test_MIS3_levy-walks" repetitions="1" runMetricsEveryStep="false">
