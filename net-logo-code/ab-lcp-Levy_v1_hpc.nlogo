@@ -166,7 +166,6 @@ to setup
 
   set res-m 1000 * patch-size-km
 
-  ;;need to think about this and what the impassable value should be
   ask patches [
     ifelse ( cost <= 0 ) or ( cost > 0 )
     [ set cost cost ]
@@ -363,6 +362,7 @@ to move
     let dist-winner-patch distance winner-patch
     move-to winner-patch
     update-plots
+    set coord-list lput (list ([pxcor] of winner-patch) ([pycor] of winner-patch)) coord-list
     ;output-print patch-here
 
     ask patch-here [
