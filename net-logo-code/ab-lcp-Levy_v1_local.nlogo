@@ -161,7 +161,8 @@ to setup
 
   gis:apply-raster basemap cost
 
-  set min-cost gis:minimum-of basemap
+  ;set min-cost gis:minimum-of basemap
+  set min-cost 0
   set max-cost gis:maximum-of basemap
 
   set res-m 1000 * patch-size-km
@@ -413,7 +414,15 @@ to update-colors
   ifelse cost = -999999
     [ set impassable "true"
       set pcolor blue ]
-    [ set pcolor scale-color green cost (min-cost * 100) (max-cost * 100) ]
+  [ ifelse (cost <= 2.635) [ set pcolor 55]
+    [ ifelse (cost > 2.635) and (cost <= 2.707) [ set pcolor 67 ]
+      [ ifelse (cost > 2.707) and (cost <= 3.014) [ set pcolor 48 ]
+        [ifelse (cost > 3.014) and (cost <= 3.338) [ set pcolor 28 ]
+          [if (cost > 3.338) [set pcolor 18 ] ]
+        ]
+      ]
+    ]
+  ]
 
 end
 
