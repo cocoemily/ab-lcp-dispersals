@@ -429,8 +429,10 @@ to export-coord-list
 
   file-open file-2
   ask hiker hiker-n [
+    output-print item 1 coord-list
     csv:to-file file-2 coord-list
   ]
+  output-print file-read-line
   file-close
 
 end

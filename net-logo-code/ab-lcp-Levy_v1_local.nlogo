@@ -141,14 +141,14 @@ to setup
 ;      set basemap gis:load-dataset "/home/ec3307/ab-lcp-dispersals/cost-rasters/model-input-costs/LS-deserts-10/MIS6_bigKara.asc"
 ;    ]
 ;  ]
-;  if (time-period = "MIS6-small-Kara") [
-;    if (desert-cost = "20%") [
-;      set basemap gis:load-dataset "/home/ec3307/ab-lcp-dispersals/cost-rasters/model-input-costs/LS-deserts-20/MIS6_smallKara.asc"
-;    ]
+  if (time-period = "MIS6-small-Kara") [
+    if (desert-cost = "20%") [
+      set basemap gis:load-dataset "/Users/emilycoco/Desktop/ab-lcp-dispersals/cost-rasters/model-input-costs/LS-deserts-20/MIS6_smallKara.asc"
+    ]
 ;    if (desert-cost = "10%") [
 ;      set basemap gis:load-dataset "/home/ec3307/ab-lcp-dispersals/cost-rasters/model-input-costs/LS-deserts-10/MIS6_smallKara.asc"
 ;    ]
-;  ]
+  ]
 
   ;; let trans-res patch-size-km / map-resolution-km ;;need to figure out these parameters for each basemap
   ;;set patch-size-km 1
@@ -450,11 +450,11 @@ end
 GRAPHICS-WINDOW
 301
 10
-1163
-909
+1161
+907
 -1
 -1
-2.0
+0.1
 1
 10
 1
@@ -465,9 +465,9 @@ GRAPHICS-WINDOW
 0
 1
 0
-426
+8523
 0
-444
+8886
 0
 0
 1
@@ -533,7 +533,7 @@ INPUTBOX
 245
 388
 patch-size-km
-20.0
+5.0
 1
 0
 Number
@@ -585,12 +585,12 @@ Number
 CHOOSER
 21
 492
-159
+172
 537
 time-period
 time-period
-"MIS3"
-0
+"MIS3" "MIS6-small-Kara"
+1
 
 CHOOSER
 20
@@ -600,7 +600,7 @@ CHOOSER
 levy_mu
 levy_mu
 1 2 3
-1
+0
 
 SWITCH
 123
@@ -614,9 +614,9 @@ face-east?
 -1000
 
 CHOOSER
-166
+182
 493
-258
+274
 538
 desert-cost
 desert-cost
@@ -630,7 +630,7 @@ SWITCH
 479
 explore?
 explore?
-1
+0
 1
 -1000
 
