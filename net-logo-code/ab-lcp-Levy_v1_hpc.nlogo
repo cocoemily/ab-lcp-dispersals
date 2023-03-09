@@ -284,6 +284,7 @@ to go
   ]
 
   tick-advance 1
+  output-print ticks
 
 end
 
@@ -363,7 +364,7 @@ to move
     move-to winner-patch
     update-plots
     set coord-list lput (list ([pxcor] of winner-patch) ([pycor] of winner-patch)) coord-list
-    ;output-print patch-here
+    output-print patch-here
 
     ask patch-here [
       set patch-counter 100
