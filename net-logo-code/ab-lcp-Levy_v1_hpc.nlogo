@@ -11,6 +11,7 @@ globals [
   goal
   coord-start
   dist-traveled
+  coord-list
 
   min-cost
   max-cost
@@ -42,8 +43,6 @@ hikers-own [
   winner-patch
   step-lengths
   cur-step-length
-
-  coord-list
 ]
 
 to setup
@@ -283,8 +282,12 @@ to go
     find-least-cost-path
   ]
 
-  tick-advance 1
   output-print ticks
+  output-print coord-list
+
+
+  tick-advance 1
+
 
 end
 
@@ -364,7 +367,6 @@ to move
     move-to winner-patch
     update-plots
     set coord-list lput (list ([pxcor] of winner-patch) ([pycor] of winner-patch)) coord-list
-    output-print coord-list
     ;output-print patch-here
 
     ask patch-here [
@@ -430,10 +432,8 @@ end
 to export-coord-list
 
   file-open file-2
-  ask hiker hiker-n [
-    output-print item 1 coord-list
-    csv:to-file file-2 coord-list
-  ]
+  output-print item 1 coord-list
+  csv:to-file file-2 coord-list
   output-print file-read-line
   file-close
 
