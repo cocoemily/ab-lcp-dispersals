@@ -252,7 +252,7 @@ to go
     ask patches [ update-colors ]
     if output? = true [
       if lost-output? = true [
-        ;export-path
+        export-path
         export-coord-list
       ]
     ]
@@ -265,7 +265,7 @@ to go
     ask patches [ update-colors ]
     if output? = true [
       if lost-output? = true [
-        ;export-path
+        export-path
         export-coord-list
       ]
     ]
@@ -282,9 +282,8 @@ to go
     find-least-cost-path
   ]
 
-  output-print ticks
-  output-print coord-list
-
+  ;output-print ticks
+  ;output-print coord-list
 
   tick-advance 1
 
