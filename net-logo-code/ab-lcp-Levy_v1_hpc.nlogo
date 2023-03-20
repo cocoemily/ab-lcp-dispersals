@@ -203,9 +203,10 @@ to setup
   if output? [
     set stamp1 random-float 1
 
-     set file-1 (word "/home/ec3307/ab-lcp-dispersals/outputs/" "outputs_path_" origin "_" time-period "_" desert-cost "_" levy_mu "_" patch-size-km "_" stamp1 ".csv")
-     set file-2 (word "/home/ec3307/ab-lcp-dispersals/outputs/" "LIST_outputs_path_" origin "_" time-period "_" desert-cost "_" levy_mu "_" patch-size-km "_" stamp1 ".csv")
-     output-print file-2
+    set file-1 (word "/home/ec3307/ab-lcp-dispersals/outputs/" "outputs_path_" origin "_" time-period "_" desert-cost "_" levy_mu "_" patch-size-km "_" stamp1 ".csv")
+    set file-2 (word "/home/ec3307/ab-lcp-dispersals/outputs/" "LIST_outputs_path_" origin "_" time-period "_" desert-cost "_" levy_mu "_" patch-size-km "_" stamp1 ".csv")
+    output-print file-1
+    output-print file-2
 
 ;    if file-exists? file-1
 ;    [ file-delete file-1 ]
@@ -282,9 +283,6 @@ to go
     find-least-cost-path
   ]
 
-  ;output-print ticks
-  ;output-print coord-list
-
   tick-advance 1
 
 
@@ -313,19 +311,7 @@ to find-least-cost-path
     stop
   ]
 
-  ask patch-vision
-  [ set pcolor pink
-  ]
-
-;  let flat patch-vision with [ cost < 2.7 ]
-;  let gentle patch-vision with [ (cost >= 2.7) and (cost < 3.0)]
-;
-;  ifelse any? flat
-;  [ set winner-patch one-of flat with-min [ cost ]]
-;  [ ifelse any? gentle
-;    [ set winner-patch one-of gentle with-min [ cost ]]
-;    [ set winner-patch one-of patch-vision with-min [ cost ]]
-;  ]
+  ask patch-vision [ set pcolor pink ]
 
   set winner-patch one-of patch-vision with-min [cost]
 
@@ -378,19 +364,7 @@ to move
     set patch-vision patch-vision with [ impassable = false ]
     set patch-vision patch-vision with [ patch-counter = 0 ]
 
-    ask patch-vision [
-      set pcolor pink
-    ]
-
-;    let flat patch-vision with [ cost < 2.7 ]
-;    let gentle patch-vision with [ (cost >= 2.7) and (cost < 3.0)]
-;
-;    ifelse any? flat
-;    [ set winner-patch one-of flat with-min [ cost ]]
-;    [ ifelse any? gentle
-;      [ set winner-patch one-of gentle with-min [ cost ]]
-;      [ set winner-patch one-of patch-vision with-min [ cost ]]
-;    ]
+    ask patch-vision [ set pcolor pink ]
 
     set winner-patch one-of patch-vision with-min [cost]
     ;output-print (word "agent wants to go to " winner-patch)
@@ -420,6 +394,7 @@ to update-colors
 end
 
 to export-path
+  output-print "export-path function is running"
 
   file-open file-1
   export-plot "path" file-1
@@ -429,6 +404,7 @@ to export-path
 end
 
 to export-coord-list
+  output-print "export-coord-list function is running"
 
   file-open file-2
   output-print item 1 coord-list
@@ -1465,7 +1441,7 @@ NetLogo 6.3.0
       <value value="true"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="limit-ticks">
-      <value value="10000"/>
+      <value value="5000"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="face-east?">
       <value value="false"/>
