@@ -10,6 +10,7 @@ cost.y <- dim(costRast)[1]
 
 
 # Assign the folder in which all the individual simulation output files are located 
+#my_dir = paste0(getwd(),"/test-outputs")
 my_dir = paste0(getwd(),"/outputs")
 # Create a list of all the file names in the identified folder
 all_files = list.files(path = my_dir, all.files = TRUE, full.names = TRUE, pattern = "\\.csv$")
@@ -41,6 +42,7 @@ dcosts = c("10%", "20%")
 for(t in 1:length(timeperiods)) {
   period = names(timeperiods)[[t]]
   files = timeperiods[[t]]
+  files = files[str_detect(files, "LIST")]
   
   for(d in dcosts) {
     newfiles = files[str_detect(files, d)]
@@ -64,17 +66,17 @@ for(t in 1:length(timeperiods)) {
         # Separate out the components of the file name 
         filename.split = strsplit(new.file,"_") 
         filename.split = unlist(filename.split)
-        origin = gsub("\\)|\\(", "", filename.split[3]) # Origin of the run 
-        #goal = gsub("\\)|\\(", "", filename.split[4])
+        origin = gsub("\\)|\\(", "", filename.split[4]) # Origin of the run 
+        #goal = gsub("\\)|\\(", "", filename.split[5])
         
-        patch_res_km = as.numeric(filename.split[6])
-        desert_cost = filename.split[5]
-        time_period = filename.split[4]
+        patch_res_km = as.numeric(filename.split[8])
+        desert_cost = filename.split[6]
+        time_period = filename.split[5]
         
         # Import the data without headers
         ds <- read.table(paste(my_dir, "/", new.file,sep=""), fill = TRUE, skip = 19, stringsAsFactors = FALSE, sep = ",")
         # Keep only the coordinates of the paths 
-        ds <- ds[,c(2,6)]
+        #ds <- ds[,c(2,6)]
         # Change the names and reduce the floats coordinates to integers 
         colnames(ds) <- c("x","y")
         ds$x <- as.integer(ds$x)
