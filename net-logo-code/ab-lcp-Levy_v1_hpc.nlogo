@@ -1100,7 +1100,7 @@ NetLogo 6.3.0
   <experiment name="MIS4sc_levy-walks" repetitions="1" runMetricsEveryStep="false">
     <setup>setup</setup>
     <go>go</go>
-    <timeLimit steps="10000"/>
+    <timeLimit steps="15000"/>
     <enumeratedValueSet variable="output?">
       <value value="true"/>
     </enumeratedValueSet>
