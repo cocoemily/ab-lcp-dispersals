@@ -97,7 +97,7 @@ to setup
       set basemap gis:load-dataset "/home/ec3307/ab-lcp-dispersals/cost-rasters/model-input-costs/LS-deserts-20/MIS5b_low.asc"
     ]
     if (desert-cost = "10%") [
-      set basemap gis:load-dataset "/home/ec3307/Desktop/ab-lcp-dispersals/cost-rasters/model-input-costs/LS-deserts-10/MIS5b_low.asc"
+      set basemap gis:load-dataset "/home/ec3307/ab-lcp-dispersals/cost-rasters/model-input-costs/LS-deserts-10/MIS5b_low.asc"
     ]
   ]
   if (time-period = "MIS5c") [
