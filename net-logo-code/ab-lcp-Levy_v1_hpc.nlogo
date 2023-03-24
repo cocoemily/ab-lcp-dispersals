@@ -989,7 +989,6 @@ NetLogo 6.3.0
   <experiment name="MIS3_levy-walks" repetitions="1" runMetricsEveryStep="false">
     <setup>setup</setup>
     <go>go</go>
-    <timeLimit steps="10000"/>
     <enumeratedValueSet variable="output?">
       <value value="true"/>
     </enumeratedValueSet>
@@ -1026,7 +1025,6 @@ NetLogo 6.3.0
   <experiment name="MIS6sk_levy-walks" repetitions="1" runMetricsEveryStep="false">
     <setup>setup</setup>
     <go>go</go>
-    <timeLimit steps="100000"/>
     <enumeratedValueSet variable="output?">
       <value value="true"/>
     </enumeratedValueSet>
@@ -1063,7 +1061,6 @@ NetLogo 6.3.0
   <experiment name="MIS6bk_levy-walks" repetitions="1" runMetricsEveryStep="false">
     <setup>setup</setup>
     <go>go</go>
-    <timeLimit steps="100000"/>
     <enumeratedValueSet variable="output?">
       <value value="true"/>
     </enumeratedValueSet>
@@ -1100,7 +1097,6 @@ NetLogo 6.3.0
   <experiment name="MIS4sc_levy-walks" repetitions="1" runMetricsEveryStep="false">
     <setup>setup</setup>
     <go>go</go>
-    <timeLimit steps="15000"/>
     <enumeratedValueSet variable="output?">
       <value value="true"/>
     </enumeratedValueSet>
@@ -1137,7 +1133,6 @@ NetLogo 6.3.0
   <experiment name="MIS4bc_levy-walks" repetitions="1" runMetricsEveryStep="false">
     <setup>setup</setup>
     <go>go</go>
-    <timeLimit steps="10000"/>
     <enumeratedValueSet variable="output?">
       <value value="true"/>
     </enumeratedValueSet>
@@ -1174,7 +1169,6 @@ NetLogo 6.3.0
   <experiment name="MIS5a_levy-walks" repetitions="1" runMetricsEveryStep="false">
     <setup>setup</setup>
     <go>go</go>
-    <timeLimit steps="10000"/>
     <enumeratedValueSet variable="output?">
       <value value="true"/>
     </enumeratedValueSet>
@@ -1211,7 +1205,6 @@ NetLogo 6.3.0
   <experiment name="MIS5bh_levy-walks" repetitions="1" runMetricsEveryStep="false">
     <setup>setup</setup>
     <go>go</go>
-    <timeLimit steps="10000"/>
     <enumeratedValueSet variable="output?">
       <value value="true"/>
     </enumeratedValueSet>
@@ -1248,7 +1241,6 @@ NetLogo 6.3.0
   <experiment name="MIS5bl_levy-walks" repetitions="1" runMetricsEveryStep="false">
     <setup>setup</setup>
     <go>go</go>
-    <timeLimit steps="10000"/>
     <enumeratedValueSet variable="output?">
       <value value="true"/>
     </enumeratedValueSet>
@@ -1285,7 +1277,6 @@ NetLogo 6.3.0
   <experiment name="MIS5e_levy-walks" repetitions="1" runMetricsEveryStep="false">
     <setup>setup</setup>
     <go>go</go>
-    <timeLimit steps="10000"/>
     <enumeratedValueSet variable="output?">
       <value value="true"/>
     </enumeratedValueSet>
@@ -1322,7 +1313,6 @@ NetLogo 6.3.0
   <experiment name="MIS5dh_levy-walks" repetitions="1" runMetricsEveryStep="false">
     <setup>setup</setup>
     <go>go</go>
-    <timeLimit steps="10000"/>
     <enumeratedValueSet variable="output?">
       <value value="true"/>
     </enumeratedValueSet>
@@ -1359,7 +1349,6 @@ NetLogo 6.3.0
   <experiment name="MIS5dl_levy-walks" repetitions="1" runMetricsEveryStep="false">
     <setup>setup</setup>
     <go>go</go>
-    <timeLimit steps="10000"/>
     <enumeratedValueSet variable="output?">
       <value value="true"/>
     </enumeratedValueSet>
@@ -1396,7 +1385,6 @@ NetLogo 6.3.0
   <experiment name="MIS5c_levy-walks" repetitions="1" runMetricsEveryStep="false">
     <setup>setup</setup>
     <go>go</go>
-    <timeLimit steps="10000"/>
     <enumeratedValueSet variable="output?">
       <value value="true"/>
     </enumeratedValueSet>
@@ -1433,7 +1421,6 @@ NetLogo 6.3.0
   <experiment name="test_MIS3_levy-walks" repetitions="1" runMetricsEveryStep="false">
     <setup>setup</setup>
     <go>go</go>
-    <timeLimit steps="10000"/>
     <enumeratedValueSet variable="output?">
       <value value="true"/>
     </enumeratedValueSet>
@@ -1468,7 +1455,6 @@ NetLogo 6.3.0
   <experiment name="test_MIS3_levy-walks-2" repetitions="1" runMetricsEveryStep="false">
     <setup>setup</setup>
     <go>go</go>
-    <timeLimit steps="10000"/>
     <enumeratedValueSet variable="output?">
       <value value="true"/>
     </enumeratedValueSet>
