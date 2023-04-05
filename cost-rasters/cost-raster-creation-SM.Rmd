@@ -52,9 +52,9 @@ knitr::opts_chunk$set(echo = TRUE)
 1.  calculate the slope of the terrain from the DEM
 2.  use Raster Calculator to calculate the Llobera & Sulkin walker cost via the following function
 
-$Cost(s) = 2.635­+­17.37s­+­42.37s^{2}­–­21.43s^{3}­+­14.93s^{4}$
+$Cost(s) = 2.635­+­17.37s­+­42.37s^{2}­-­21.43s^{3}­+­14.93s^{4}$
 
-where $s$ is the mathematical slope of the DEM
+where $s$ is the mathematical slope of the DEM ($s$ = slope percentage/100)
 
 ## Creating desert rasters
 
