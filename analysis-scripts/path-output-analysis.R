@@ -10,8 +10,9 @@ cost.y <- dim(costRast)[1]
 
 
 # Assign the folder in which all the individual simulation output files are located 
-#my_dir = paste0(getwd(),"/test-outputs")
-my_dir = paste0(getwd(),"/outputs")
+# my_dir = paste0(getwd(),"/outputs/Azov")
+my_dir = paste0(getwd(),"/outputs/Caucasus")
+
 # Create a list of all the file names in the identified folder
 all_files = list.files(path = my_dir, all.files = TRUE, full.names = TRUE, pattern = "\\.csv$")
 MIS3 = all_files[str_detect(all_files, "MIS3")]
@@ -132,3 +133,4 @@ for(t in 1:length(timeperiods)) {
     }
   }
 }
+

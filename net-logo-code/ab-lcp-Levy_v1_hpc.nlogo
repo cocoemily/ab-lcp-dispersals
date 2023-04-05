@@ -204,7 +204,7 @@ to setup
     set stamp1 random-float 1
 
     set file-1 (word "/home/ec3307/ab-lcp-dispersals/outputs/" "outputs_path_" origin "_" time-period "_" desert-cost "_" levy_mu "_" patch-size-km "_" stamp1 ".csv")
-    set file-2 (word "/home/ec3307/ab-lcp-dispersals/outputs/" "LIST_outputs_path_" origin "_" time-period "_" desert-cost "_" levy_mu "_" patch-size-km "_" stamp1 ".csv")
+    set file-2 (word "/home/ec3307/ab-lcp-dispersals/outputs/" "LIST_outputs_path_" origin "_" time-period "_" desert-cost "_" levy_mu "_" patch-size-km "_" stamp1 " " limit-ticks ".csv")
     output-print file-1
     output-print file-2
 
@@ -1428,7 +1428,7 @@ NetLogo 6.3.0
       <value value="true"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="limit-ticks">
-      <value value="8000"/>
+      <value value="20000"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="face-east?">
       <value value="false"/>
@@ -1441,40 +1441,6 @@ NetLogo 6.3.0
     </enumeratedValueSet>
     <enumeratedValueSet variable="patch-size-km">
       <value value="1"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="time-period">
-      <value value="&quot;MIS3&quot;"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="desert-cost">
-      <value value="&quot;20%&quot;"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="levy_mu">
-      <value value="1"/>
-    </enumeratedValueSet>
-  </experiment>
-  <experiment name="test_MIS3_levy-walks-2" repetitions="1" runMetricsEveryStep="false">
-    <setup>setup</setup>
-    <go>go</go>
-    <enumeratedValueSet variable="output?">
-      <value value="true"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="lost-output?">
-      <value value="true"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="limit-ticks">
-      <value value="8000"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="face-east?">
-      <value value="false"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="explore?">
-      <value value="true"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="map-resolution-km">
-      <value value="1"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="patch-size-km">
-      <value value="2"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="time-period">
       <value value="&quot;MIS3&quot;"/>
