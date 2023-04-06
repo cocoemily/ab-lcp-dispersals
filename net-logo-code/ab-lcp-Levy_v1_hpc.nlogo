@@ -53,100 +53,40 @@ to setup
   ;;set basemap gis:load-dataset "/Users/emilycoco/Desktop/ab-lcp-dispersals/cost-rasters/model-input-costs/test.asc"
 
   if (time-period = "MIS3" ) [
-    if (desert-cost = "20%") [
-      set basemap gis:load-dataset "/home/ec3307/ab-lcp-dispersals/cost-rasters/model-input-costs/LS-deserts-20/MIS3.asc"
-    ]
-    if (desert-cost = "10%") [
-      set basemap gis:load-dataset "/home/ec3307/ab-lcp-dispersals/cost-rasters/model-input-costs/LS-deserts-10/MIS3.asc"
-    ]
+    set basemap gis:load-dataset "/home/ec3307/ab-lcp-dispersals/cost-rasters/model-input-costs/MIS3.asc"
   ]
   if (time-period = "MIS4-big-Caspian") [
-    if (desert-cost = "20%") [
-      set basemap gis:load-dataset "/home/ec3307/ab-lcp-dispersals/cost-rasters/model-input-costs/LS-deserts-20/MIS4_bigCaspian.asc"
-    ]
-    if (desert-cost = "10%") [
-      set basemap gis:load-dataset "/home/ec3307/ab-lcp-dispersals/cost-rasters/model-input-costs/LS-deserts-10/MIS4_bigCaspian.asc"
-    ]
+    set basemap gis:load-dataset "/home/ec3307/ab-lcp-dispersals/cost-rasters/model-input-costs/MIS4_high.asc"
   ]
   if (time-period = "MIS4-small-Caspian") [
-    if (desert-cost = "20%") [
-      set basemap gis:load-dataset "/home/ec3307/ab-lcp-dispersals/cost-rasters/model-input-costs/LS-deserts-20/MIS4_smallCaspian.asc"
-    ]
-    if (desert-cost = "10%") [
-      set basemap gis:load-dataset "/home/ec3307/ab-lcp-dispersals/cost-rasters/model-input-costs/LS-deserts-10/MIS4_smallCaspian.asc"
-    ]
+    set basemap gis:load-dataset "/home/ec3307/ab-lcp-dispersals/cost-rasters/model-input-costs/MIS4_low.asc"
   ]
   if (time-period = "MIS5a") [
-    if (desert-cost = "20%") [
-      set basemap gis:load-dataset "/home/ec3307/ab-lcp-dispersals/cost-rasters/model-input-costs/LS-deserts-20/MIS5a.asc"
-    ]
-    if (desert-cost = "10%") [
-      set basemap gis:load-dataset "/home/ec3307/ab-lcp-dispersals/cost-rasters/model-input-costs/LS-deserts-10/MIS5a.asc"
-    ]
+    set basemap gis:load-dataset "/home/ec3307/ab-lcp-dispersals/cost-rasters/model-input-costs/MIS5a.asc"
   ]
   if (time-period = "MIS5b-high-water") [
-    if (desert-cost = "20%") [
-      set basemap gis:load-dataset "/home/ec3307/ab-lcp-dispersals/cost-rasters/model-input-costs/LS-deserts-20/MIS5b_high.asc"
-    ]
-    if (desert-cost = "10%") [
-      set basemap gis:load-dataset "/home/ec3307/ab-lcp-dispersals/cost-rasters/model-input-costs/LS-deserts-10/MIS5b_high.asc"
-    ]
+    set basemap gis:load-dataset "/home/ec3307/ab-lcp-dispersals/cost-rasters/model-input-costs/MIS5b_high.asc"
   ]
   if (time-period = "MIS5b-low-water") [
-    if (desert-cost = "20%") [
-      set basemap gis:load-dataset "/home/ec3307/ab-lcp-dispersals/cost-rasters/model-input-costs/LS-deserts-20/MIS5b_low.asc"
-    ]
-    if (desert-cost = "10%") [
-      set basemap gis:load-dataset "/home/ec3307/ab-lcp-dispersals/cost-rasters/model-input-costs/LS-deserts-10/MIS5b_low.asc"
-    ]
+    set basemap gis:load-dataset "/home/ec3307/ab-lcp-dispersals/cost-rasters/model-input-costs/MIS5b_low.asc"
   ]
   if (time-period = "MIS5c") [
-    if (desert-cost = "20%") [
-      set basemap gis:load-dataset "/home/ec3307/ab-lcp-dispersals/cost-rasters/model-input-costs/LS-deserts-20/MIS5c.asc"
-    ]
-    if (desert-cost = "10%") [
-      set basemap gis:load-dataset "/home/ec3307/ab-lcp-dispersals/cost-rasters/model-input-costs/LS-deserts-10/MIS5c.asc"
-    ]
+    set basemap gis:load-dataset "/home/ec3307/ab-lcp-dispersals/cost-rasters/model-input-costs/MIS5c.asc"
   ]
   if (time-period = "MIS5d-high-water") [
-    if (desert-cost = "20%") [
-      set basemap gis:load-dataset "/home/ec3307/ab-lcp-dispersals/cost-rasters/model-input-costs/LS-deserts-20/MIS5d_high.asc"
-    ]
-    if (desert-cost = "10%") [
-      set basemap gis:load-dataset "/home/ec3307/ab-lcp-dispersals/cost-rasters/model-input-costs/LS-deserts-10/MIS5d_high.asc"
-    ]
+    set basemap gis:load-dataset "/home/ec3307/ab-lcp-dispersals/cost-rasters/model-input-costs/MIS5d_high.asc"
   ]
   if (time-period = "MIS5d-low-water") [
-    if (desert-cost = "20%") [
-      set basemap gis:load-dataset "/home/ec3307/ab-lcp-dispersals/cost-rasters/model-input-costs/LS-deserts-20/MIS5d_low.asc"
-    ]
-    if (desert-cost = "10%") [
-      set basemap gis:load-dataset "/home/ec3307/ab-lcp-dispersals/cost-rasters/model-input-costs/LS-deserts-10/MIS5d_low.asc"
-    ]
+    set basemap gis:load-dataset "/home/ec3307/ab-lcp-dispersals/cost-rasters/model-input-costs/MIS5d_low.asc"
   ]
   if (time-period = "MIS5e") [
-    if (desert-cost = "20%") [
-      set basemap gis:load-dataset "/home/ec3307/ab-lcp-dispersals/cost-rasters/model-input-costs/LS-deserts-20/MIS5e.asc"
-    ]
-    if (desert-cost = "10%") [
-      set basemap gis:load-dataset "/home/ec3307/ab-lcp-dispersals/cost-rasters/model-input-costs/LS-deserts-10/MIS5e.asc"
-    ]
+    set basemap gis:load-dataset "/home/ec3307/ab-lcp-dispersals/cost-rasters/model-input-costs/MIS5e.asc"
   ]
   if (time-period = "MIS6-big-Kara") [
-    if (desert-cost = "20%") [
-      set basemap gis:load-dataset "/home/ec3307/ab-lcp-dispersals/cost-rasters/model-input-costs/LS-deserts-20/MIS6_bigKara.asc"
-    ]
-    if (desert-cost = "10%") [
-      set basemap gis:load-dataset "/home/ec3307/ab-lcp-dispersals/cost-rasters/model-input-costs/LS-deserts-10/MIS6_bigKara.asc"
-    ]
+    set basemap gis:load-dataset "/home/ec3307/ab-lcp-dispersals/cost-rasters/model-input-costs/MIS6_high.asc"
   ]
   if (time-period = "MIS6-small-Kara") [
-    if (desert-cost = "20%") [
-      set basemap gis:load-dataset "/home/ec3307/ab-lcp-dispersals/cost-rasters/model-input-costs/LS-deserts-20/MIS6_smallKara.asc"
-    ]
-    if (desert-cost = "10%") [
-      set basemap gis:load-dataset "/home/ec3307/ab-lcp-dispersals/cost-rasters/model-input-costs/LS-deserts-10/MIS6_smallKara.asc"
-    ]
+    set basemap gis:load-dataset "/home/ec3307/ab-lcp-dispersals/cost-rasters/model-input-costs/MIS6_low.asc"
   ]
 
   ;; let trans-res patch-size-km / map-resolution-km ;;need to figure out these parameters for each basemap
@@ -203,8 +143,8 @@ to setup
   if output? [
     set stamp1 random-float 1
 
-    set file-1 (word "/home/ec3307/ab-lcp-dispersals/outputs/" "outputs_path_" origin "_" time-period "_" desert-cost "_" levy_mu "_" patch-size-km "_" stamp1 ".csv")
-    set file-2 (word "/home/ec3307/ab-lcp-dispersals/outputs/" "LIST_outputs_path_" origin "_" time-period "_" desert-cost "_" levy_mu "_" patch-size-km "_" stamp1 " " limit-ticks ".csv")
+    set file-1 (word "/home/ec3307/ab-lcp-dispersals/outputs/" "outputs_path_" origin "_" time-period "_" levy_mu "_" patch-size-km "_" stamp1 ".csv")
+    set file-2 (word "/home/ec3307/ab-lcp-dispersals/outputs/" "LIST_outputs_path_" origin "_" time-period "_" levy_mu "_" patch-size-km "_" stamp1 " " limit-ticks ".csv")
     output-print file-1
     output-print file-2
 
@@ -550,10 +490,10 @@ limit-ticks
 Number
 
 CHOOSER
-21
-491
-113
-536
+135
+487
+227
+532
 time-period
 time-period
 "MIS3" "MIS4-big-Caspian" "MIS4-small-Caspian" "MIS5a" "MIS5b-high-water" "MIS5b-low-water" "MIS5c" "MIS5d-high-water" "MIS5d-low-water" "MIS5e" "MIS6-big-Kara" "MIS6-small-Kara"
@@ -579,16 +519,6 @@ face-east?
 1
 1
 -1000
-
-CHOOSER
-124
-491
-216
-536
-desert-cost
-desert-cost
-"20%" "10%"
-1
 
 SWITCH
 124
@@ -986,7 +916,7 @@ NetLogo 6.3.0
 @#$#@#$#@
 @#$#@#$#@
 <experiments>
-  <experiment name="MIS3_levy-walks" repetitions="1" runMetricsEveryStep="false">
+  <experiment name="MIS3_levy-walks" repetitions="5" runMetricsEveryStep="false">
     <setup>setup</setup>
     <go>go</go>
     <enumeratedValueSet variable="output?">
@@ -1013,16 +943,11 @@ NetLogo 6.3.0
     <enumeratedValueSet variable="time-period">
       <value value="&quot;MIS3&quot;"/>
     </enumeratedValueSet>
-    <enumeratedValueSet variable="desert-cost">
-      <value value="&quot;20%&quot;"/>
-      <value value="&quot;10%&quot;"/>
-    </enumeratedValueSet>
     <enumeratedValueSet variable="levy_mu">
       <value value="1"/>
-      <value value="2"/>
     </enumeratedValueSet>
   </experiment>
-  <experiment name="MIS6sk_levy-walks" repetitions="1" runMetricsEveryStep="false">
+  <experiment name="MIS6sk_levy-walks" repetitions="5" runMetricsEveryStep="false">
     <setup>setup</setup>
     <go>go</go>
     <enumeratedValueSet variable="output?">
@@ -1049,16 +974,11 @@ NetLogo 6.3.0
     <enumeratedValueSet variable="time-period">
       <value value="&quot;MIS6-small-Kara&quot;"/>
     </enumeratedValueSet>
-    <enumeratedValueSet variable="desert-cost">
-      <value value="&quot;20%&quot;"/>
-      <value value="&quot;10%&quot;"/>
-    </enumeratedValueSet>
     <enumeratedValueSet variable="levy_mu">
       <value value="1"/>
-      <value value="2"/>
     </enumeratedValueSet>
   </experiment>
-  <experiment name="MIS6bk_levy-walks" repetitions="1" runMetricsEveryStep="false">
+  <experiment name="MIS6bk_levy-walks" repetitions="5" runMetricsEveryStep="false">
     <setup>setup</setup>
     <go>go</go>
     <enumeratedValueSet variable="output?">
@@ -1085,16 +1005,11 @@ NetLogo 6.3.0
     <enumeratedValueSet variable="time-period">
       <value value="&quot;MIS6-big-Kara&quot;"/>
     </enumeratedValueSet>
-    <enumeratedValueSet variable="desert-cost">
-      <value value="&quot;20%&quot;"/>
-      <value value="&quot;10%&quot;"/>
-    </enumeratedValueSet>
     <enumeratedValueSet variable="levy_mu">
       <value value="1"/>
-      <value value="2"/>
     </enumeratedValueSet>
   </experiment>
-  <experiment name="MIS4sc_levy-walks" repetitions="1" runMetricsEveryStep="false">
+  <experiment name="MIS4sc_levy-walks" repetitions="5" runMetricsEveryStep="false">
     <setup>setup</setup>
     <go>go</go>
     <enumeratedValueSet variable="output?">
@@ -1121,16 +1036,11 @@ NetLogo 6.3.0
     <enumeratedValueSet variable="time-period">
       <value value="&quot;MIS4-small-Caspian&quot;"/>
     </enumeratedValueSet>
-    <enumeratedValueSet variable="desert-cost">
-      <value value="&quot;20%&quot;"/>
-      <value value="&quot;10%&quot;"/>
-    </enumeratedValueSet>
     <enumeratedValueSet variable="levy_mu">
       <value value="1"/>
-      <value value="2"/>
     </enumeratedValueSet>
   </experiment>
-  <experiment name="MIS4bc_levy-walks" repetitions="1" runMetricsEveryStep="false">
+  <experiment name="MIS4bc_levy-walks" repetitions="5" runMetricsEveryStep="false">
     <setup>setup</setup>
     <go>go</go>
     <enumeratedValueSet variable="output?">
@@ -1157,16 +1067,11 @@ NetLogo 6.3.0
     <enumeratedValueSet variable="time-period">
       <value value="&quot;MIS4-big-Caspian&quot;"/>
     </enumeratedValueSet>
-    <enumeratedValueSet variable="desert-cost">
-      <value value="&quot;20%&quot;"/>
-      <value value="&quot;10%&quot;"/>
-    </enumeratedValueSet>
     <enumeratedValueSet variable="levy_mu">
       <value value="1"/>
-      <value value="2"/>
     </enumeratedValueSet>
   </experiment>
-  <experiment name="MIS5a_levy-walks" repetitions="1" runMetricsEveryStep="false">
+  <experiment name="MIS5a_levy-walks" repetitions="5" runMetricsEveryStep="false">
     <setup>setup</setup>
     <go>go</go>
     <enumeratedValueSet variable="output?">
@@ -1193,16 +1098,11 @@ NetLogo 6.3.0
     <enumeratedValueSet variable="time-period">
       <value value="&quot;MIS5a&quot;"/>
     </enumeratedValueSet>
-    <enumeratedValueSet variable="desert-cost">
-      <value value="&quot;20%&quot;"/>
-      <value value="&quot;10%&quot;"/>
-    </enumeratedValueSet>
     <enumeratedValueSet variable="levy_mu">
       <value value="1"/>
-      <value value="2"/>
     </enumeratedValueSet>
   </experiment>
-  <experiment name="MIS5bh_levy-walks" repetitions="1" runMetricsEveryStep="false">
+  <experiment name="MIS5bh_levy-walks" repetitions="5" runMetricsEveryStep="false">
     <setup>setup</setup>
     <go>go</go>
     <enumeratedValueSet variable="output?">
@@ -1229,16 +1129,11 @@ NetLogo 6.3.0
     <enumeratedValueSet variable="time-period">
       <value value="&quot;MIS5b-high-water&quot;"/>
     </enumeratedValueSet>
-    <enumeratedValueSet variable="desert-cost">
-      <value value="&quot;20%&quot;"/>
-      <value value="&quot;10%&quot;"/>
-    </enumeratedValueSet>
     <enumeratedValueSet variable="levy_mu">
       <value value="1"/>
-      <value value="2"/>
     </enumeratedValueSet>
   </experiment>
-  <experiment name="MIS5bl_levy-walks" repetitions="1" runMetricsEveryStep="false">
+  <experiment name="MIS5bl_levy-walks" repetitions="5" runMetricsEveryStep="false">
     <setup>setup</setup>
     <go>go</go>
     <enumeratedValueSet variable="output?">
@@ -1265,16 +1160,11 @@ NetLogo 6.3.0
     <enumeratedValueSet variable="time-period">
       <value value="&quot;MIS5b-low-water&quot;"/>
     </enumeratedValueSet>
-    <enumeratedValueSet variable="desert-cost">
-      <value value="&quot;20%&quot;"/>
-      <value value="&quot;10%&quot;"/>
-    </enumeratedValueSet>
     <enumeratedValueSet variable="levy_mu">
       <value value="1"/>
-      <value value="2"/>
     </enumeratedValueSet>
   </experiment>
-  <experiment name="MIS5e_levy-walks" repetitions="1" runMetricsEveryStep="false">
+  <experiment name="MIS5e_levy-walks" repetitions="5" runMetricsEveryStep="false">
     <setup>setup</setup>
     <go>go</go>
     <enumeratedValueSet variable="output?">
@@ -1301,16 +1191,11 @@ NetLogo 6.3.0
     <enumeratedValueSet variable="time-period">
       <value value="&quot;MIS5e&quot;"/>
     </enumeratedValueSet>
-    <enumeratedValueSet variable="desert-cost">
-      <value value="&quot;20%&quot;"/>
-      <value value="&quot;10%&quot;"/>
-    </enumeratedValueSet>
     <enumeratedValueSet variable="levy_mu">
       <value value="1"/>
-      <value value="2"/>
     </enumeratedValueSet>
   </experiment>
-  <experiment name="MIS5dh_levy-walks" repetitions="1" runMetricsEveryStep="false">
+  <experiment name="MIS5dh_levy-walks" repetitions="5" runMetricsEveryStep="false">
     <setup>setup</setup>
     <go>go</go>
     <enumeratedValueSet variable="output?">
@@ -1337,16 +1222,11 @@ NetLogo 6.3.0
     <enumeratedValueSet variable="time-period">
       <value value="&quot;MIS5d-high-water&quot;"/>
     </enumeratedValueSet>
-    <enumeratedValueSet variable="desert-cost">
-      <value value="&quot;20%&quot;"/>
-      <value value="&quot;10%&quot;"/>
-    </enumeratedValueSet>
     <enumeratedValueSet variable="levy_mu">
       <value value="1"/>
-      <value value="2"/>
     </enumeratedValueSet>
   </experiment>
-  <experiment name="MIS5dl_levy-walks" repetitions="1" runMetricsEveryStep="false">
+  <experiment name="MIS5dl_levy-walks" repetitions="5" runMetricsEveryStep="false">
     <setup>setup</setup>
     <go>go</go>
     <enumeratedValueSet variable="output?">
@@ -1373,16 +1253,11 @@ NetLogo 6.3.0
     <enumeratedValueSet variable="time-period">
       <value value="&quot;MIS5d-low-water&quot;"/>
     </enumeratedValueSet>
-    <enumeratedValueSet variable="desert-cost">
-      <value value="&quot;20%&quot;"/>
-      <value value="&quot;10%&quot;"/>
-    </enumeratedValueSet>
     <enumeratedValueSet variable="levy_mu">
       <value value="1"/>
-      <value value="2"/>
     </enumeratedValueSet>
   </experiment>
-  <experiment name="MIS5c_levy-walks" repetitions="1" runMetricsEveryStep="false">
+  <experiment name="MIS5c_levy-walks" repetitions="5" runMetricsEveryStep="false">
     <setup>setup</setup>
     <go>go</go>
     <enumeratedValueSet variable="output?">
@@ -1409,13 +1284,8 @@ NetLogo 6.3.0
     <enumeratedValueSet variable="time-period">
       <value value="&quot;MIS5c&quot;"/>
     </enumeratedValueSet>
-    <enumeratedValueSet variable="desert-cost">
-      <value value="&quot;20%&quot;"/>
-      <value value="&quot;10%&quot;"/>
-    </enumeratedValueSet>
     <enumeratedValueSet variable="levy_mu">
       <value value="1"/>
-      <value value="2"/>
     </enumeratedValueSet>
   </experiment>
   <experiment name="test_MIS3_levy-walks" repetitions="1" runMetricsEveryStep="false">
@@ -1444,9 +1314,6 @@ NetLogo 6.3.0
     </enumeratedValueSet>
     <enumeratedValueSet variable="time-period">
       <value value="&quot;MIS3&quot;"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="desert-cost">
-      <value value="&quot;20%&quot;"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="levy_mu">
       <value value="1"/>

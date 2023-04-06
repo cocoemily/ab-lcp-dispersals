@@ -11,3 +11,5 @@ LS_cost(0) #0 degrees
 LS_cost(0.2679) #15 degrees
 
 (LS_cost(0.2679) - LS_cost(0))/LS_cost(0.2679)
+
+

@@ -126,13 +126,13 @@ The following process was done for each of the Marine Isotope Stages and water a
 
 -   $if( ice < 0, -999999, Cost'(s))$
 
-4.  using the Raster Calculator, reclassify the result of step #3 with the known ocean, known lake, impassable rivers rasters, and flooded rivers
+3.  using the Raster Calculator, reclassify the result of step #2 with the known ocean, known lake, impassable rivers rasters, and flooded rivers
 
 -   $if (oceans = 1 \text{ OR } lakes = 1 \text{ OR } rivers = 1 \text{ OR } ... , -999999, Cost''(s))$
 -   since each flooded river is an individual raster, those will be included as separate conditions in the if statement
     -   for example, \$... \text{ OR } aral = 1 \text{ OR } ... \$
 
-5.  using the Raster Calculator, add in the river crossing multipler to the raster from step #4
+5.  using the Raster Calculator, add in the river crossing multipler to the raster from step #3
 
 -   for this study, we increased the cost of river cells by 74%
 -   $if(rivers = 1 \text{ AND } Cost'''(s) != -999999, Cost'''(s) * 1.74, Cost'''(s))$

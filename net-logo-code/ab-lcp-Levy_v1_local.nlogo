@@ -50,107 +50,47 @@ to setup
   reset-ticks
 
   if (time-period = "MIS3" ) [
-    if (desert-cost = "20%") [
-      set basemap gis:load-dataset "/Users/emilycoco/Desktop/ab-lcp-dispersals/cost-rasters/model-input-costs/LS-deserts-20/MIS3.asc"
-    ]
-    if (desert-cost = "10%") [
-      set basemap gis:load-dataset "/Users/emilycoco/Desktop/ab-lcp-dispersals/cost-rasters/model-input-costs/LS-deserts-10/MIS3.asc"
-    ]
+      set basemap gis:load-dataset "/Users/emilycoco/Desktop/ab-lcp-dispersals/cost-rasters/model-input-costs/ascii-files/MIS3.asc"
   ]
   if (time-period = "MIS4-big-Caspian") [
-    if (desert-cost = "20%") [
-      set basemap gis:load-dataset "/Users/emilycoco/Desktop/ab-lcp-dispersals/cost-rasters/model-input-costs/LS-deserts-20/MIS4_bigCaspian.asc"
-    ]
-    if (desert-cost = "10%") [
-      set basemap gis:load-dataset "/Users/emilycoco/Desktop/ab-lcp-dispersals/cost-rasters/model-input-costs/LS-deserts-10/MIS4_bigCaspian.asc"
-    ]
+
   ]
   if (time-period = "MIS4-small-Caspian") [
-    if (desert-cost = "20%") [
-      set basemap gis:load-dataset "/Users/emilycoco/Desktop/ab-lcp-dispersals/cost-rasters/model-input-costs/LS-deserts-20/MIS4_smallCaspian.asc"
-    ]
-    if (desert-cost = "10%") [
-      set basemap gis:load-dataset "/Users/emilycoco/Desktop/ab-lcp-dispersals/cost-rasters/model-input-costs/LS-deserts-10/MIS4_smallCaspian.asc"
-    ]
+
   ]
   if (time-period = "MIS5a") [
-    if (desert-cost = "20%") [
-      set basemap gis:load-dataset "/Users/emilycoco/Desktop/ab-lcp-dispersals/cost-rasters/model-input-costs/LS-deserts-20/MIS5a.asc"
-    ]
-    if (desert-cost = "10%") [
-      set basemap gis:load-dataset "/Users/emilycoco/Desktop/ab-lcp-dispersals/cost-rasters/model-input-costs/LS-deserts-10/MIS5a.asc"
-    ]
+
   ]
   if (time-period = "MIS5b-high-water") [
-    if (desert-cost = "20%") [
-      set basemap gis:load-dataset "/Users/emilycoco/Desktop/ab-lcp-dispersals/cost-rasters/model-input-costs/LS-deserts-20/MIS5b_high.asc"
-    ]
-    if (desert-cost = "10%") [
-      set basemap gis:load-dataset "/Users/emilycoco/Desktop/ab-lcp-dispersals/cost-rasters/model-input-costs/LS-deserts-10/MIS5b_high.asc"
-    ]
+
   ]
   if (time-period = "MIS5b-low-water") [
-    if (desert-cost = "20%") [
-      set basemap gis:load-dataset "/Users/emilycoco/Desktop/ab-lcp-dispersals/cost-rasters/model-input-costs/LS-deserts-20/MIS5b_low.asc"
-    ]
-    if (desert-cost = "10%") [
-      set basemap gis:load-dataset "/Users/emilycoco/Desktop/ab-lcp-dispersals/cost-rasters/model-input-costs/LS-deserts-10/MIS5b_low.asc"
-    ]
+
   ]
   if (time-period = "MIS5c") [
-    if (desert-cost = "20%") [
-      set basemap gis:load-dataset "/Users/emilycoco/Desktop/ab-lcp-dispersals/cost-rasters/model-input-costs/LS-deserts-20/MIS5c.asc"
-    ]
-    if (desert-cost = "10%") [
-      set basemap gis:load-dataset "/Users/emilycoco/Desktop/ab-lcp-dispersals/cost-rasters/model-input-costs/LS-deserts-10/MIS5c.asc"
-    ]
+
   ]
   if (time-period = "MIS5d-high-water") [
-    if (desert-cost = "20%") [
-      set basemap gis:load-dataset "/Users/emilycoco/Desktop/ab-lcp-dispersals/cost-rasters/model-input-costs/LS-deserts-20/MIS5d_high.asc"
-    ]
-    if (desert-cost = "10%") [
-      set basemap gis:load-dataset "/Users/emilycoco/Desktop/ab-lcp-dispersals/cost-rasters/model-input-costs/LS-deserts-10/MIS5d_high.asc"
-    ]
+
   ]
   if (time-period = "MIS5d-low-water") [
-    if (desert-cost = "20%") [
-      set basemap gis:load-dataset "/Users/emilycoco/Desktop/ab-lcp-dispersals/cost-rasters/model-input-costs/LS-deserts-20/MIS5d_low.asc"
-    ]
-    if (desert-cost = "10%") [
-      set basemap gis:load-dataset "/Users/emilycoco/Desktop/ab-lcp-dispersals/cost-rasters/model-input-costs/LS-deserts-10/MIS5d_low.asc"
-    ]
+
   ]
   if (time-period = "MIS5e") [
-    if (desert-cost = "20%") [
-      set basemap gis:load-dataset "/Users/emilycoco/Desktop/ab-lcp-dispersals/cost-rasters/model-input-costs/LS-deserts-20/MIS5e.asc"
-    ]
-    if (desert-cost = "10%") [
-      set basemap gis:load-dataset "/Users/emilycoco/Desktop/ab-lcp-dispersals/cost-rasters/model-input-costs/LS-deserts-10/MIS5e.asc"
-    ]
+
   ]
   if (time-period = "MIS6-big-Kara") [
-    if (desert-cost = "20%") [
-      set basemap gis:load-dataset "/Users/emilycoco/Desktop/ab-lcp-dispersals/cost-rasters/model-input-costs/LS-deserts-20/MIS6_bigKara.asc"
-    ]
-    if (desert-cost = "10%") [
-      set basemap gis:load-dataset "/Users/emilycoco/Desktop/ab-lcp-dispersals/cost-rasters/model-input-costs/LS-deserts-10/MIS6_bigKara.asc"
-    ]
+
   ]
   if (time-period = "MIS6-small-Kara") [
-    if (desert-cost = "20%") [
-      set basemap gis:load-dataset "/Users/emilycoco/Desktop/ab-lcp-dispersals/cost-rasters/model-input-costs/LS-deserts-20/MIS6_smallKara.asc"
-    ]
-    if (desert-cost = "10%") [
-      set basemap gis:load-dataset "/Users/emilycoco/Desktop/ab-lcp-dispersals/cost-rasters/model-input-costs/LS-deserts-10/MIS6_smallKara.asc"
-    ]
+
   ]
 
   ;; let trans-res patch-size-km / map-resolution-km ;;need to figure out these parameters for each basemap
   ;;set patch-size-km 1
   let trans-res patch-size-km / map-resolution-km
   resize-world 0 (( gis:width-of basemap - 1 ) / trans-res ) 0 (( gis:height-of basemap - 1 ) / trans-res )
-  set-patch-size ( 0.05 * patch-size-km )                                   ;; This roughly keeps the size of the world window manageable
+  set-patch-size ( 0.01 * patch-size-km )                                   ;; This roughly keeps the size of the world window manageable
   gis:set-world-envelope gis:envelope-of basemap                         ;; This formats the window to the right dimensions based on the DEM
   gis:set-sampling-method basemap "BICUBIC_2"
 
@@ -181,13 +121,13 @@ to setup
   ;;set start-area gis:load-dataset "/Users/emilycoco/Desktop/ab-lcp-dispersals/start-end-locations/start-Caucacus.shp"
   set start-area gis:load-dataset "/Users/emilycoco/Desktop/ab-lcp-dispersals/start-end-locations/start-Azov.shp"
   gis:set-drawing-color green
-  gis:draw start-area 2
+  gis:draw start-area 1
   let start-patches patches gis:intersecting start-area
   set start-patches start-patches with [ impassable = false ]
 
   set end-area gis:load-dataset "/Users/emilycoco/Desktop/ab-lcp-dispersals/start-end-locations/end-Altai.shp"
   gis:set-drawing-color red
-  gis:draw end-area 2
+  gis:draw end-area 1
   let end-patches patches gis:intersecting end-area
 
   let list-start-grid sort start-patches
@@ -200,8 +140,8 @@ to setup
   if output? [
     set stamp1 random-float 1
 
-    set file-1 (word "/Users/emilycoco/Desktop/ab-lcp-dispersals/outputs/" "outputs_path_" origin "_" time-period "_" desert-cost "_" levy_mu "_" patch-size-km "_" stamp1 ".csv")
-    set file-2 (word "/Users/emilycoco/Desktop/ab-lcp-dispersals/outputs/" "LIST_outputs_path_" origin "_" time-period "_" desert-cost "_" levy_mu "_" patch-size-km "_" stamp1 ".csv")
+    set file-1 (word "/Users/emilycoco/Desktop/ab-lcp-dispersals/outputs/" "outputs_path_" origin "_" time-period "_" levy_mu "_" patch-size-km "_" stamp1 ".csv")
+    set file-2 (word "/Users/emilycoco/Desktop/ab-lcp-dispersals/outputs/" "LIST_outputs_path_" origin "_" time-period "_" levy_mu "_" patch-size-km "_" stamp1 ".csv")
     output-print file-1
     output-print file-2
 
@@ -219,9 +159,9 @@ to stp-hikers                                                        ;; Patch pr
 
   sprout-hikers 1
   [ set color violet
-    set size 5
+    set size 1
     set shape "person"
-    pen-down
+    ;pen-down
     set hiker-n who                                                  ;; Records the hiker's ID number as a global variable
     set winner-patch patch-here                                      ;; Allows the hiker to start walking as soon as the run starts
     set origin patch-here
@@ -236,7 +176,7 @@ to stp-goal                                                          ;; Patch pr
 
   sprout-targets 1
   [ set color blue
-    set size 5
+    set size 1
     set shape "house"
     set goal patch-here
   ]
@@ -422,11 +362,11 @@ end
 GRAPHICS-WINDOW
 301
 10
-735
-463
+1157
+904
 -1
 -1
-0.1
+0.02
 1
 10
 1
@@ -549,16 +489,16 @@ INPUTBOX
 242
 93
 limit-ticks
-7500.0
+2000.0
 1
 0
 Number
 
 CHOOSER
-21
-491
-113
-536
+136
+489
+228
+534
 time-period
 time-period
 "MIS3" "MIS4-big-Caspian" "MIS4-small-Caspian" "MIS5a" "MIS5b-high-water" "MIS5b-low-water" "MIS5c" "MIS5d-high-water" "MIS5d-low-water" "MIS5e" "MIS6-big-Kara" "MIS6-small-Kara"
@@ -584,16 +524,6 @@ face-east?
 1
 1
 -1000
-
-CHOOSER
-124
-491
-216
-536
-desert-cost
-desert-cost
-"20%" "10%"
-0
 
 SWITCH
 124

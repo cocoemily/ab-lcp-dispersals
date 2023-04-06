@@ -11,7 +11,8 @@ cost.y <- dim(costRast)[1]
 
 # Assign the folder in which all the individual simulation output files are located 
 # my_dir = paste0(getwd(),"/outputs/Azov")
-my_dir = paste0(getwd(),"/outputs/Caucasus")
+# my_dir = paste0(getwd(),"/outputs/Caucasus")
+my_dir = paste0(getwd(),"/outputs")
 
 # Create a list of all the file names in the identified folder
 all_files = list.files(path = my_dir, all.files = TRUE, full.names = TRUE, pattern = "\\.csv$")
@@ -38,67 +39,62 @@ timeperiods = list("MIS3" = MIS3,
                    "MIS6s" = MIS6s, "MIS6b" = MIS6b)
 names(timeperiods)
 
-dcosts = c("10%", "20%")
-
 for(t in 1:length(timeperiods)) {
   period = names(timeperiods)[[t]]
   files = timeperiods[[t]]
   files = files[str_detect(files, "LIST")]
   
-  for(d in dcosts) {
-    newfiles = files[str_detect(files, d)]
-    if(length(newfiles) != 0) {
-      list_size = length(newfiles)
+  if(length(files) != 0) {
+    list_size = length(files)
+    
+    # Create a temporary dataframe that will take on the collated coordinate and popularity values 
+    dat.final = data.frame(x=double(0), y=double(0), value=double(0))
+    
+    # Create a temporary dataframe that will help create raster 
+    routes = data.frame(x=double(0), y=double(0), value=double(0))
+    
+    # Iterate over all the files located in the given folder 
+    for(l in 1:list_size[1]){
+      # Reformat the name of the files so that it can be used later 
+      file.name = strsplit(files[l],"/")
+      file.name = unlist(file.name)
+      name.size = length(file.name)
+      new.file = file.name[name.size]
       
-      # Create a temporary dataframe that will take on the collated coordinate and popularity values 
-      dat.final = data.frame(x=double(0), y=double(0), value=double(0))
+      # Separate out the components of the file name 
+      filename.split = strsplit(new.file,"_") 
+      filename.split = unlist(filename.split)
+      origin = gsub("\\)|\\(", "", filename.split[4]) # Origin of the run 
+      #goal = gsub("\\)|\\(", "", filename.split[5])
       
-      # Create a temporary dataframe that will help create raster 
-      routes = data.frame(x=double(0), y=double(0), value=double(0))
+      patch_res_km = as.numeric(filename.split[7])
+      #desert_cost = filename.split[6]
+      time_period = filename.split[5]
       
-      # Iterate over all the files located in the given folder 
-      for(l in 1:list_size[1]){
-        # Reformat the name of the files so that it can be used later 
-        file.name = strsplit(newfiles[l],"/")
-        file.name = unlist(file.name)
-        name.size = length(file.name)
-        new.file = file.name[name.size]
-        
-        # Separate out the components of the file name 
-        filename.split = strsplit(new.file,"_") 
-        filename.split = unlist(filename.split)
-        origin = gsub("\\)|\\(", "", filename.split[4]) # Origin of the run 
-        #goal = gsub("\\)|\\(", "", filename.split[5])
-        
-        patch_res_km = as.numeric(filename.split[8])
-        desert_cost = filename.split[6]
-        time_period = filename.split[5]
-        
-        # Import the data without headers
-        ds <- read.table(paste(my_dir, "/", new.file,sep=""), fill = TRUE, skip = 19, stringsAsFactors = FALSE, sep = ",")
-        # Keep only the coordinates of the paths 
-        #ds <- ds[,c(2,6)]
-        # Change the names and reduce the floats coordinates to integers 
-        colnames(ds) <- c("x","y")
-        ds$x <- as.integer(ds$x)
-        ds$y <- as.integer(ds$y)
-        
-        # For each path, each cell is walked on only once 
-        ds$value <- 1
-        # If this is not an empty dataset 
-        if(nrow(ds) > 1) {
-          # Add this new path to the big dat dataset 
-          routes <- rbind(routes,ds)
-          # Then group by coordinates and sum up the number of times each cell is walked on
-          route.group <- group_by(routes, x, y)
-          b <- dplyr::summarize(route.group, value = sum(value)) 
-          routes <- as.data.frame(b)
-          # Assign the dataset to the global environment so it can be used outside the loop.
-          assign('routes',routes, envir = .GlobalEnv) 
-          assign('desert_cost', desert_cost, envir = .GlobalEnv)
-        }
-        
+      # Import the data without headers
+      ds <- read.table(paste(my_dir, "/", new.file,sep=""), fill = TRUE, skip = 19, stringsAsFactors = FALSE, sep = ",")
+      # Keep only the coordinates of the paths 
+      #ds <- ds[,c(2,6)]
+      # Change the names and reduce the floats coordinates to integers 
+      colnames(ds) <- c("x","y")
+      ds$x <- as.integer(ds$x)
+      ds$y <- as.integer(ds$y)
+      
+      # For each path, each cell is walked on only once 
+      ds$value <- 1
+      # If this is not an empty dataset 
+      if(nrow(ds) > 1) {
+        # Add this new path to the big dat dataset 
+        routes <- rbind(routes,ds)
+        # Then group by coordinates and sum up the number of times each cell is walked on
+        route.group <- group_by(routes, x, y)
+        b <- dplyr::summarize(route.group, value = sum(value)) 
+        routes <- as.data.frame(b)
+        # Assign the dataset to the global environment so it can be used outside the loop.
+        assign('routes',routes, envir = .GlobalEnv) 
+        #assign('desert_cost', desert_cost, envir = .GlobalEnv)
       }
+      
       ################################################ ## USING ROUTES TO IDENTIFY MOST POPULAR PATH ## ################################################ 
       print("creating route") # Show progress
       dat <- routes
@@ -128,7 +124,7 @@ for(t in 1:length(timeperiods)) {
       crs(r.sub) = CRS("+init=epsg:3857")
       #plot(r.sub)
       #plot(costRast)
-      writeRaster(r.sub, paste0(getwd(), "/routes/", period, "_", desert_cost, "_routes.asc"), overwrite = T)
+      writeRaster(r.sub, paste0(getwd(), "/routes/", period, "_routes.asc"), overwrite = T)
       
     }
   }
