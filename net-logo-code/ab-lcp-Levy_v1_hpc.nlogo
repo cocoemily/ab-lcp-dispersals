@@ -144,7 +144,7 @@ to setup
     set stamp1 random-float 1
 
     set file-1 (word "/home/ec3307/ab-lcp-dispersals/outputs/" "outputs_path_" origin "_" time-period "_" levy_mu "_" patch-size-km "_" stamp1 ".csv")
-    set file-2 (word "/home/ec3307/ab-lcp-dispersals/outputs/" "LIST_outputs_path_" origin "_" time-period "_" levy_mu "_" patch-size-km "_" stamp1 " " limit-ticks ".csv")
+    set file-2 (word "/home/ec3307/ab-lcp-dispersals/outputs/" "LIST_outputs_path_" origin "_" time-period "_" levy_mu "_" patch-size-km "_" stamp1 ".csv")
     output-print file-1
     output-print file-2
 
