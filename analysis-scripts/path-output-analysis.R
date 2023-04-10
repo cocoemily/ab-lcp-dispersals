@@ -94,39 +94,39 @@ for(t in 1:length(timeperiods)) {
         assign('routes',routes, envir = .GlobalEnv) 
         #assign('desert_cost', desert_cost, envir = .GlobalEnv)
       }
-      
-      ################################################ ## USING ROUTES TO IDENTIFY MOST POPULAR PATH ## ################################################ 
-      print("creating route") # Show progress
-      dat <- routes
-      # Change the name of the dat file because we will add new columns 
-      colnames(dat) <- c("long","lat","value")
-      # Ensure that the x and y columns are numeric 
-      dat$x <- as.numeric(as.character(dat[,1])) 
-      dat$y <- as.numeric(as.character(dat[,2]))
-      # Change the order of the dat file to have x,y,value. 
-      dat <- dat[,c(4,5,3)]
-      # Transform the times walked on into a 0-1 value (divide by the max times walked) 
-      dat$value <- dat$value / max(dat$value)
-      # Create the final dataset and remove the dat dataset to avoid errors in subsequent loop iterations 
-      dat.final <- dat
-      #rm(dat)
-      
-      # Transform into a raster with the same coordinates as the imported DEM
-      # if 1:1 ratio on DEM to patches
-      #dat.final$x <- (dat.final$x * xres(costRast) ) + xmin(costRast) + (xres(costRast) / 2) # xmin extent of the original map 
-      #dat.final$y <- (dat.final$y * yres(costRast) ) + ymin(costRast) + (yres(costRast) / 2) # ymin extent of the original map
-      dat.final$x <- (dat.final$x * xres(costRast) * patch_res_km ) + xmin(costRast) + (xres(costRast) * patch_res_km / 2) # xmin extent of the original map 
-      dat.final$y <- (dat.final$y * yres(costRast) * patch_res_km ) + ymin(costRast) + (yres(costRast) * patch_res_km / 2) # ymin extent of the original map
-      
-      # Create the raster
-      r.sub <- rasterFromXYZ(dat.final)
-      #crs(r.sub) = crs
-      crs(r.sub) = CRS("+init=epsg:3857")
-      #plot(r.sub)
-      #plot(costRast)
-      writeRaster(r.sub, paste0(getwd(), "/routes/", period, "_routes.asc"), overwrite = T)
-      
     }
+    
+    ################################################ ## USING ROUTES TO IDENTIFY MOST POPULAR PATH ## ################################################ 
+    print("creating route") # Show progress
+    dat <- routes
+    # Change the name of the dat file because we will add new columns 
+    colnames(dat) <- c("long","lat","value")
+    # Ensure that the x and y columns are numeric 
+    dat$x <- as.numeric(as.character(dat[,1])) 
+    dat$y <- as.numeric(as.character(dat[,2]))
+    # Change the order of the dat file to have x,y,value. 
+    dat <- dat[,c(4,5,3)]
+    # Transform the times walked on into a 0-1 value (divide by the max times walked) 
+    dat$value <- dat$value / max(dat$value)
+    # Create the final dataset and remove the dat dataset to avoid errors in subsequent loop iterations 
+    dat.final <- dat
+    #rm(dat)
+    
+    # Transform into a raster with the same coordinates as the imported DEM
+    # if 1:1 ratio on DEM to patches
+    #dat.final$x <- (dat.final$x * xres(costRast) ) + xmin(costRast) + (xres(costRast) / 2) # xmin extent of the original map 
+    #dat.final$y <- (dat.final$y * yres(costRast) ) + ymin(costRast) + (yres(costRast) / 2) # ymin extent of the original map
+    dat.final$x <- (dat.final$x * xres(costRast) * patch_res_km ) + xmin(costRast) + (xres(costRast) * patch_res_km / 2) # xmin extent of the original map 
+    dat.final$y <- (dat.final$y * yres(costRast) * patch_res_km ) + ymin(costRast) + (yres(costRast) * patch_res_km / 2) # ymin extent of the original map
+    
+    # Create the raster
+    r.sub <- rasterFromXYZ(dat.final)
+    #crs(r.sub) = crs
+    crs(r.sub) = CRS("+init=epsg:3857")
+    #plot(r.sub)
+    #plot(costRast)
+    writeRaster(r.sub, paste0(getwd(), "/routes/", period, "_routes.asc"), overwrite = T)
+    
   }
 }
 
