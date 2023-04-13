@@ -916,7 +916,7 @@ NetLogo 6.3.0
 @#$#@#$#@
 @#$#@#$#@
 <experiments>
-  <experiment name="MIS3_levy-walks" repetitions="2" runMetricsEveryStep="false">
+  <experiment name="MIS3_levy-walks" repetitions="1" runMetricsEveryStep="false">
     <setup>setup</setup>
     <go>go</go>
     <enumeratedValueSet variable="output?">
@@ -926,7 +926,7 @@ NetLogo 6.3.0
       <value value="true"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="limit-ticks">
-      <value value="20000"/>
+      <value value="50000"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="face-east?">
       <value value="false"/>
@@ -947,7 +947,7 @@ NetLogo 6.3.0
       <value value="1"/>
     </enumeratedValueSet>
   </experiment>
-  <experiment name="MIS6sk_levy-walks" repetitions="2" runMetricsEveryStep="false">
+  <experiment name="MIS6sk_levy-walks" repetitions="1" runMetricsEveryStep="false">
     <setup>setup</setup>
     <go>go</go>
     <enumeratedValueSet variable="output?">
@@ -957,7 +957,7 @@ NetLogo 6.3.0
       <value value="true"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="limit-ticks">
-      <value value="20000"/>
+      <value value="50000"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="face-east?">
       <value value="false"/>
@@ -978,7 +978,7 @@ NetLogo 6.3.0
       <value value="1"/>
     </enumeratedValueSet>
   </experiment>
-  <experiment name="MIS6bk_levy-walks" repetitions="2" runMetricsEveryStep="false">
+  <experiment name="MIS6bk_levy-walks" repetitions="1" runMetricsEveryStep="false">
     <setup>setup</setup>
     <go>go</go>
     <enumeratedValueSet variable="output?">
@@ -988,7 +988,7 @@ NetLogo 6.3.0
       <value value="true"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="limit-ticks">
-      <value value="20000"/>
+      <value value="50000"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="face-east?">
       <value value="false"/>
@@ -1009,7 +1009,7 @@ NetLogo 6.3.0
       <value value="1"/>
     </enumeratedValueSet>
   </experiment>
-  <experiment name="MIS4sc_levy-walks" repetitions="2" runMetricsEveryStep="false">
+  <experiment name="MIS4sc_levy-walks" repetitions="1" runMetricsEveryStep="false">
     <setup>setup</setup>
     <go>go</go>
     <enumeratedValueSet variable="output?">
@@ -1019,7 +1019,7 @@ NetLogo 6.3.0
       <value value="true"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="limit-ticks">
-      <value value="20000"/>
+      <value value="50000"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="face-east?">
       <value value="false"/>
@@ -1040,7 +1040,7 @@ NetLogo 6.3.0
       <value value="1"/>
     </enumeratedValueSet>
   </experiment>
-  <experiment name="MIS4bc_levy-walks" repetitions="2" runMetricsEveryStep="false">
+  <experiment name="MIS4bc_levy-walks" repetitions="1" runMetricsEveryStep="false">
     <setup>setup</setup>
     <go>go</go>
     <enumeratedValueSet variable="output?">
@@ -1050,7 +1050,7 @@ NetLogo 6.3.0
       <value value="true"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="limit-ticks">
-      <value value="20000"/>
+      <value value="50000"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="face-east?">
       <value value="false"/>
@@ -1071,7 +1071,7 @@ NetLogo 6.3.0
       <value value="1"/>
     </enumeratedValueSet>
   </experiment>
-  <experiment name="MIS5a_levy-walks" repetitions="2" runMetricsEveryStep="false">
+  <experiment name="MIS5a_levy-walks" repetitions="1" runMetricsEveryStep="false">
     <setup>setup</setup>
     <go>go</go>
     <enumeratedValueSet variable="output?">
@@ -1081,7 +1081,7 @@ NetLogo 6.3.0
       <value value="true"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="limit-ticks">
-      <value value="20000"/>
+      <value value="50000"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="face-east?">
       <value value="false"/>
@@ -1102,7 +1102,7 @@ NetLogo 6.3.0
       <value value="1"/>
     </enumeratedValueSet>
   </experiment>
-  <experiment name="MIS5bh_levy-walks" repetitions="2" runMetricsEveryStep="false">
+  <experiment name="MIS5bh_levy-walks" repetitions="1" runMetricsEveryStep="false">
     <setup>setup</setup>
     <go>go</go>
     <enumeratedValueSet variable="output?">
@@ -1112,7 +1112,7 @@ NetLogo 6.3.0
       <value value="true"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="limit-ticks">
-      <value value="20000"/>
+      <value value="50000"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="face-east?">
       <value value="false"/>
@@ -1133,7 +1133,7 @@ NetLogo 6.3.0
       <value value="1"/>
     </enumeratedValueSet>
   </experiment>
-  <experiment name="MIS5bl_levy-walks" repetitions="2" runMetricsEveryStep="false">
+  <experiment name="MIS5bl_levy-walks" repetitions="1" runMetricsEveryStep="false">
     <setup>setup</setup>
     <go>go</go>
     <enumeratedValueSet variable="output?">
@@ -1143,7 +1143,7 @@ NetLogo 6.3.0
       <value value="true"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="limit-ticks">
-      <value value="20000"/>
+      <value value="50000"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="face-east?">
       <value value="false"/>
@@ -1164,7 +1164,7 @@ NetLogo 6.3.0
       <value value="1"/>
     </enumeratedValueSet>
   </experiment>
-  <experiment name="MIS5e_levy-walks" repetitions="2" runMetricsEveryStep="false">
+  <experiment name="MIS5e_levy-walks" repetitions="1" runMetricsEveryStep="false">
     <setup>setup</setup>
     <go>go</go>
     <enumeratedValueSet variable="output?">
@@ -1174,7 +1174,7 @@ NetLogo 6.3.0
       <value value="true"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="limit-ticks">
-      <value value="20000"/>
+      <value value="50000"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="face-east?">
       <value value="false"/>
@@ -1195,7 +1195,7 @@ NetLogo 6.3.0
       <value value="1"/>
     </enumeratedValueSet>
   </experiment>
-  <experiment name="MIS5dh_levy-walks" repetitions="2" runMetricsEveryStep="false">
+  <experiment name="MIS5dh_levy-walks" repetitions="1" runMetricsEveryStep="false">
     <setup>setup</setup>
     <go>go</go>
     <enumeratedValueSet variable="output?">
@@ -1205,7 +1205,7 @@ NetLogo 6.3.0
       <value value="true"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="limit-ticks">
-      <value value="20000"/>
+      <value value="50000"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="face-east?">
       <value value="false"/>
@@ -1226,7 +1226,7 @@ NetLogo 6.3.0
       <value value="1"/>
     </enumeratedValueSet>
   </experiment>
-  <experiment name="MIS5dl_levy-walks" repetitions="2" runMetricsEveryStep="false">
+  <experiment name="MIS5dl_levy-walks" repetitions="1" runMetricsEveryStep="false">
     <setup>setup</setup>
     <go>go</go>
     <enumeratedValueSet variable="output?">
@@ -1236,7 +1236,7 @@ NetLogo 6.3.0
       <value value="true"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="limit-ticks">
-      <value value="20000"/>
+      <value value="50000"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="face-east?">
       <value value="false"/>
@@ -1257,7 +1257,7 @@ NetLogo 6.3.0
       <value value="1"/>
     </enumeratedValueSet>
   </experiment>
-  <experiment name="MIS5c_levy-walks" repetitions="2" runMetricsEveryStep="false">
+  <experiment name="MIS5c_levy-walks" repetitions="1" runMetricsEveryStep="false">
     <setup>setup</setup>
     <go>go</go>
     <enumeratedValueSet variable="output?">
@@ -1267,7 +1267,7 @@ NetLogo 6.3.0
       <value value="true"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="limit-ticks">
-      <value value="20000"/>
+      <value value="50000"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="face-east?">
       <value value="false"/>
