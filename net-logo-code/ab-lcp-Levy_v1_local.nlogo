@@ -22,6 +22,7 @@ globals [
 
   hiker-n
   hiker-status
+  view-radius
 
   file-1
   file-2
@@ -31,6 +32,7 @@ globals [
 patches-own [
   cost
   impassable
+  known?
 
   patch-counter
 ]
@@ -90,7 +92,7 @@ to setup
   ;;set patch-size-km 1
   let trans-res patch-size-km / map-resolution-km
   resize-world 0 (( gis:width-of basemap - 1 ) / trans-res ) 0 (( gis:height-of basemap - 1 ) / trans-res )
-  set-patch-size ( 0.01 * patch-size-km )                                   ;; This roughly keeps the size of the world window manageable
+  set-patch-size ( 0.0025 * patch-size-km )                                   ;; This roughly keeps the size of the world window manageable
   gis:set-world-envelope gis:envelope-of basemap                         ;; This formats the window to the right dimensions based on the DEM
   gis:set-sampling-method basemap "BICUBIC_2"
 
@@ -102,6 +104,8 @@ to setup
 
   set res-m 1000 * patch-size-km
 
+  set view-radius view-radius-km / trans-res
+
   ask patches [
     ifelse ( cost <= 0 ) or ( cost > 0 )
     [ set cost cost ]
@@ -110,6 +114,7 @@ to setup
 
   ask patches [
     update-colors
+    set known? false
     ifelse cost = -999999
     [ set impassable true ]
     [ set impassable false ]
@@ -140,9 +145,9 @@ to setup
   if output? [
     set stamp1 random-float 1
 
-    set file-1 (word "/Users/emilycoco/Desktop/ab-lcp-dispersals/outputs/" "outputs_path_" origin "_" time-period "_" levy_mu "_" patch-size-km "_" stamp1 ".csv")
-    set file-2 (word "/Users/emilycoco/Desktop/ab-lcp-dispersals/outputs/" "LIST_outputs_path_" origin "_" time-period "_" levy_mu "_" patch-size-km "_" stamp1 ".csv")
-    output-print file-1
+    ;set file-1 (word "/Users/emilycoco/Desktop/ab-lcp-dispersals/test-outputs/" "outputs_path_" origin "_" time-period "_" levy_mu "_" patch-size-km "_" stamp1 ".csv")
+    set file-2 (word "/Users/emilycoco/Desktop/ab-lcp-dispersals/test-outputs/" "LIST_outputs_path_" origin "_" time-period "_" levy_mu "_" patch-size-km "_" stamp1 ".csv")
+    ;output-print file-1
     output-print file-2
 
 ;    if file-exists? file-1
@@ -159,8 +164,9 @@ to stp-hikers                                                        ;; Patch pr
 
   sprout-hikers 1
   [ set color violet
-    set size 1
+    set size 5
     set shape "person"
+    ;set pen-size 1
     ;pen-down
     set hiker-n who                                                  ;; Records the hiker's ID number as a global variable
     set winner-patch patch-here                                      ;; Allows the hiker to start walking as soon as the run starts
@@ -176,7 +182,7 @@ to stp-goal                                                          ;; Patch pr
 
   sprout-targets 1
   [ set color blue
-    set size 1
+    set size 5
     set shape "house"
     set goal patch-here
   ]
@@ -190,7 +196,7 @@ to go
     ask patches [ update-colors ]
     if output? = true [
       if lost-output? = true [
-        export-path
+        ;export-path
         export-coord-list
       ]
     ]
@@ -200,10 +206,10 @@ to go
 
   ;; stops if tick limit is reached
   if ticks = limit-ticks [
-    ask patches [ update-colors ]
+    ;ask patches [ update-colors ]
     if output? = true [
       if lost-output? = true [
-        export-path
+        ;export-path
         export-coord-list
       ]
     ]
@@ -225,32 +231,40 @@ to go
 
 end
 
-to find-least-cost-path
 
-  let patch-under-me patch-here
+to find-winner-patch [ #cone-radius ]
 
-  let c 0
-
-  ifelse face-east? [
-    face goal
-    set patch-vision patches in-cone 1.5 200 ;; set hikers in direction of end goal
-  ] [
-    set patch-vision patches in-cone 1.5 360
-  ]
+  set patch-vision patches in-cone 1.5 #cone-radius
 
   set patch-vision patch-vision with [ patch-counter = 0 ]
   set patch-vision patch-vision with [ impassable = false ]
 
-  set c c + 1
-  if c = 100 [
-    die
-    output-print "hiker died"
-    stop
-  ]
-
   ask patch-vision [ set pcolor pink ]
 
+  let unknown-vision patch-vision with [ known? = false ]
+  if any? unknown-vision
+  [
+    output-print "unknown patches available"
+    set patch-vision patch-vision with [ known? = false ]
+  ]
+
   set winner-patch one-of patch-vision with-min [cost]
+
+end
+
+
+to find-least-cost-path
+
+  let patch-under-me patch-here
+
+  ifelse face-east? [
+    face goal
+    ;set patch-vision patches in-cone 1.5 200 ;; set hikers in direction of end goal
+    find-winner-patch 200
+  ] [
+    ;set patch-vision patches in-cone 1.5 360
+    find-winner-patch 360
+  ]
 
   ifelse winner-patch = nobody
   [ stop ]
@@ -287,9 +301,17 @@ to move
 
     let dist-winner-patch distance winner-patch
     move-to winner-patch
+    ask winner-patch [
+      set pcolor violet
+    ]
     update-plots
     set coord-list lput (list ([pxcor] of winner-patch) ([pycor] of winner-patch)) coord-list
     ;output-print patch-here
+
+    let view-vision patches in-cone view-radius 360
+    ask view-vision [
+      set known? true
+    ]
 
     ask patch-here [
       set patch-counter 100
@@ -297,14 +319,8 @@ to move
 
     set dist-traveled dist-traveled + ( dist-winner-patch * patch-size-km )
 
-    set patch-vision patches in-cone 1.5 100 ;; keeps hikers headed in relatively the same direction as the original choice before the Levy walk
-    set patch-vision patch-vision with [ impassable = false ]
-    set patch-vision patch-vision with [ patch-counter = 0 ]
-
-    ask patch-vision [ set pcolor pink ]
-
-    set winner-patch one-of patch-vision with-min [cost]
-    ;output-print (word "agent wants to go to " winner-patch)
+    ;set patch-vision patches in-cone 1.5 100 ;; keeps hikers headed in relatively the same direction as the original choice before the Levy walk
+    find-winner-patch 100
 
     ifelse winner-patch = nobody
     [
@@ -318,6 +334,7 @@ to move
     [ face winner-patch ]
   ]
 
+  ask patches in-cone 1.5 360 [ set known? false ] ;; allows hiker to pick a new heading freely
 
 end
 
@@ -362,11 +379,11 @@ end
 GRAPHICS-WINDOW
 301
 10
-1157
-904
+1371
+1126
 -1
 -1
-0.02
+0.025
 1
 10
 1
@@ -377,9 +394,9 @@ GRAPHICS-WINDOW
 0
 1
 0
-4261
+852
 0
-4443
+888
 0
 0
 1
@@ -445,7 +462,7 @@ INPUTBOX
 245
 388
 patch-size-km
-2.0
+10.0
 1
 0
 Number
@@ -495,10 +512,10 @@ limit-ticks
 Number
 
 CHOOSER
-136
-489
-228
-534
+152
+402
+244
+447
 time-period
 time-period
 "MIS3" "MIS4-big-Caspian" "MIS4-small-Caspian" "MIS5a" "MIS5b-high-water" "MIS5b-low-water" "MIS5c" "MIS5d-high-water" "MIS5d-low-water" "MIS5e" "MIS6-big-Kara" "MIS6-small-Kara"
@@ -515,10 +532,10 @@ levy_mu
 0
 
 SWITCH
-123
-405
-243
-438
+19
+525
+139
+558
 face-east?
 face-east?
 1
@@ -526,15 +543,26 @@ face-east?
 -1000
 
 SWITCH
-124
-446
-242
-479
+20
+566
+138
+599
 explore?
 explore?
 0
 1
 -1000
+
+INPUTBOX
+20
+456
+128
+516
+view-radius-km
+20.0
+1
+0
+Number
 
 @#$#@#$#@
 ## WHAT IS IT?
