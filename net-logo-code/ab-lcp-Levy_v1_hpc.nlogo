@@ -22,6 +22,7 @@ globals [
 
   hiker-n
   hiker-status
+  view-radius
 
   file-1
   file-2
@@ -31,6 +32,7 @@ globals [
 patches-own [
   cost
   impassable
+  known?
 
   patch-counter
 ]
@@ -105,6 +107,8 @@ to setup
 
   set res-m 1000 * patch-size-km
 
+  set view-radius view-radius-km / trans-res
+
   ask patches [
     ifelse ( cost <= 0 ) or ( cost > 0 )
     [ set cost cost ]
@@ -143,9 +147,9 @@ to setup
   if output? [
     set stamp1 random-float 1
 
-    set file-1 (word "/home/ec3307/ab-lcp-dispersals/outputs/" "outputs_path_" origin "_" time-period "_" levy_mu "_" patch-size-km "_" stamp1 ".csv")
+    ;set file-1 (word "/home/ec3307/ab-lcp-dispersals/outputs/" "outputs_path_" origin "_" time-period "_" levy_mu "_" patch-size-km "_" stamp1 ".csv")
     set file-2 (word "/home/ec3307/ab-lcp-dispersals/outputs/" "LIST_outputs_path_" origin "_" time-period "_" levy_mu "_" patch-size-km "_" stamp1 ".csv")
-    output-print file-1
+    ;output-print file-1
     output-print file-2
 
 ;    if file-exists? file-1
@@ -228,32 +232,39 @@ to go
 
 end
 
-to find-least-cost-path
+to find-winner-patch [ #cone-radius ]
 
-  let patch-under-me patch-here
-
-  let c 0
-
-  ifelse face-east? [
-    face goal
-    set patch-vision patches in-cone 1.5 200 ;; set hikers in direction of end goal
-  ] [
-    set patch-vision patches in-cone 1.5 360
-  ]
+  set patch-vision patches in-cone 1.5 #cone-radius
 
   set patch-vision patch-vision with [ patch-counter = 0 ]
   set patch-vision patch-vision with [ impassable = false ]
 
-  set c c + 1
-  if c = 100 [
-    die
-    output-print "hiker died"
-    stop
-  ]
-
   ask patch-vision [ set pcolor pink ]
 
+  let unknown-vision patch-vision with [ known? = false ]
+  if any? unknown-vision
+  [
+    output-print "unknown patches available"
+    set patch-vision patch-vision with [ known? = false ]
+  ]
+
   set winner-patch one-of patch-vision with-min [cost]
+
+end
+
+
+to find-least-cost-path
+
+  let patch-under-me patch-here
+
+  ifelse face-east? [
+    face goal
+    ;set patch-vision patches in-cone 1.5 200 ;; set hikers in direction of end goal
+    find-winner-patch 200
+  ] [
+    ;set patch-vision patches in-cone 1.5 360
+    find-winner-patch 360
+  ]
 
   ifelse winner-patch = nobody
   [ stop ]
@@ -290,9 +301,17 @@ to move
 
     let dist-winner-patch distance winner-patch
     move-to winner-patch
+    ask winner-patch [
+      set pcolor violet
+    ]
     update-plots
     set coord-list lput (list ([pxcor] of winner-patch) ([pycor] of winner-patch)) coord-list
     ;output-print patch-here
+
+    let view-vision patches in-cone view-radius 360
+    ask view-vision [
+      set known? true
+    ]
 
     ask patch-here [
       set patch-counter 100
@@ -300,14 +319,8 @@ to move
 
     set dist-traveled dist-traveled + ( dist-winner-patch * patch-size-km )
 
-    set patch-vision patches in-cone 1.5 100 ;; keeps hikers headed in relatively the same direction as the original choice before the Levy walk
-    set patch-vision patch-vision with [ impassable = false ]
-    set patch-vision patch-vision with [ patch-counter = 0 ]
-
-    ask patch-vision [ set pcolor pink ]
-
-    set winner-patch one-of patch-vision with-min [cost]
-    ;output-print (word "agent wants to go to " winner-patch)
+    ;set patch-vision patches in-cone 1.5 100 ;; keeps hikers headed in relatively the same direction as the original choice before the Levy walk
+    find-winner-patch 100
 
     ifelse winner-patch = nobody
     [
@@ -321,6 +334,7 @@ to move
     [ face winner-patch ]
   ]
 
+  ask patches in-cone 1.5 360 [ set known? false ] ;; allows hiker to pick a new heading freely
 
 end
 
@@ -440,7 +454,7 @@ INPUTBOX
 245
 388
 patch-size-km
-10.0
+1.0
 1
 0
 Number
@@ -484,16 +498,16 @@ INPUTBOX
 242
 93
 limit-ticks
-2500.0
+1000.0
 1
 0
 Number
 
 CHOOSER
-135
-487
-227
-532
+153
+404
+245
+449
 time-period
 time-period
 "MIS3" "MIS4-big-Caspian" "MIS4-small-Caspian" "MIS5a" "MIS5b-high-water" "MIS5b-low-water" "MIS5c" "MIS5d-high-water" "MIS5d-low-water" "MIS5e" "MIS6-big-Kara" "MIS6-small-Kara"
@@ -510,10 +524,10 @@ levy_mu
 0
 
 SWITCH
-123
-405
-243
-438
+19
+458
+139
+491
 face-east?
 face-east?
 1
@@ -521,15 +535,26 @@ face-east?
 -1000
 
 SWITCH
-124
-446
-242
-479
+20
+499
+138
+532
 explore?
 explore?
 1
 1
 -1000
+
+INPUTBOX
+20
+540
+125
+600
+view-radius-km
+5.0
+1
+0
+Number
 
 @#$#@#$#@
 ## WHAT IS IT?
@@ -946,6 +971,9 @@ NetLogo 6.3.0
     <enumeratedValueSet variable="levy_mu">
       <value value="1"/>
     </enumeratedValueSet>
+    <enumeratedValueSet variable="view-radius-km">
+      <value value="5"/>
+    </enumeratedValueSet>
   </experiment>
   <experiment name="MIS6sk_levy-walks" repetitions="1" runMetricsEveryStep="false">
     <setup>setup</setup>
@@ -976,6 +1004,9 @@ NetLogo 6.3.0
     </enumeratedValueSet>
     <enumeratedValueSet variable="levy_mu">
       <value value="1"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="view-radius-km">
+      <value value="5"/>
     </enumeratedValueSet>
   </experiment>
   <experiment name="MIS6bk_levy-walks" repetitions="1" runMetricsEveryStep="false">
@@ -1008,6 +1039,9 @@ NetLogo 6.3.0
     <enumeratedValueSet variable="levy_mu">
       <value value="1"/>
     </enumeratedValueSet>
+    <enumeratedValueSet variable="view-radius-km">
+      <value value="5"/>
+    </enumeratedValueSet>
   </experiment>
   <experiment name="MIS4sc_levy-walks" repetitions="1" runMetricsEveryStep="false">
     <setup>setup</setup>
@@ -1038,6 +1072,9 @@ NetLogo 6.3.0
     </enumeratedValueSet>
     <enumeratedValueSet variable="levy_mu">
       <value value="1"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="view-radius-km">
+      <value value="5"/>
     </enumeratedValueSet>
   </experiment>
   <experiment name="MIS4bc_levy-walks" repetitions="1" runMetricsEveryStep="false">
@@ -1070,6 +1107,9 @@ NetLogo 6.3.0
     <enumeratedValueSet variable="levy_mu">
       <value value="1"/>
     </enumeratedValueSet>
+    <enumeratedValueSet variable="view-radius-km">
+      <value value="5"/>
+    </enumeratedValueSet>
   </experiment>
   <experiment name="MIS5a_levy-walks" repetitions="1" runMetricsEveryStep="false">
     <setup>setup</setup>
@@ -1100,6 +1140,9 @@ NetLogo 6.3.0
     </enumeratedValueSet>
     <enumeratedValueSet variable="levy_mu">
       <value value="1"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="view-radius-km">
+      <value value="5"/>
     </enumeratedValueSet>
   </experiment>
   <experiment name="MIS5bh_levy-walks" repetitions="1" runMetricsEveryStep="false">
@@ -1132,6 +1175,9 @@ NetLogo 6.3.0
     <enumeratedValueSet variable="levy_mu">
       <value value="1"/>
     </enumeratedValueSet>
+    <enumeratedValueSet variable="view-radius-km">
+      <value value="5"/>
+    </enumeratedValueSet>
   </experiment>
   <experiment name="MIS5bl_levy-walks" repetitions="1" runMetricsEveryStep="false">
     <setup>setup</setup>
@@ -1162,6 +1208,9 @@ NetLogo 6.3.0
     </enumeratedValueSet>
     <enumeratedValueSet variable="levy_mu">
       <value value="1"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="view-radius-km">
+      <value value="5"/>
     </enumeratedValueSet>
   </experiment>
   <experiment name="MIS5e_levy-walks" repetitions="1" runMetricsEveryStep="false">
@@ -1194,6 +1243,9 @@ NetLogo 6.3.0
     <enumeratedValueSet variable="levy_mu">
       <value value="1"/>
     </enumeratedValueSet>
+    <enumeratedValueSet variable="view-radius-km">
+      <value value="5"/>
+    </enumeratedValueSet>
   </experiment>
   <experiment name="MIS5dh_levy-walks" repetitions="1" runMetricsEveryStep="false">
     <setup>setup</setup>
@@ -1224,6 +1276,9 @@ NetLogo 6.3.0
     </enumeratedValueSet>
     <enumeratedValueSet variable="levy_mu">
       <value value="1"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="view-radius-km">
+      <value value="5"/>
     </enumeratedValueSet>
   </experiment>
   <experiment name="MIS5dl_levy-walks" repetitions="1" runMetricsEveryStep="false">
@@ -1256,6 +1311,9 @@ NetLogo 6.3.0
     <enumeratedValueSet variable="levy_mu">
       <value value="1"/>
     </enumeratedValueSet>
+    <enumeratedValueSet variable="view-radius-km">
+      <value value="5"/>
+    </enumeratedValueSet>
   </experiment>
   <experiment name="MIS5c_levy-walks" repetitions="1" runMetricsEveryStep="false">
     <setup>setup</setup>
@@ -1287,6 +1345,9 @@ NetLogo 6.3.0
     <enumeratedValueSet variable="levy_mu">
       <value value="1"/>
     </enumeratedValueSet>
+    <enumeratedValueSet variable="view-radius-km">
+      <value value="5"/>
+    </enumeratedValueSet>
   </experiment>
   <experiment name="test_MIS3_levy-walks" repetitions="1" runMetricsEveryStep="false">
     <setup>setup</setup>
@@ -1317,6 +1378,9 @@ NetLogo 6.3.0
     </enumeratedValueSet>
     <enumeratedValueSet variable="levy_mu">
       <value value="1"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="view-radius-km">
+      <value value="5"/>
     </enumeratedValueSet>
   </experiment>
 </experiments>
