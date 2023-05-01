@@ -1417,6 +1417,380 @@ NetLogo 6.3.0
       <value value="5"/>
     </enumeratedValueSet>
   </experiment>
+  <experiment name="MIS6sk_levy-walks_LONG" repetitions="1" runMetricsEveryStep="false">
+    <setup>setup</setup>
+    <go>go</go>
+    <enumeratedValueSet variable="output?">
+      <value value="true"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="lost-output?">
+      <value value="true"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="limit-ticks">
+      <value value="200000"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="face-east?">
+      <value value="false"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="explore?">
+      <value value="true"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="map-resolution-km">
+      <value value="1"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="patch-size-km">
+      <value value="1"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="time-period">
+      <value value="&quot;MIS6-small-Kara&quot;"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="levy_mu">
+      <value value="1"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="view-radius-km">
+      <value value="5"/>
+    </enumeratedValueSet>
+  </experiment>
+  <experiment name="MIS6bk_levy-walks_LONG" repetitions="1" runMetricsEveryStep="false">
+    <setup>setup</setup>
+    <go>go</go>
+    <enumeratedValueSet variable="output?">
+      <value value="true"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="lost-output?">
+      <value value="true"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="limit-ticks">
+      <value value="200000"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="face-east?">
+      <value value="false"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="explore?">
+      <value value="true"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="map-resolution-km">
+      <value value="1"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="patch-size-km">
+      <value value="1"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="time-period">
+      <value value="&quot;MIS6-big-Kara&quot;"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="levy_mu">
+      <value value="1"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="view-radius-km">
+      <value value="5"/>
+    </enumeratedValueSet>
+  </experiment>
+  <experiment name="MIS4sc_levy-walks_LONG" repetitions="1" runMetricsEveryStep="false">
+    <setup>setup</setup>
+    <go>go</go>
+    <enumeratedValueSet variable="output?">
+      <value value="true"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="lost-output?">
+      <value value="true"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="limit-ticks">
+      <value value="200000"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="face-east?">
+      <value value="false"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="explore?">
+      <value value="true"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="map-resolution-km">
+      <value value="1"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="patch-size-km">
+      <value value="1"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="time-period">
+      <value value="&quot;MIS4-small-Caspian&quot;"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="levy_mu">
+      <value value="1"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="view-radius-km">
+      <value value="5"/>
+    </enumeratedValueSet>
+  </experiment>
+  <experiment name="MIS4bc_levy-walks_LONG" repetitions="1" runMetricsEveryStep="false">
+    <setup>setup</setup>
+    <go>go</go>
+    <enumeratedValueSet variable="output?">
+      <value value="true"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="lost-output?">
+      <value value="true"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="limit-ticks">
+      <value value="200000"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="face-east?">
+      <value value="false"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="explore?">
+      <value value="true"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="map-resolution-km">
+      <value value="1"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="patch-size-km">
+      <value value="1"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="time-period">
+      <value value="&quot;MIS4-big-Caspian&quot;"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="levy_mu">
+      <value value="1"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="view-radius-km">
+      <value value="5"/>
+    </enumeratedValueSet>
+  </experiment>
+  <experiment name="MIS5a_levy-walks_LONG" repetitions="1" runMetricsEveryStep="false">
+    <setup>setup</setup>
+    <go>go</go>
+    <enumeratedValueSet variable="output?">
+      <value value="true"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="lost-output?">
+      <value value="true"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="limit-ticks">
+      <value value="200000"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="face-east?">
+      <value value="false"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="explore?">
+      <value value="true"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="map-resolution-km">
+      <value value="1"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="patch-size-km">
+      <value value="1"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="time-period">
+      <value value="&quot;MIS5a&quot;"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="levy_mu">
+      <value value="1"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="view-radius-km">
+      <value value="5"/>
+    </enumeratedValueSet>
+  </experiment>
+  <experiment name="MIS5bh_levy-walks_LONG" repetitions="1" runMetricsEveryStep="false">
+    <setup>setup</setup>
+    <go>go</go>
+    <enumeratedValueSet variable="output?">
+      <value value="true"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="lost-output?">
+      <value value="true"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="limit-ticks">
+      <value value="200000"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="face-east?">
+      <value value="false"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="explore?">
+      <value value="true"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="map-resolution-km">
+      <value value="1"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="patch-size-km">
+      <value value="1"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="time-period">
+      <value value="&quot;MIS5b-high-water&quot;"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="levy_mu">
+      <value value="1"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="view-radius-km">
+      <value value="5"/>
+    </enumeratedValueSet>
+  </experiment>
+  <experiment name="MIS5bl_levy-walks_LONG" repetitions="1" runMetricsEveryStep="false">
+    <setup>setup</setup>
+    <go>go</go>
+    <enumeratedValueSet variable="output?">
+      <value value="true"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="lost-output?">
+      <value value="true"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="limit-ticks">
+      <value value="200000"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="face-east?">
+      <value value="false"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="explore?">
+      <value value="true"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="map-resolution-km">
+      <value value="1"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="patch-size-km">
+      <value value="1"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="time-period">
+      <value value="&quot;MIS5b-low-water&quot;"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="levy_mu">
+      <value value="1"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="view-radius-km">
+      <value value="5"/>
+    </enumeratedValueSet>
+  </experiment>
+  <experiment name="MIS5e_levy-walks_LONG" repetitions="1" runMetricsEveryStep="false">
+    <setup>setup</setup>
+    <go>go</go>
+    <enumeratedValueSet variable="output?">
+      <value value="true"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="lost-output?">
+      <value value="true"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="limit-ticks">
+      <value value="200000"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="face-east?">
+      <value value="false"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="explore?">
+      <value value="true"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="map-resolution-km">
+      <value value="1"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="patch-size-km">
+      <value value="1"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="time-period">
+      <value value="&quot;MIS5e&quot;"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="levy_mu">
+      <value value="1"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="view-radius-km">
+      <value value="5"/>
+    </enumeratedValueSet>
+  </experiment>
+  <experiment name="MIS5dh_levy-walks_LONG" repetitions="1" runMetricsEveryStep="false">
+    <setup>setup</setup>
+    <go>go</go>
+    <enumeratedValueSet variable="output?">
+      <value value="true"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="lost-output?">
+      <value value="true"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="limit-ticks">
+      <value value="200000"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="face-east?">
+      <value value="false"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="explore?">
+      <value value="true"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="map-resolution-km">
+      <value value="1"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="patch-size-km">
+      <value value="1"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="time-period">
+      <value value="&quot;MIS5d-high-water&quot;"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="levy_mu">
+      <value value="1"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="view-radius-km">
+      <value value="5"/>
+    </enumeratedValueSet>
+  </experiment>
+  <experiment name="MIS5dl_levy-walks_LONG" repetitions="1" runMetricsEveryStep="false">
+    <setup>setup</setup>
+    <go>go</go>
+    <enumeratedValueSet variable="output?">
+      <value value="true"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="lost-output?">
+      <value value="true"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="limit-ticks">
+      <value value="200000"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="face-east?">
+      <value value="false"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="explore?">
+      <value value="true"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="map-resolution-km">
+      <value value="1"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="patch-size-km">
+      <value value="1"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="time-period">
+      <value value="&quot;MIS5d-low-water&quot;"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="levy_mu">
+      <value value="1"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="view-radius-km">
+      <value value="5"/>
+    </enumeratedValueSet>
+  </experiment>
+  <experiment name="MIS5c_levy-walks_LONG" repetitions="1" runMetricsEveryStep="false">
+    <setup>setup</setup>
+    <go>go</go>
+    <enumeratedValueSet variable="output?">
+      <value value="true"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="lost-output?">
+      <value value="true"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="limit-ticks">
+      <value value="200000"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="face-east?">
+      <value value="false"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="explore?">
+      <value value="true"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="map-resolution-km">
+      <value value="1"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="patch-size-km">
+      <value value="1"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="time-period">
+      <value value="&quot;MIS5c&quot;"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="levy_mu">
+      <value value="1"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="view-radius-km">
+      <value value="5"/>
+    </enumeratedValueSet>
+  </experiment>
 </experiments>
 @#$#@#$#@
 @#$#@#$#@
