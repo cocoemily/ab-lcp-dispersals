@@ -12,6 +12,7 @@ globals [
   coord-start
   dist-traveled
   coord-list
+  num-steps
 
   min-cost
   max-cost
@@ -175,6 +176,7 @@ to stp-hikers                                                        ;; Patch pr
     set coord-start list ([xcor] of self) ([ycor] of self)
     set step-lengths []
     set coord-list []
+    set num-steps 0
   ]
 
 end
@@ -278,6 +280,7 @@ end
 to get-step-length
 
   set cur-step-length (random-float 1.000) ^ (-1 / levy_mu)
+  set num-steps num-steps + cur-step-length
 
   let new-territory count patch-vision
   if explore? [
@@ -365,6 +368,8 @@ to export-coord-list
   csv:to-file file-2 coord-list
   output-print file-read-line
   file-close
+
+  output-print (word "total number of steps " num-steps)
 
 end
 @#$#@#$#@
