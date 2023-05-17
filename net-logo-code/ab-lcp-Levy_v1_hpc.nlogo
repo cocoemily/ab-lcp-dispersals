@@ -246,7 +246,6 @@ to find-winner-patch [ #cone-radius ]
   let unknown-vision patch-vision with [ known? = false ]
   if any? unknown-vision
   [
-    output-print "unknown patches available"
     set patch-vision patch-vision with [ known? = false ]
   ]
 
