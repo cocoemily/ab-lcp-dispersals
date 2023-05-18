@@ -388,7 +388,7 @@ to move
       set pcolor violet
     ]
     update-plots
-    set coord-list lput (list ([pxcor] of winner-patch) ([pycor] of winner-patch)) coord-list
+    set coord-list lput (list ([pxcor] of winner-patch) ([pycor] of winner-patch) (item cur-time-period time-line-names)) coord-list
     ;output-print patch-here
 
     let view-vision patches in-cone view-radius 360
@@ -1045,7 +1045,7 @@ NetLogo 6.3.0
       <value value="true"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="limit-ticks">
-      <value value="10000"/>
+      <value value="100000"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="face-east?">
       <value value="false"/>

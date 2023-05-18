@@ -388,7 +388,7 @@ to move
       set pcolor violet
     ]
     update-plots
-    set coord-list lput (list ([pxcor] of winner-patch) ([pycor] of winner-patch)) coord-list
+    set coord-list lput (list ([pxcor] of winner-patch) ([pycor] of winner-patch) (item cur-time-period time-line-names)) coord-list
     ;output-print patch-here
 
     let view-vision patches in-cone view-radius 360
@@ -465,11 +465,11 @@ end
 GRAPHICS-WINDOW
 301
 10
-1013
-753
+1011
+751
 -1
 -1
-0.025
+0.005
 1
 10
 1
@@ -480,9 +480,9 @@ GRAPHICS-WINDOW
 0
 1
 0
-852
+4261
 0
-888
+4443
 0
 0
 1
@@ -548,7 +548,7 @@ INPUTBOX
 245
 388
 patch-size-km
-10.0
+2.0
 1
 0
 Number
@@ -592,7 +592,7 @@ INPUTBOX
 242
 93
 limit-ticks
-10000.0
+50000.0
 1
 0
 Number
