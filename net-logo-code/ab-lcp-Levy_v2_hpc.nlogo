@@ -132,10 +132,12 @@ to setup
   reset-ticks
 
   if (water-level = "low") [
-    set time-line-names ( list "MIS6-low" "MIS5e" "MIS5d-low" "MIS5c" "MIS5b-low" "MIS5a" "MIS4-low" "MIS3" )
+    ;; set time-line-names ( list "MIS6-low" "MIS5e" "MIS5d-low" "MIS5c" "MIS5b-low" "MIS5a" "MIS4-low" "MIS3" ) ;; with MIS 6
+    set time-line-names ( list "MIS5e" "MIS5d-low" "MIS5c" "MIS5b-low" "MIS5a" "MIS4-low" "MIS3" )
   ]
   if (water-level = "high") [
-    set time-line-names ( list "MIS6-high" "MIS5e" "MIS5d-high" "MIS5c" "MIS5b-hig" "MIS5a" "MIS4-high" "MIS3" )
+    ;;set time-line-names ( list "MIS6-high" "MIS5e" "MIS5d-high" "MIS5c" "MIS5b-hig" "MIS5a" "MIS4-high" "MIS3" ) ;; with MIS 6
+    set time-line-names ( list "MIS5e" "MIS5d-high" "MIS5c" "MIS5b-hig" "MIS5a" "MIS4-high" "MIS3" )
   ]
 
   set cur-time-period 0
@@ -243,60 +245,112 @@ to go
   ]
 
   ;; change the background here
+  ;; calculations with MIS 6
   ;; time-line-names ( list "MIS6-low" "MIS5e" "MIS5d-low" "MIS5c" "MIS5b-low" "MIS5a" "MIS4-low" "MIS3" )
   ;; MIS start dates (list 190000 120000 114000 102000 92000 84000 70000 56000)
   ;; change-points (list 70000 76000 88000 98000 106000 120000 134000)
+
+;  let model-year num-years
+;  ;; output-print model-year
+;  if model-year >= 70000 and model-year < 76000 [
+;    if cur-time-period != 1 [
+;      set cur-time-period 1
+;      output-print item cur-time-period time-line-names
+;      setup-background item cur-time-period time-line-names
+;    ]
+;  ]
+;  if model-year >= 76000 and model-year < 88000 [
+;    if cur-time-period != 2 [
+;      set cur-time-period 2
+;      output-print item cur-time-period time-line-names
+;      setup-background item cur-time-period time-line-names
+;    ]
+;  ]
+;  if model-year >= 88000 and model-year < 98000 [
+;    if cur-time-period != 3 [
+;      set cur-time-period 3
+;      output-print item cur-time-period time-line-names
+;      setup-background item cur-time-period time-line-names
+;    ]
+;  ]
+;  if model-year >= 98000 and model-year < 106000 [
+;    if cur-time-period != 4 [
+;      set cur-time-period 4
+;      output-print item cur-time-period time-line-names
+;      setup-background item cur-time-period time-line-names
+;    ]
+;  ]
+;  if model-year >= 106000 and model-year < 120000 [
+;    if cur-time-period != 5 [
+;      set cur-time-period 5
+;      output-print item cur-time-period time-line-names
+;      setup-background item cur-time-period time-line-names
+;    ]
+;  ]
+;  if model-year >= 120000 and model-year < 134000 [
+;    if cur-time-period != 6 [
+;      set cur-time-period 6
+;      output-print item cur-time-period time-line-names
+;      setup-background item cur-time-period time-line-names
+;    ]
+;  ]
+;  if model-year >= 134000 [
+;    if cur-time-period != 7 [
+;      set cur-time-period 7
+;      output-print item cur-time-period time-line-names
+;      setup-background item cur-time-period time-line-names
+;    ]
+;  ]
+
+  ;;calculations without MIS 6
+  ;; time-line-names ( list "MIS5e" "MIS5d-low" "MIS5c" "MIS5b-low" "MIS5a" "MIS4-low" "MIS3" )
+  ;; MIS start dates (list 120000 114000 102000 92000 84000 70000 56000)
+  ;; change-points (list 6000 18000 28000 36000 50000 64000)
   let model-year num-years
   ;; output-print model-year
-  if model-year >= 70000 and model-year < 76000 [
+  if model-year >= 6000 and model-year < 18000 [
     if cur-time-period != 1 [
       set cur-time-period 1
       output-print item cur-time-period time-line-names
       setup-background item cur-time-period time-line-names
     ]
   ]
-  if model-year >= 76000 and model-year < 88000 [
+  if model-year >= 18000 and model-year < 28000 [
     if cur-time-period != 2 [
       set cur-time-period 2
       output-print item cur-time-period time-line-names
       setup-background item cur-time-period time-line-names
     ]
   ]
-  if model-year >= 88000 and model-year < 98000 [
+  if model-year >= 28000 and model-year < 36000 [
     if cur-time-period != 3 [
       set cur-time-period 3
       output-print item cur-time-period time-line-names
       setup-background item cur-time-period time-line-names
     ]
   ]
-  if model-year >= 98000 and model-year < 106000 [
+  if model-year >= 36000 and model-year < 50000 [
     if cur-time-period != 4 [
       set cur-time-period 4
       output-print item cur-time-period time-line-names
       setup-background item cur-time-period time-line-names
     ]
   ]
-  if model-year >= 106000 and model-year < 120000 [
+  if model-year >= 50000 and model-year < 64000 [
     if cur-time-period != 5 [
       set cur-time-period 5
       output-print item cur-time-period time-line-names
       setup-background item cur-time-period time-line-names
     ]
   ]
-  if model-year >= 120000 and model-year < 134000 [
+  if model-year >= 64000 [
     if cur-time-period != 6 [
       set cur-time-period 6
       output-print item cur-time-period time-line-names
       setup-background item cur-time-period time-line-names
     ]
   ]
-  if model-year >= 134000 [
-    if cur-time-period != 7 [
-      set cur-time-period 7
-      output-print item cur-time-period time-line-names
-      setup-background item cur-time-period time-line-names
-    ]
-  ]
+
 
   ask hiker hiker-n [
     if [ impassable ] of patch-here [
@@ -1045,7 +1099,41 @@ NetLogo 6.3.0
       <value value="true"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="limit-ticks">
-      <value value="100000"/>
+      <value value="50000"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="face-east?">
+      <value value="false"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="map-resolution-km">
+      <value value="1"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="patch-size-km">
+      <value value="1"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="explore?">
+      <value value="true"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="water-level">
+      <value value="&quot;low&quot;"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="levy_mu">
+      <value value="1"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="view-radius-km">
+      <value value="5"/>
+    </enumeratedValueSet>
+  </experiment>
+  <experiment name="test-background-change_LONG" repetitions="1" runMetricsEveryStep="false">
+    <setup>setup</setup>
+    <go>go</go>
+    <enumeratedValueSet variable="output?">
+      <value value="true"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="lost-output?">
+      <value value="true"/>
+    </enumeratedValueSet>
+    <enumeratedValueSet variable="limit-ticks">
+      <value value="200000"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="face-east?">
       <value value="false"/>
