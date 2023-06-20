@@ -229,6 +229,7 @@ to go
     find-least-cost-path
   ]
 
+  export-coord-list
   tick-advance 1
 
 
