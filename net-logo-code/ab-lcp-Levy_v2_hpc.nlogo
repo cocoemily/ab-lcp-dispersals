@@ -361,6 +361,7 @@ to go
     ]
   ]
 
+  export-coord-list
   tick-advance 1
 
 
