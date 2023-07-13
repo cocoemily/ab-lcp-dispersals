@@ -89,7 +89,7 @@ for(t in 1:length(timeperiods)) {
     dat$x <- as.numeric(as.character(dat[,1])) 
     dat$y <- as.numeric(as.character(dat[,2]))
     # Change the order of the dat file to have x,y,value. 
-    dat <- dat[,c(5,6,3, 4)]
+    dat <- dat[,c(5,6,3,4)]
     # Transform the times walked on into a 0-1 value (divide by the max times walked) 
     dat$value <- dat$value / max(dat$value)
     # Create the final dataset and remove the dat dataset to avoid errors in subsequent loop iterations 

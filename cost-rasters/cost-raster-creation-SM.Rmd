@@ -15,9 +15,11 @@ knitr::opts_chunk$set(echo = TRUE)
 
 #### DEM from OpenTopography STRM15+
 
-450m resolution, coord system: WGS84 (ESPG:4326), units:meter <https://portal.opentopography.org/raster?opentopoID=OTSRTM.122019.4326.1>
+15 arc seconds, coord system: WGS84 (ESPG:4326), units:meter <https://portal.opentopography.org/raster?opentopoID=OTSRTM.122019.4326.1>
 
 *Tozer, B, Sandwell, D. T., Smith, W. H. F., Olson, C., Beale, J. R., & Wessel, P. (2019). Global bathymetry and topography at 15 arc sec: SRTM15+. Distributed by OpenTopography. <https://doi.org/10.5069/G92R3PT9>. Accessed: 2022-10-26*
+
+***Resampled DEM to 1 km resolution in the WGS84 Pseudo Mercator (ESPG:3857) coordinate system.***
 
 #### Climate data from pastclim R package
 
@@ -49,8 +51,9 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## Calculating slope cost from DEM
 
-1.  calculate the slope of the terrain from the DEM
-2.  use Raster Calculator to calculate the Llobera & Sulkin walker cost via the following function
+1.  calculate the slope of the terrain from the DEM using the GDAL Slope function in QGIS
+2.  calculate the mathematical slope using Raster Calculator
+3.  use Raster Calculator to calculate the Llobera & Sulkin walker cost via the following function
 
 $Cost(s) = 2.635­+­17.37s­+­42.37s^{2}­-­21.43s^{3}­+­14.93s^{4}$
 
@@ -59,7 +62,9 @@ where $s$ is the mathematical slope of the DEM ($s$ = slope percentage/100)
 ## Creating desert rasters
 
 1.  use get-climate-data.R script to produce tiff files for average annual precipitation
-2.  reclassify each precipitation raster to 1 if annnual precipitation is less than 250mm
+2.  clip precipitation raster to extent of cost raster
+3.  resample and project clipped precipitation raster to resolution and coordinate system of cost raster
+4.  reclassify each precipitation raster to 1 if annnual precipitation is less than 250mm
 
 ## Creating ice rasters
 
@@ -116,11 +121,10 @@ We also included modern lakes that had a volume greater than or equal to 1 cubic
 
 The following process was done for each of the Marine Isotope Stages and water amounts as shown in the table above.
 
-1.  using the Raster Calculator, multiple the slope cost by the desert raster 
+1.  using the Raster Calculator, multiple the slope cost by the desert raster
 
 -   for this study, we increased the cost of desert squares by 74%
 -   $if(desert = 1, Cost(s) * 1.74, Cost(s))$
-
 
 2.  using the Raster Calculator, reclassify the result of step #1 with the impassable values from the ice raster
 
@@ -132,7 +136,13 @@ The following process was done for each of the Marine Isotope Stages and water a
 -   since each flooded river is an individual raster, those will be included as separate conditions in the if statement
     -   for example, \$... \text{ OR } aral = 1 \text{ OR } ... \$
 
-5.  using the Raster Calculator, add in the river crossing multipler to the raster from step #3
+4.  using the Raster Calculator, add in the river crossing multipler to the raster from step #3
 
 -   for this study, we increased the cost of river cells by 74%
 -   $if(rivers = 1 \text{ AND } Cost'''(s) != -999999, Cost'''(s) * 1.74, Cost'''(s))$
+
+5.  export raster from step #4 as an ASCII file using the Translate function in QGIS
+
+-   override the projection to be North Pole Lambert Azimuthal Equal Area (ESRI:102017)
+    -   this is necessary because NetLogo requires certain project systems in order to load GIS basemaps
+    -   this does not change the actual coordinate system of the cost raster, so all final results will be in the coordinate system of the raster from step #4
