@@ -247,8 +247,8 @@ to go
   ;; change the background here
   ;; calculations with MIS 6
   ;; time-line-names ( list "MIS6-low" "MIS5e" "MIS5d-low" "MIS5c" "MIS5b-low" "MIS5a" "MIS4-low" "MIS3" )
-  ;; MIS start dates (list 190000 120000 114000 102000 92000 84000 70000 56000)
-  ;; change-points (list 70000 76000 88000 98000 106000 120000 134000)
+  ;; MIS start dates (list 190000 120000 114000 102000 92000 84000 70000 56000 20000 (LGM, end of model)
+  ;; change-points (list 70000 76000 88000 98000 106000 120000 134000 170000)
 
   let model-year num-years
   ;; output-print model-year
@@ -294,12 +294,22 @@ to go
       setup-background item cur-time-period time-line-names
     ]
   ]
-  if model-year >= 134000 [
+  if model-year >= 134000  and model-year < 170000[
     if cur-time-period != 7 [
       set cur-time-period 7
       output-print item cur-time-period time-line-names
       setup-background item cur-time-period time-line-names
     ]
+  ]
+  if model-year >= 170000 [ ;; end model after reaching LGM in years
+    if output? = true [
+      if lost-output? = true [
+        ;export-path
+        export-coord-list
+      ]
+    ]
+    set hiker-status "dead"
+    stop
   ]
 
   ;;calculations without MIS 6
