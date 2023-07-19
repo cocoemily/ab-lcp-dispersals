@@ -62,6 +62,8 @@ cost-rasters/model-input-costs/*.tif
 cost-rasters/model-input-costs/ascii-files/*
 cost-rasters/scratch
 cost-rasters/input-data
+cost-rasters/model-input-costs/high-water-series
+cost-rasters/model-input-costs/low-water-series
 cost-rasters/lake-levels.xlsx
 start-end-locations/middle-pal-sites.csv
 outputs/
