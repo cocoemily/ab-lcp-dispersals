@@ -31,14 +31,14 @@ for(t in 1:length(timeperiods)) {
   if(length(files) != 0) {
     list_size = length(files)
     
-    # Create a temporary dataframe that will take on the collated coordinate and popularity values 
-    dat.final = data.frame(x=double(0), y=double(0), period=character(0), value=double(0))
-    
-    # Create a temporary dataframe that will help create raster 
-    routes = data.frame(x=double(0), y=double(0), period=character(0), value=double(0))
-    
     # Iterate over all the files located in the given folder 
     for(l in 1:list_size[1]){
+      # Create a temporary dataframe that will take on the collated coordinate and popularity values 
+      dat.final = data.frame(x=double(0), y=double(0), period=character(0), value=double(0))
+      
+      # Create a temporary dataframe that will help create raster 
+      routes = data.frame(x=double(0), y=double(0), period=character(0), value=double(0))
+      
       # Reformat the name of the files so that it can be used later 
       file.name = strsplit(files[l],"/")
       file.name = unlist(file.name)
@@ -75,46 +75,54 @@ for(t in 1:length(timeperiods)) {
         b <- dplyr::summarize(route.group, value = sum(value)) 
         routes <- as.data.frame(b)
         # Assign the dataset to the global environment so it can be used outside the loop.
-        assign('routes',routes, envir = .GlobalEnv) 
+        #assign('routes',routes, envir = .GlobalEnv) 
         #assign('desert_cost', desert_cost, envir = .GlobalEnv)
       }
-    }
-    
-    ################################################ ## USING ROUTES TO IDENTIFY MOST POPULAR PATH ## ################################################ 
-    print("creating route") # Show progress
-    dat <- routes
-    # Change the name of the dat file because we will add new columns 
-    colnames(dat) <- c("long","lat", "period","value")
-    # Ensure that the x and y columns are numeric 
-    dat$x <- as.numeric(as.character(dat[,1])) 
-    dat$y <- as.numeric(as.character(dat[,2]))
-    # Change the order of the dat file to have x,y,value. 
-    dat <- dat[,c(5,6,3,4)]
-    # Transform the times walked on into a 0-1 value (divide by the max times walked) 
-    dat$value <- dat$value / max(dat$value)
-    # Create the final dataset and remove the dat dataset to avoid errors in subsequent loop iterations 
-    dat.final <- dat
-    #rm(dat)
-    
-    # Transform into a raster with the same coordinates as the imported DEM
-    # if 1:1 ratio on DEM to patches
-    #dat.final$x <- (dat.final$x * xres(costRast) ) + xmin(costRast) + (xres(costRast) / 2) # xmin extent of the original map 
-    #dat.final$y <- (dat.final$y * yres(costRast) ) + ymin(costRast) + (yres(costRast) / 2) # ymin extent of the original map
-    dat.final$x <- (dat.final$x * xres(costRast) * patch_res_km ) + xmin(costRast) + (xres(costRast) * patch_res_km / 2) # xmin extent of the original map 
-    dat.final$y <- (dat.final$y * yres(costRast) * patch_res_km ) + ymin(costRast) + (yres(costRast) * patch_res_km / 2) # ymin extent of the original map
-    
-    for(p in unique(dat.final$period)) { 
-      dat.period = dat.final[which(dat.final$period == p),c(1,2,4)]
+      
+      
+      ################################################ ## USING ROUTES TO IDENTIFY MOST POPULAR PATH ## ################################################ 
+      print("creating route") # Show progress
+      dat <- routes
+      # Change the name of the dat file because we will add new columns 
+      colnames(dat) <- c("long","lat", "period","value")
+      # Ensure that the x and y columns are numeric 
+      dat$x <- as.numeric(as.character(dat[,1])) 
+      dat$y <- as.numeric(as.character(dat[,2]))
+      # Change the order of the dat file to have x,y,value. 
+      dat <- dat[,c(5,6,3,4)]
+      # Transform the times walked on into a 0-1 value (divide by the max times walked) 
+      dat$value <- dat$value / max(dat$value)
+      # Create the final dataset and remove the dat dataset to avoid errors in subsequent loop iterations 
+      dat.final <- dat
+      #rm(dat)
+      
+      # Transform into a raster with the same coordinates as the imported DEM
+      # if 1:1 ratio on DEM to patches
+      #dat.final$x <- (dat.final$x * xres(costRast) ) + xmin(costRast) + (xres(costRast) / 2) # xmin extent of the original map 
+      #dat.final$y <- (dat.final$y * yres(costRast) ) + ymin(costRast) + (yres(costRast) / 2) # ymin extent of the original map
+      dat.final$x <- (dat.final$x * xres(costRast) * patch_res_km ) + xmin(costRast) + (xres(costRast) * patch_res_km / 2) # xmin extent of the original map 
+      dat.final$y <- (dat.final$y * yres(costRast) * patch_res_km ) + ymin(costRast) + (yres(costRast) * patch_res_km / 2) # ymin extent of the original map
+      
+      # for(p in unique(dat.final$period)) { 
+      #   dat.period = dat.final[which(dat.final$period == p),c(1,2,4)]
+      #   
+      #   # Create the raster
+      #   r.sub <- rasterFromXYZ(dat.period)
+      #   #crs(r.sub) = crs
+      #   crs(r.sub) = CRS("+init=epsg:3857")
+      #   #plot(r.sub)
+      #   #plot(costRast)
+      #   writeRaster(r.sub, paste0(getwd(), "/routes/", period, "_", p, "_routes.asc"), overwrite = T)
+      # }
       
       # Create the raster
-      r.sub <- rasterFromXYZ(dat.period)
+      r.sub <- rasterFromXYZ(dat.final[,c(1,2,4)])
       #crs(r.sub) = crs
       crs(r.sub) = CRS("+init=epsg:3857")
       #plot(r.sub)
       #plot(costRast)
-      writeRaster(r.sub, paste0(getwd(), "/routes/", period, "_", p, "_routes.asc"), overwrite = T)
+      writeRaster(r.sub, paste0(getwd(), "/routes/changing/", period, "_routes_", l, ".asc"), overwrite = T)
     }
-    
   }
 }
 

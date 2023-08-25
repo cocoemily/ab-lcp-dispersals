@@ -10,9 +10,9 @@ cost.y <- dim(costRast)[1]
 
 
 # Assign the folder in which all the individual simulation output files are located 
-# my_dir = paste0(getwd(),"/outputs/Azov")
+my_dir = paste0(getwd(),"/outputs/Azov")
 # my_dir = paste0(getwd(),"/outputs/Caucasus")
-my_dir = paste0(getwd(),"/outputs")
+#my_dir = paste0(getwd(),"/outputs")
 
 # Create a list of all the file names in the identified folder
 all_files = list.files(path = my_dir, all.files = TRUE, full.names = TRUE, pattern = "\\.csv$")
@@ -39,8 +39,14 @@ timeperiods = list("MIS3" = MIS3,
                    "MIS6s" = MIS6s, "MIS6b" = MIS6b)
 names(timeperiods)
 
+num.years = data.frame(period = character(0), 
+                       water.level = character(0), 
+                       num.steps = double(0), 
+                       num.years = double(0))
+
 for(t in 1:length(timeperiods)) {
   period = names(timeperiods)[[t]]
+  print(period)
   files = timeperiods[[t]]
   files = files[str_detect(files, "LIST")]
   
@@ -73,6 +79,16 @@ for(t in 1:length(timeperiods)) {
       
       # Import the data without headers
       ds <- read.table(paste(my_dir, "/", new.file,sep=""), fill = TRUE, skip = 19, stringsAsFactors = FALSE, sep = ",")
+      
+      # Create dataset to track number of years passed during model run
+      #print(nrow(ds))
+      water = ifelse(str_detect(period, "l"), "low", 
+                     ifelse(str_detect(period, "s"), "low", 
+                            ifelse(str_detect(period, "h"), "high", 
+                                   ifelse(str_detect(period, "b"), "high", 
+                                          "none"))))
+      num.years[nrow(num.years) + 1,] <- c(period, water, nrow(ds), floor(nrow(ds)/15))
+      
       # Keep only the coordinates of the paths 
       #ds <- ds[,c(2,6)]
       # Change the names and reduce the floats coordinates to integers 
