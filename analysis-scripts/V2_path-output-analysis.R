@@ -10,8 +10,6 @@ cost.y <- dim(costRast)[1]
 
 
 # Assign the folder in which all the individual simulation output files are located 
-# my_dir = paste0(getwd(),"/outputs/Azov")
-# my_dir = paste0(getwd(),"/outputs/Caucasus")
 my_dir = paste0(getwd(),"/test-outputs")
 
 # Create a list of all the file names in the identified folder
@@ -19,13 +17,13 @@ all_files = list.files(path = my_dir, all.files = TRUE, full.names = TRUE, patte
 low = all_files[str_detect(all_files, "low")]
 high = all_files[str_detect(all_files, "high")]
 
-timeperiods = list("low-water" = low, 
+water.levels = list("low-water" = low, 
                    "high-water" = high)
-names(timeperiods)
+names(water.levels)
 
-for(t in 1:length(timeperiods)) {
-  period = names(timeperiods)[[t]]
-  files = timeperiods[[t]]
+for(t in 1:length(water.levels)) {
+  period = names(water.levels)[[t]]
+  files = water.levels[[t]]
   files = files[str_detect(files, "LIST")]
   
   if(length(files) != 0) {
@@ -48,12 +46,12 @@ for(t in 1:length(timeperiods)) {
       # Separate out the components of the file name 
       filename.split = strsplit(new.file,"_") 
       filename.split = unlist(filename.split)
-      origin = gsub("\\)|\\(", "", filename.split[4]) # Origin of the run 
+      origin = gsub("\\)|\\(", "", filename.split[5]) # Origin of the run 
       #goal = gsub("\\)|\\(", "", filename.split[5])
       
       patch_res_km = as.numeric(filename.split[8])
       #desert_cost = filename.split[6]
-      time_period = filename.split[5]
+      time_period = filename.split[6]
       
       # Import the data without headers
       ds <- read.table(paste(my_dir, "/", new.file,sep=""), fill = TRUE, skip = 19, stringsAsFactors = FALSE, sep = ",")
@@ -63,6 +61,18 @@ for(t in 1:length(timeperiods)) {
       colnames(ds) <- c("x","y", "period")
       ds$x <- as.integer(ds$x)
       ds$y <- as.integer(ds$y)
+      
+      ##cut agent movements if they move to the edge of the world
+      ds$inwindow = ifelse(
+        ds$x < cost.x - 1 & ds$y < cost.y - 1 & ds$x > 1 & ds$y > 1, TRUE, FALSE
+      )
+      outwindow = as.numeric(rownames(ds[which(ds$inwindow == F),])[1])
+      
+      if(!is.na(outwindow)) {
+        ds = ds[c(1:outwindow),]
+      }
+      
+      ds = ds[,c(1,2,3)]
       
       # For each path, each cell is walked on only once 
       ds$value <- 1
@@ -102,21 +112,14 @@ for(t in 1:length(timeperiods)) {
       #dat.final$y <- (dat.final$y * yres(costRast) ) + ymin(costRast) + (yres(costRast) / 2) # ymin extent of the original map
       dat.final$x <- (dat.final$x * xres(costRast) * patch_res_km ) + xmin(costRast) + (xres(costRast) * patch_res_km / 2) # xmin extent of the original map 
       dat.final$y <- (dat.final$y * yres(costRast) * patch_res_km ) + ymin(costRast) + (yres(costRast) * patch_res_km / 2) # ymin extent of the original map
+  
+      dat.final$period.num = unclass(as.factor(dat.final$period))
       
-      # for(p in unique(dat.final$period)) { 
-      #   dat.period = dat.final[which(dat.final$period == p),c(1,2,4)]
-      #   
-      #   # Create the raster
-      #   r.sub <- rasterFromXYZ(dat.period)
-      #   #crs(r.sub) = crs
-      #   crs(r.sub) = CRS("+init=epsg:3857")
-      #   #plot(r.sub)
-      #   #plot(costRast)
-      #   writeRaster(r.sub, paste0(getwd(), "/routes/", period, "_", p, "_routes.asc"), overwrite = T)
-      # }
+      print(paste("file", l))
+      print(dat.final %>% group_by(period.num) %>% summarize(period = first(period)))
       
       # Create the raster
-      r.sub <- rasterFromXYZ(dat.final[,c(1,2,4)])
+      r.sub <- rasterFromXYZ(dat.final[,c(1,2,5)])
       #crs(r.sub) = crs
       crs(r.sub) = CRS("+init=epsg:3857")
       #plot(r.sub)
