@@ -148,7 +148,7 @@ to setup
     ;set file-1 (word "/Users/emilycoco/Desktop/ab-lcp-dispersals/test-outputs/" "outputs_path_" origin "_" time-period "_" levy_mu "_" patch-size-km "_" stamp1 ".csv")
     set file-2 (word "/Users/emilycoco/Desktop/ab-lcp-dispersals/test-outputs/" "LIST_outputs_path_" origin "_" time-period "_" levy_mu "_" patch-size-km "_" stamp1 ".csv")
     ;output-print file-1
-    output-print file-2
+    ;;output-print file-2
 
 ;    if file-exists? file-1
 ;    [ file-delete file-1 ]
@@ -197,7 +197,7 @@ to go
     if output? = true [
       if lost-output? = true [
         ;export-path
-        export-coord-list
+        ;export-coord-list
       ]
     ]
     set hiker-status "dead"
@@ -210,7 +210,7 @@ to go
     if output? = true [
       if lost-output? = true [
         ;export-path
-        export-coord-list
+        ;export-coord-list
       ]
     ]
     set hiker-status "dead"
@@ -244,7 +244,7 @@ to find-winner-patch [ #cone-radius ]
   let unknown-vision patch-vision with [ known? = false ]
   if any? unknown-vision
   [
-    output-print "unknown patches available"
+    ;;output-print "unknown patches available"
     set patch-vision patch-vision with [ known? = false ]
   ]
 
@@ -298,6 +298,16 @@ to move
   let c 0
 
   foreach (range 1 cur-step-length) [
+
+    if ( [pxcor] of winner-patch <= min-pxcor or
+      [pxcor] of winner-patch >= max-pxcor or
+      [pycor] of winner-patch <= min-pycor or
+      [pycor] of winner-patch >= max-pycor
+      ) [
+      output-print "hiker exited window"
+      die
+      stop
+    ]
 
     let dist-winner-patch distance winner-patch
     move-to winner-patch
@@ -356,22 +366,22 @@ to update-colors
 end
 
 to export-path
-  output-print "export-path function is running"
+  ;;output-print "export-path function is running"
 
   file-open file-1
   export-plot "path" file-1
-  output-print file-read-line
+  ;;output-print file-read-line
   file-close
 
 end
 
 to export-coord-list
-  output-print "export-coord-list function is running"
+  ;;output-print "export-coord-list function is running"
 
   file-open file-2
-  output-print item 1 coord-list
+  ;;output-print item 1 coord-list
   csv:to-file file-2 coord-list
-  output-print file-read-line
+  ;;output-print file-read-line
   file-close
 
 end
@@ -379,8 +389,8 @@ end
 GRAPHICS-WINDOW
 301
 10
-1371
-1126
+1012
+752
 -1
 -1
 0.025
@@ -485,7 +495,7 @@ SWITCH
 311
 output?
 output?
-0
+1
 1
 -1000
 
@@ -496,7 +506,7 @@ SWITCH
 311
 lost-output?
 lost-output?
-0
+1
 1
 -1000
 

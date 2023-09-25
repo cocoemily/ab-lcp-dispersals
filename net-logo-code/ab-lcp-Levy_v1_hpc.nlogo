@@ -302,6 +302,16 @@ to move
 
   foreach (range 1 cur-step-length) [
 
+    if ( [pxcor] of winner-patch <= min-pxcor or
+      [pxcor] of winner-patch >= max-pxcor or
+      [pycor] of winner-patch <= min-pycor or
+      [pycor] of winner-patch >= max-pycor
+      ) [
+      output-print "hiker exited window"
+      die
+      stop
+    ]
+
     let dist-winner-patch distance winner-patch
     move-to winner-patch
     ask winner-patch [
