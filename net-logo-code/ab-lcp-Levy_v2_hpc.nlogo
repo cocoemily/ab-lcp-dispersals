@@ -442,7 +442,7 @@ to get-step-length
   set cur-step-length (random-float 1.000) ^ (-1 / levy_mu)
   set num-steps num-steps + cur-step-length
 
-  set num-years (round (num-steps / 15))
+  set num-years (round (num-steps / 600))
 
   let new-territory count patch-vision
   if explore? [
