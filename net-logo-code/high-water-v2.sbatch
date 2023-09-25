@@ -1,8 +1,8 @@
 #!/bin/bash
 #SBATCH --nodes=1
-#SBATCH --time=160:00:00
+#SBATCH --time=165:00:00
 #SBATCH --mem=70GB
-#SBATCH --job-name=bc-test
+#SBATCH --job-name=high-water
 #SBATCH --mail-type=END
 #SBATCH --mail-user=ec3307@nyu.edu
 
@@ -14,7 +14,7 @@ PATH=$PATH:/home/ec3307/NetLogo
 ##cd $MODEL_PATH
 
 RUN_NO=1
-EXP_NAME="test-background-change"
+EXP_NAME="high-water_LONG"
 echo $EXP_NAME
 
 export _JAVA_OPTIONS='-Dcom.sun.media.jai.disableMediaLib=true -Xmx71680m'
