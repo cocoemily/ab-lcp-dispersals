@@ -120,7 +120,7 @@ to setup
     [ set impassable false ]
   ]
 
-  let land patches with [ impassable = false ]
+  ;let land patches with [ impassable = false ]
 
   ;;IMPORT AREA FOR START LOCATION
   ;;set start-area gis:load-dataset "/Users/emilycoco/Desktop/ab-lcp-dispersals/start-end-locations/start-Caucacus.shp"
@@ -135,11 +135,11 @@ to setup
   gis:draw end-area 1
   let end-patches patches gis:intersecting end-area
 
-  let list-start-grid sort start-patches
-  let list-end-grid sort end-patches
+  ;let list-start-grid sort start-patches
+  ;let list-end-grid sort end-patches
 
-  ask one-of list-start-grid [ stp-hikers ] ;; will need to update this to iterate through every start square
-  ask one-of list-end-grid [ stp-goal ] ;; will need to update this to iterate through every end square
+  ask one-of start-patches [ stp-hikers ]
+  ask one-of end-patches [ stp-goal ]
 
 
   if output? [
@@ -147,14 +147,7 @@ to setup
 
     ;set file-1 (word "/Users/emilycoco/Desktop/ab-lcp-dispersals/test-outputs/" "outputs_path_" origin "_" time-period "_" levy_mu "_" patch-size-km "_" stamp1 ".csv")
     set file-2 (word "/Users/emilycoco/Desktop/ab-lcp-dispersals/test-outputs/" "LIST_outputs_path_" origin "_" time-period "_" levy_mu "_" patch-size-km "_" stamp1 ".csv")
-    ;output-print file-1
-    ;;output-print file-2
 
-;    if file-exists? file-1
-;    [ file-delete file-1 ]
-;
-;    if file-exists? file-2
-;    [ file-delete file-2 ]
   ]
 
 
@@ -259,10 +252,8 @@ to find-least-cost-path
 
   ifelse face-east? [
     face goal
-    ;set patch-vision patches in-cone 1.5 200 ;; set hikers in direction of end goal
     find-winner-patch 200
   ] [
-    ;set patch-vision patches in-cone 1.5 360
     find-winner-patch 360
   ]
 
@@ -327,10 +318,9 @@ to move
       set patch-counter 100
     ]
 
-    set dist-traveled dist-traveled + ( dist-winner-patch * patch-size-km )
+    ;set dist-traveled dist-traveled + ( dist-winner-patch * patch-size-km )
 
-    ;set patch-vision patches in-cone 1.5 100 ;; keeps hikers headed in relatively the same direction as the original choice before the Levy walk
-    find-winner-patch 100
+    find-winner-patch 100 ;; keeps hikers headed in relatively the same direction as the original choice before the Levy walk
 
     ifelse winner-patch = nobody
     [
@@ -389,8 +379,8 @@ end
 GRAPHICS-WINDOW
 301
 10
-1012
-752
+1013
+753
 -1
 -1
 0.025
