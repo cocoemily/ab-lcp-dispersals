@@ -133,14 +133,13 @@ to setup-background [ #time-period ]
   ]
 
   ask patches [
-    update-colors
+    ;update-colors
     set known? false
     ifelse cost = -999999
     [ set impassable true ]
     [ set impassable false ]
   ]
 
-  let land patches with [ impassable = false ]
 end
 
 
@@ -174,11 +173,8 @@ to setup
   gis:draw end-area 1
   let end-patches patches gis:intersecting end-area
 
-  let list-start-grid sort start-patches
-  let list-end-grid sort end-patches
-
-  ask one-of list-start-grid [ stp-hikers ] ;; will need to update this to iterate through every start square
-  ask one-of list-end-grid [ stp-goal ] ;; will need to update this to iterate through every end square
+  ask one-of start-patches [ stp-hikers ]
+  ask one-of end-patches [ stp-goal ]
 
 
   if output? [
@@ -402,7 +398,7 @@ to find-winner-patch [ #cone-radius ]
   set patch-vision patch-vision with [ patch-counter = 0 ]
   set patch-vision patch-vision with [ impassable = false ]
 
-  ask patch-vision [ set pcolor pink ]
+  ;ask patch-vision [ set pcolor pink ]
 
   let unknown-vision patch-vision with [ known? = false ]
   if any? unknown-vision
@@ -421,10 +417,8 @@ to find-least-cost-path
 
   ifelse face-east? [
     face goal
-    ;set patch-vision patches in-cone 1.5 200 ;; set hikers in direction of end goal
     find-winner-patch 200
   ] [
-    ;set patch-vision patches in-cone 1.5 360
     find-winner-patch 360
   ]
 
@@ -446,7 +440,6 @@ to get-step-length
 
   let new-territory count patch-vision
   if explore? [
-    ;;if ([patch-counter] of winner-patch) = 0 [
       if new-territory >= 5 [
         set cur-step-length (cur-step-length * 2)
       ]
@@ -474,12 +467,11 @@ to move
       stop
     ]
 
-    let dist-winner-patch distance winner-patch
     move-to winner-patch
-    ask winner-patch [
-      set pcolor violet
-    ]
-    update-plots
+;    ask winner-patch [
+;      set pcolor violet
+;    ]
+;    update-plots
     set coord-list lput (list ([pxcor] of winner-patch) ([pycor] of winner-patch) (item cur-time-period time-line-names)) coord-list
     ;output-print patch-here
 
@@ -492,10 +484,7 @@ to move
       set patch-counter 100
     ]
 
-    set dist-traveled dist-traveled + ( dist-winner-patch * patch-size-km )
-
-    ;set patch-vision patches in-cone 1.5 100 ;; keeps hikers headed in relatively the same direction as the original choice before the Levy walk
-    find-winner-patch 100
+    find-winner-patch 100 ;; keeps hikers headed in relatively the same direction as the original choice before the Levy walk
 
     ifelse winner-patch = nobody
     [

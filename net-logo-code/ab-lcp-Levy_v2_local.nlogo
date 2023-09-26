@@ -123,7 +123,6 @@ to setup-background [ #time-period ]
     [ set impassable false ]
   ]
 
-  let land patches with [ impassable = false ]
 end
 
 
@@ -155,11 +154,8 @@ to setup
   gis:draw end-area 1
   let end-patches patches gis:intersecting end-area
 
-  let list-start-grid sort start-patches
-  let list-end-grid sort end-patches
-
-  ask one-of list-start-grid [ stp-hikers ] ;; will need to update this to iterate through every start square
-  ask one-of list-end-grid [ stp-goal ] ;; will need to update this to iterate through every end square
+  ask one-of start-patches [ stp-hikers ] ;; will need to update this to iterate through every start square
+  ask one-of end-patches [ stp-goal ] ;; will need to update this to iterate through every end square
 
 
   if output? [
@@ -392,7 +388,6 @@ to move
       stop
     ]
 
-    let dist-winner-patch distance winner-patch
     move-to winner-patch
     ask winner-patch [
       set pcolor violet
@@ -409,8 +404,6 @@ to move
     ask patch-here [
       set patch-counter 100
     ]
-
-    set dist-traveled dist-traveled + ( dist-winner-patch * patch-size-km )
 
     ;set patch-vision patches in-cone 1.5 100 ;; keeps hikers headed in relatively the same direction as the original choice before the Levy walk
     find-winner-patch 100
