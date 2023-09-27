@@ -263,126 +263,126 @@ to go
   ;; MIS start dates (list 190000 120000 114000 102000 92000 84000 70000 56000 20000 (LGM, end of model)
   ;; change-points (list 70000 76000 88000 98000 106000 120000 134000 170000)
 
-  let model-year num-years
-  ;; output-print model-year
-  if model-year >= 70000 and model-year < 76000 [
-    if cur-time-period != 1 [
-      set cur-time-period 1
-      output-print item cur-time-period time-line-names
-      setup-background item cur-time-period time-line-names
-    ]
-  ]
-  if model-year >= 76000 and model-year < 88000 [
-    if cur-time-period != 2 [
-      set cur-time-period 2
-      output-print item cur-time-period time-line-names
-      setup-background item cur-time-period time-line-names
-    ]
-  ]
-  if model-year >= 88000 and model-year < 98000 [
-    if cur-time-period != 3 [
-      set cur-time-period 3
-      output-print item cur-time-period time-line-names
-      setup-background item cur-time-period time-line-names
-    ]
-  ]
-  if model-year >= 98000 and model-year < 106000 [
-    if cur-time-period != 4 [
-      set cur-time-period 4
-      output-print item cur-time-period time-line-names
-      setup-background item cur-time-period time-line-names
-    ]
-  ]
-  if model-year >= 106000 and model-year < 120000 [
-    if cur-time-period != 5 [
-      set cur-time-period 5
-      output-print item cur-time-period time-line-names
-      setup-background item cur-time-period time-line-names
-    ]
-  ]
-  if model-year >= 120000 and model-year < 134000 [
-    if cur-time-period != 6 [
-      set cur-time-period 6
-      output-print item cur-time-period time-line-names
-      setup-background item cur-time-period time-line-names
-    ]
-  ]
-  if model-year >= 134000  and model-year < 170000[
-    if cur-time-period != 7 [
-      set cur-time-period 7
-      output-print item cur-time-period time-line-names
-      setup-background item cur-time-period time-line-names
-    ]
-  ]
-  if model-year >= 170000 [ ;; end model after reaching LGM in years
-    if output? = true [
-      if lost-output? = true [
-        ;export-path
-        export-coord-list
-      ]
-    ]
-    set hiker-status "dead"
-    stop
-  ]
-
-  ;;calculations without MIS 6
-  ;; time-line-names ( list "MIS5e" "MIS5d-low" "MIS5c" "MIS5b-low" "MIS5a" "MIS4-low" "MIS3" )
-  ;; MIS start dates (list 120000 114000 102000 92000 84000 70000 56000)
-  ;; change-points (list 6000 18000 28000 36000 50000 64000)
 ;  let model-year num-years
 ;  ;; output-print model-year
-;  if model-year >= 6000 and model-year < 18000 [
+;  if model-year >= 70000 and model-year < 76000 [
 ;    if cur-time-period != 1 [
 ;      set cur-time-period 1
 ;      output-print item cur-time-period time-line-names
 ;      setup-background item cur-time-period time-line-names
 ;    ]
 ;  ]
-;  if model-year >= 18000 and model-year < 28000 [
+;  if model-year >= 76000 and model-year < 88000 [
 ;    if cur-time-period != 2 [
 ;      set cur-time-period 2
 ;      output-print item cur-time-period time-line-names
 ;      setup-background item cur-time-period time-line-names
 ;    ]
 ;  ]
-;  if model-year >= 28000 and model-year < 36000 [
+;  if model-year >= 88000 and model-year < 98000 [
 ;    if cur-time-period != 3 [
 ;      set cur-time-period 3
 ;      output-print item cur-time-period time-line-names
 ;      setup-background item cur-time-period time-line-names
 ;    ]
 ;  ]
-;  if model-year >= 36000 and model-year < 50000 [
+;  if model-year >= 98000 and model-year < 106000 [
 ;    if cur-time-period != 4 [
 ;      set cur-time-period 4
 ;      output-print item cur-time-period time-line-names
 ;      setup-background item cur-time-period time-line-names
 ;    ]
 ;  ]
-;  if model-year >= 50000 and model-year < 64000 [
+;  if model-year >= 106000 and model-year < 120000 [
 ;    if cur-time-period != 5 [
 ;      set cur-time-period 5
 ;      output-print item cur-time-period time-line-names
 ;      setup-background item cur-time-period time-line-names
 ;    ]
 ;  ]
-;  if model-year >= 64000 [
+;  if model-year >= 120000 and model-year < 134000 [
 ;    if cur-time-period != 6 [
 ;      set cur-time-period 6
 ;      output-print item cur-time-period time-line-names
 ;      setup-background item cur-time-period time-line-names
 ;    ]
 ;  ]
-;
-;
-;  ask hiker hiker-n [
-;    if [ impassable ] of patch-here [
-;      let target-patch min-one-of (patches in-radius 10 with [impassable = false]) [distance self]
-;      if target-patch != nobody [
-;        move-to target-patch
-;      ]
+;  if model-year >= 134000  and model-year < 170000[
+;    if cur-time-period != 7 [
+;      set cur-time-period 7
+;      output-print item cur-time-period time-line-names
+;      setup-background item cur-time-period time-line-names
 ;    ]
 ;  ]
+;  if model-year >= 170000 [ ;; end model after reaching LGM in years
+;    if output? = true [
+;      if lost-output? = true [
+;        ;export-path
+;        export-coord-list
+;      ]
+;    ]
+;    set hiker-status "dead"
+;    stop
+;  ]
+
+  ;;calculations without MIS 6
+  ;; time-line-names ( list "MIS5e" "MIS5d-low" "MIS5c" "MIS5b-low" "MIS5a" "MIS4-low" "MIS3" )
+  ;; MIS start dates (list 120000 114000 102000 92000 84000 70000 56000)
+  ;; change-points (list 6000 18000 28000 36000 50000 64000)
+  let model-year num-years
+  ;; output-print model-year
+  if model-year >= 6000 and model-year < 18000 [
+    if cur-time-period != 1 [
+      set cur-time-period 1
+      output-print item cur-time-period time-line-names
+      setup-background item cur-time-period time-line-names
+    ]
+  ]
+  if model-year >= 18000 and model-year < 28000 [
+    if cur-time-period != 2 [
+      set cur-time-period 2
+      output-print item cur-time-period time-line-names
+      setup-background item cur-time-period time-line-names
+    ]
+  ]
+  if model-year >= 28000 and model-year < 36000 [
+    if cur-time-period != 3 [
+      set cur-time-period 3
+      output-print item cur-time-period time-line-names
+      setup-background item cur-time-period time-line-names
+    ]
+  ]
+  if model-year >= 36000 and model-year < 50000 [
+    if cur-time-period != 4 [
+      set cur-time-period 4
+      output-print item cur-time-period time-line-names
+      setup-background item cur-time-period time-line-names
+    ]
+  ]
+  if model-year >= 50000 and model-year < 64000 [
+    if cur-time-period != 5 [
+      set cur-time-period 5
+      output-print item cur-time-period time-line-names
+      setup-background item cur-time-period time-line-names
+    ]
+  ]
+  if model-year >= 64000 [
+    if cur-time-period != 6 [
+      set cur-time-period 6
+      output-print item cur-time-period time-line-names
+      setup-background item cur-time-period time-line-names
+    ]
+  ]
+
+
+  ask hiker hiker-n [
+    if [ impassable ] of patch-here [
+      let target-patch min-one-of (patches in-radius 10 with [impassable = false]) [distance self]
+      if target-patch != nobody [
+        move-to target-patch
+      ]
+    ]
+  ]
 
   export-coord-list
   tick-advance 1
