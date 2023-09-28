@@ -1,5 +1,7 @@
 #!/bin/bash
 #SBATCH --nodes=1
+#SBATCH --ntasks-per-node=10
+#SBATCH --cpus-per-task=1
 #SBATCH --time=160:00:00
 #SBATCH --mem=70GB
 #SBATCH --job-name=long_MIS5dl-levy
@@ -19,4 +21,4 @@ echo $EXP_NAME
 
 export _JAVA_OPTIONS='-Dcom.sun.media.jai.disableMediaLib=true -Xmx71680m'
 
-bash /home/ec3307/NetLogo/netlogo-headless.sh  --model "ab-lcp-Levy_v1_hpc.nlogo" --experiment $EXP_NAME
+bash /home/ec3307/NetLogo/netlogo-headless.sh  --model "ab-lcp-Levy_v1_hpc.nlogo" --experiment $EXP_NAME --threads 10
