@@ -1,7 +1,7 @@
 #!/bin/bash
 #SBATCH --nodes=1
 #SBATCH --time=160:00:00
-#SBATCH --mem=100GB
+#SBATCH --mem=70GB
 #SBATCH --job-name=long_MIS5a-levy
 #SBATCH --mail-type=END
 #SBATCH --mail-user=ec3307@nyu.edu
