@@ -161,8 +161,8 @@ to setup
   setup-background item cur-time-period time-line-names
 
   ;;IMPORT AREA FOR START LOCATION
-  ;;set start-area gis:load-dataset "/home/ec3307/ab-lcp-dispersals/start-end-locations/start-Caucacus.shp"
-  set start-area gis:load-dataset "/home/ec3307/ab-lcp-dispersals/start-end-locations/start-Azov.shp"
+  set start-area gis:load-dataset "/home/ec3307/ab-lcp-dispersals/start-end-locations/start-Caucacus.shp"
+  ;;set start-area gis:load-dataset "/home/ec3307/ab-lcp-dispersals/start-end-locations/start-Azov.shp"
   gis:set-drawing-color green
   gis:draw start-area 1
   let start-patches patches gis:intersecting start-area
