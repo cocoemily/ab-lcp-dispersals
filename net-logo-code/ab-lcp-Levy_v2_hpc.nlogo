@@ -148,12 +148,12 @@ to setup
   reset-ticks
 
   if (water-level = "low") [
-    set time-line-names ( list "MIS6-low" "MIS5e" "MIS5d-low" "MIS5c" "MIS5b-low" "MIS5a" "MIS4-low" "MIS3" ) ;; with MIS 6
-    ;; set time-line-names ( list "MIS5e" "MIS5d-low" "MIS5c" "MIS5b-low" "MIS5a" "MIS4-low" "MIS3" )
+    ;; set time-line-names ( list "MIS6-low" "MIS5e" "MIS5d-low" "MIS5c" "MIS5b-low" "MIS5a" "MIS4-low" "MIS3" ) ;; with MIS 6
+    set time-line-names ( list "MIS5e" "MIS5d-low" "MIS5c" "MIS5b-low" "MIS5a" "MIS4-low" "MIS3" )
   ]
   if (water-level = "high") [
-    set time-line-names ( list "MIS6-high" "MIS5e" "MIS5d-high" "MIS5c" "MIS5b-hig" "MIS5a" "MIS4-high" "MIS3" ) ;; with MIS 6
-    ;; set time-line-names ( list "MIS5e" "MIS5d-high" "MIS5c" "MIS5b-hig" "MIS5a" "MIS4-high" "MIS3" )
+    ;; set time-line-names ( list "MIS6-high" "MIS5e" "MIS5d-high" "MIS5c" "MIS5b-hig" "MIS5a" "MIS4-high" "MIS3" ) ;; with MIS 6
+    set time-line-names ( list "MIS5e" "MIS5d-high" "MIS5c" "MIS5b-hig" "MIS5a" "MIS4-high" "MIS3" )
   ]
 
   set cur-time-period 0
@@ -550,7 +550,7 @@ GRAPHICS-WINDOW
 908
 -1
 -1
-0.03
+0.49121
 1
 10
 1
