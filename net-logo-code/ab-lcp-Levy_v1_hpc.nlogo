@@ -52,9 +52,6 @@ to setup
   ca
   reset-ticks
 
-  ;;set basemap gis:load-dataset "/Users/emilycoco/Desktop/ab-lcp-dispersals/test-data/DEM/DEM_test.asc"
-  ;;set basemap gis:load-dataset "/Users/emilycoco/Desktop/ab-lcp-dispersals/cost-rasters/model-input-costs/test.asc"
-
   if (time-period = "MIS3" ) [
     set basemap gis:load-dataset "/home/ec3307/ab-lcp-dispersals/cost-rasters/model-input-costs/MIS3.asc"
   ]
@@ -92,14 +89,12 @@ to setup
     set basemap gis:load-dataset "/home/ec3307/ab-lcp-dispersals/cost-rasters/model-input-costs/MIS6_low.asc"
   ]
 
-  ;; let trans-res patch-size-km / map-resolution-km ;;need to figure out these parameters for each basemap
-  ;;set patch-size-km 1
+
   let trans-res patch-size-km / map-resolution-km
   resize-world 0 (( gis:width-of basemap - 1 ) / trans-res ) 0 (( gis:height-of basemap - 1 ) / trans-res )
-  set-patch-size ( 0.05 * patch-size-km )                                   ;; This roughly keeps the size of the world window manageable
-  gis:set-world-envelope gis:envelope-of basemap                         ;; This formats the window to the right dimensions based on the DEM
+  set-patch-size ( 0.05 * patch-size-km )                    ;; This roughly keeps the size of the world window manageable
+  gis:set-world-envelope gis:envelope-of basemap             ;; This formats the window to the right dimensions based on the DEM
   gis:set-sampling-method basemap "BICUBIC_2"
-
 
   gis:apply-raster basemap cost
 
@@ -117,7 +112,6 @@ to setup
   ]
 
   ask patches [
-    ;update-colors
     ifelse cost = -999999
     [ set impassable true ]
     [ set impassable false ]
@@ -128,27 +122,16 @@ to setup
   ;;IMPORT AREA FOR START LOCATION
   set start-area gis:load-dataset "/home/ec3307/ab-lcp-dispersals/start-end-locations/start-Caucacus_north.shp"
   ;;set start-area gis:load-dataset "/home/ec3307/ab-lcp-dispersals/start-end-locations/start-Caucacus_south.shp"
-  ;;set start-area gis:load-dataset "/home/ec3307/ab-lcp-dispersals/start-end-locations/start-Azov2.shp"
-  ;;gis:set-drawing-color green
-  ;;gis:draw start-area 2
+
   let start-patches patches gis:intersecting start-area
   set start-patches start-patches with [ impassable = false ]
 
-  set end-area gis:load-dataset "/home/ec3307/ab-lcp-dispersals/start-end-locations/end-Altai.shp"
-  ;;gis:set-drawing-color red
-  ;;gis:draw end-area 2
-  let end-patches patches gis:intersecting end-area
-
   ask one-of start-patches [ stp-hikers ]
-  ask one-of end-patches [ stp-goal ]
 
 
   if output? [
     set stamp1 random-float 1
-
-    ;set file-1 (word "/home/ec3307/ab-lcp-dispersals/outputs/" "outputs_path_" origin "_" time-period "_" levy_mu "_" patch-size-km "_" stamp1 ".csv")
     set file-2 (word "/home/ec3307/ab-lcp-dispersals/outputs/" "LIST_outputs_path_" origin "_" time-period "_" levy_mu "_" patch-size-km "_" stamp1 ".csv")
-    ;output-print file-1
     output-print file-2
 
   ]
@@ -174,26 +157,15 @@ to stp-hikers                                                        ;; Patch pr
 
 end
 
-to stp-goal                                                          ;; Patch procedure that creates one goal with specific attributes.
-
-  sprout-targets 1
-  [ set color blue
-    set size 5
-    set shape "house"
-    set goal patch-here
-  ]
-end
-
 
 to go
 
   ;; stops if hiker dies
   if not any? hikers [
-    ask patches [ update-colors ]
     if output? = true [
       if lost-output? = true [
-        ; export-path
         export-coord-list
+        output-print (word "total number of ticks " ticks)
       ]
     ]
     set hiker-status "dead"
@@ -202,11 +174,10 @@ to go
 
   ;; stops if tick limit is reached
   if ticks = limit-ticks [
-    ask patches [ update-colors ]
     if output? = true [
       if lost-output? = true [
-        ; export-path
         export-coord-list
+        output-print (word "total number of ticks " ticks)
       ]
     ]
     set hiker-status "dead"
@@ -235,12 +206,9 @@ to find-winner-patch [ #cone-radius ]
   set patch-vision patch-vision with [ impassable = false ]
   set patch-vision patch-vision with [ patch-counter = 0 ]
 
-  ;; ask patch-vision [ set pcolor pink ]
-
   let unknown-vision patch-vision with [ known? = false ]
   ifelse any? unknown-vision
   [
-    ;; ask unknown-vision [ set pcolor blue ]
     ;;output-print "unknown patches available"
     set winner-patch one-of unknown-vision with-min [cost]
   ] [
@@ -254,12 +222,7 @@ to find-least-cost-path
 
   let patch-under-me patch-here
 
-  ifelse face-east? [
-    face goal
-    find-winner-patch 200
-  ] [
-    find-winner-patch 360
-  ]
+  find-winner-patch 360
 
   ifelse winner-patch = nobody
   [ stop ]
@@ -305,10 +268,7 @@ to move
     ]
 
     move-to winner-patch
-;    ask winner-patch [
-;      set pcolor violet
-;    ]
-;    update-plots
+
     set coord-list lput (list ([pxcor] of winner-patch) ([pycor] of winner-patch)) coord-list
     ;output-print patch-here
 
@@ -339,35 +299,13 @@ to move
 
 end
 
-to update-colors
-
-  ifelse cost = -999999
-    [ set impassable "true"
-      set pcolor blue ]
-    [ set pcolor scale-color green cost (min-cost * 100) (max-cost * 100) ]
-
-end
-
-to export-path
-  output-print "export-path function is running"
-
-  file-open file-1
-  export-plot "path" file-1
-  output-print file-read-line
-  file-close
-
-end
 
 to export-coord-list
   ;;output-print "export-coord-list function is running"
 
   file-open file-2
-  ;;output-print item 1 coord-list
   csv:to-file file-2 coord-list
-  output-print file-read-line
   file-close
-
-  ;;output-print (word "total number of steps " num-steps)
 
 end
 @#$#@#$#@
@@ -508,21 +446,10 @@ levy_mu
 0
 
 SWITCH
-16
-291
-136
-324
-face-east?
-face-east?
-1
-1
--1000
-
-SWITCH
-17
-332
-135
-365
+149
+294
+267
+327
 explore?
 explore?
 1
@@ -531,9 +458,9 @@ explore?
 
 INPUTBOX
 17
-373
+297
 122
-433
+357
 view-radius-km
 5.0
 1
