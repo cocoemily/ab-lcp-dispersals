@@ -1367,7 +1367,7 @@ NetLogo 6.3.0
       <value value="5"/>
     </enumeratedValueSet>
   </experiment>
-  <experiment name="MIS3_levy-walks_LONG" repetitions="5" runMetricsEveryStep="false">
+  <experiment name="MIS3_levy-walks_LONG" repetitions="1" runMetricsEveryStep="false">
     <setup>setup</setup>
     <go>go</go>
     <enumeratedValueSet variable="output?">
@@ -1401,7 +1401,7 @@ NetLogo 6.3.0
       <value value="5"/>
     </enumeratedValueSet>
   </experiment>
-  <experiment name="MIS6sk_levy-walks_LONG" repetitions="5" runMetricsEveryStep="false">
+  <experiment name="MIS6sk_levy-walks_LONG" repetitions="1" runMetricsEveryStep="false">
     <setup>setup</setup>
     <go>go</go>
     <enumeratedValueSet variable="output?">
@@ -1435,7 +1435,7 @@ NetLogo 6.3.0
       <value value="5"/>
     </enumeratedValueSet>
   </experiment>
-  <experiment name="MIS6bk_levy-walks_LONG" repetitions="5" runMetricsEveryStep="false">
+  <experiment name="MIS6bk_levy-walks_LONG" repetitions="1" runMetricsEveryStep="false">
     <setup>setup</setup>
     <go>go</go>
     <enumeratedValueSet variable="output?">
@@ -1469,7 +1469,7 @@ NetLogo 6.3.0
       <value value="5"/>
     </enumeratedValueSet>
   </experiment>
-  <experiment name="MIS4sc_levy-walks_LONG" repetitions="5" runMetricsEveryStep="false">
+  <experiment name="MIS4sc_levy-walks_LONG" repetitions="1" runMetricsEveryStep="false">
     <setup>setup</setup>
     <go>go</go>
     <enumeratedValueSet variable="output?">
@@ -1503,7 +1503,7 @@ NetLogo 6.3.0
       <value value="5"/>
     </enumeratedValueSet>
   </experiment>
-  <experiment name="MIS4bc_levy-walks_LONG" repetitions="5" runMetricsEveryStep="false">
+  <experiment name="MIS4bc_levy-walks_LONG" repetitions="1" runMetricsEveryStep="false">
     <setup>setup</setup>
     <go>go</go>
     <enumeratedValueSet variable="output?">
@@ -1537,7 +1537,7 @@ NetLogo 6.3.0
       <value value="5"/>
     </enumeratedValueSet>
   </experiment>
-  <experiment name="MIS5a_levy-walks_LONG" repetitions="5" runMetricsEveryStep="false">
+  <experiment name="MIS5a_levy-walks_LONG" repetitions="1" runMetricsEveryStep="false">
     <setup>setup</setup>
     <go>go</go>
     <enumeratedValueSet variable="output?">
@@ -1571,7 +1571,7 @@ NetLogo 6.3.0
       <value value="5"/>
     </enumeratedValueSet>
   </experiment>
-  <experiment name="MIS5bh_levy-walks_LONG" repetitions="5" runMetricsEveryStep="false">
+  <experiment name="MIS5bh_levy-walks_LONG" repetitions="1" runMetricsEveryStep="false">
     <setup>setup</setup>
     <go>go</go>
     <enumeratedValueSet variable="output?">
@@ -1605,7 +1605,7 @@ NetLogo 6.3.0
       <value value="5"/>
     </enumeratedValueSet>
   </experiment>
-  <experiment name="MIS5bl_levy-walks_LONG" repetitions="5" runMetricsEveryStep="false">
+  <experiment name="MIS5bl_levy-walks_LONG" repetitions="1" runMetricsEveryStep="false">
     <setup>setup</setup>
     <go>go</go>
     <enumeratedValueSet variable="output?">
@@ -1639,7 +1639,7 @@ NetLogo 6.3.0
       <value value="5"/>
     </enumeratedValueSet>
   </experiment>
-  <experiment name="MIS5e_levy-walks_LONG" repetitions="5" runMetricsEveryStep="false">
+  <experiment name="MIS5e_levy-walks_LONG" repetitions="1" runMetricsEveryStep="false">
     <setup>setup</setup>
     <go>go</go>
     <enumeratedValueSet variable="output?">
@@ -1673,7 +1673,7 @@ NetLogo 6.3.0
       <value value="5"/>
     </enumeratedValueSet>
   </experiment>
-  <experiment name="MIS5dh_levy-walks_LONG" repetitions="5" runMetricsEveryStep="false">
+  <experiment name="MIS5dh_levy-walks_LONG" repetitions="1" runMetricsEveryStep="false">
     <setup>setup</setup>
     <go>go</go>
     <enumeratedValueSet variable="output?">
@@ -1707,7 +1707,7 @@ NetLogo 6.3.0
       <value value="5"/>
     </enumeratedValueSet>
   </experiment>
-  <experiment name="MIS5dl_levy-walks_LONG" repetitions="5" runMetricsEveryStep="false">
+  <experiment name="MIS5dl_levy-walks_LONG" repetitions="1" runMetricsEveryStep="false">
     <setup>setup</setup>
     <go>go</go>
     <enumeratedValueSet variable="output?">
@@ -1741,7 +1741,7 @@ NetLogo 6.3.0
       <value value="5"/>
     </enumeratedValueSet>
   </experiment>
-  <experiment name="MIS5c_levy-walks_LONG" repetitions="5" runMetricsEveryStep="false">
+  <experiment name="MIS5c_levy-walks_LONG" repetitions="1" runMetricsEveryStep="false">
     <setup>setup</setup>
     <go>go</go>
     <enumeratedValueSet variable="output?">
