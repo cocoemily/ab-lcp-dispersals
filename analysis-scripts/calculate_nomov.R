@@ -41,6 +41,7 @@ for(i in 1:length(periods)) {
   print(names(periods)[i])
   
   nomov = 0
+  dismov = 0
   tcount = 0
   for(t in periods[[i]]) {
     DEM_temp = region_slice(
@@ -72,11 +73,15 @@ for(i in 1:length(periods)) {
     
     tcount = tcount + 1
     nomov = nomov + median(hg_data$nomov, na.rm = T)
+    dismov = dismov + median(hg_data$kmov, na.rm = T)
     
   }
-  print(nomov/tcount)
+  print(paste("number of moves:", nomov/tcount))
+  print(paste("distance of moves:", dismov/tcount))
 }
 
 ##across all time periods, the average number of moves per year for the climate
 ## conditions in the study area is approximately 15
+
+##average distance moved per year -- approximate 375 miles (approx. 600 km)
 

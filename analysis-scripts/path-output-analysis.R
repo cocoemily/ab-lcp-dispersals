@@ -8,6 +8,14 @@ costRast = raster(file.choose(), sep=",")
 cost.x <- dim(costRast)[2]
 cost.y <- dim(costRast)[1]
 
+num.years = data.frame(start = character(0),
+                       period = character(0), 
+                       water.level = character(0), 
+                       num.steps = double(0), 
+                       num.years.hg = double(0), 
+                       #num.years.ne = double(0),
+                       cut = logical(0))
+
 
 for(start in c("Azov", "Caucasus")) {
   
@@ -40,12 +48,6 @@ for(start in c("Azov", "Caucasus")) {
                      "MIS5e" = MIS5e,
                      "MIS6s" = MIS6s, "MIS6b" = MIS6b)
   names(timeperiods)
-  
-  num.years = data.frame(period = character(0), 
-                         water.level = character(0), 
-                         num.steps = double(0), 
-                         num.years = double(0), 
-                         cut = logical(0))
   
   for(t in 1:length(timeperiods)) {
     period = names(timeperiods)[[t]]
@@ -90,7 +92,13 @@ for(start in c("Azov", "Caucasus")) {
                               ifelse(str_detect(period, "h"), "high", 
                                      ifelse(str_detect(period, "b"), "high", 
                                             "none"))))
-        num.years[nrow(num.years) + 1,] <- c(period, water, nrow(ds), floor(nrow(ds)/15), FALSE)
+        num.years[nrow(num.years) + 1,] <- c(start, 
+                                             period, 
+                                             water, 
+                                             nrow(ds), 
+                                             floor(nrow(ds)/600), 
+                                             #floor(nrow(ds)/2100), 
+                                             FALSE)
         
         # Keep only the coordinates of the paths 
         #ds <- ds[,c(2,6)]
@@ -107,7 +115,13 @@ for(start in c("Azov", "Caucasus")) {
         
         if(!is.na(outwindow)) {
           ds = ds[c(1:outwindow),]
-          num.years[nrow(num.years) + 1,] <- c(period, water, nrow(ds), floor(nrow(ds)/15), TRUE)
+          num.years[nrow(num.years) + 1,] <- c(start, 
+                                               period, 
+                                               water, 
+                                               nrow(ds), 
+                                               floor(nrow(ds)/600), 
+                                               #floor(nrow(ds)/2100), 
+                                               TRUE)
         }
         
         ds = ds[,c(1,2)]
@@ -124,7 +138,7 @@ for(start in c("Azov", "Caucasus")) {
           b <- dplyr::summarize(route.group, value = sum(value)) 
           routes <- as.data.frame(b)
           # Assign the dataset to the global environment so it can be used outside the loop.
-          assign('routes',routes, envir = .GlobalEnv) 
+          #assign('routes',routes, envir = .GlobalEnv) 
           #assign('desert_cost', desert_cost, envir = .GlobalEnv)
         }
       }
@@ -158,9 +172,12 @@ for(start in c("Azov", "Caucasus")) {
       crs(r.sub) = CRS("+init=epsg:3857")
       #plot(r.sub)
       #plot(costRast)
-      writeRaster(r.sub, paste0(getwd(), "/routes/", start, "/", start, "_", period, "_routes.asc"), overwrite = T)
+      #writeRaster(r.sub, paste0(getwd(), "/routes/", start, "/", start, "_", period, "_routes.asc"), overwrite = T)
       
     }
   }
 }
+
+calc.runs = num.years %>% filter(cut == F)
+table(calc.runs$start, calc.runs$period)
 

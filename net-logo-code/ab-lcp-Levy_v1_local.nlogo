@@ -123,16 +123,17 @@ to setup
   ;let land patches with [ impassable = false ]
 
   ;;IMPORT AREA FOR START LOCATION
-  ;;set start-area gis:load-dataset "/Users/emilycoco/Desktop/ab-lcp-dispersals/start-end-locations/start-Caucacus.shp"
-  set start-area gis:load-dataset "/Users/emilycoco/Desktop/ab-lcp-dispersals/start-end-locations/start-Azov.shp"
-  gis:set-drawing-color green
-  gis:draw start-area 1
+  ;;set start-area gis:load-dataset "/Users/emilycoco/Desktop/ab-lcp-dispersals/start-end-locations/start-Caucacus_north.shp"
+  ;;set start-area gis:load-dataset "/Users/emilycoco/Desktop/ab-lcp-dispersals/start-end-locations/start-Caucacus_south.shp"
+  set start-area gis:load-dataset "/Users/emilycoco/Desktop/ab-lcp-dispersals/start-end-locations/start-Azov2.shp"
+  ;;gis:set-drawing-color red
+  ;;gis:draw start-area 1
   let start-patches patches gis:intersecting start-area
   set start-patches start-patches with [ impassable = false ]
 
   set end-area gis:load-dataset "/Users/emilycoco/Desktop/ab-lcp-dispersals/start-end-locations/end-Altai.shp"
-  gis:set-drawing-color red
-  gis:draw end-area 1
+  ;;gis:set-drawing-color red
+  ;;gis:draw end-area 1
   let end-patches patches gis:intersecting end-area
 
   ;let list-start-grid sort start-patches
@@ -229,19 +230,20 @@ to find-winner-patch [ #cone-radius ]
 
   set patch-vision patches in-cone 1.5 #cone-radius
 
-  set patch-vision patch-vision with [ patch-counter = 0 ]
   set patch-vision patch-vision with [ impassable = false ]
+  set patch-vision patch-vision with [ patch-counter = 0 ]
 
   ask patch-vision [ set pcolor pink ]
 
   let unknown-vision patch-vision with [ known? = false ]
-  if any? unknown-vision
+  ifelse any? unknown-vision
   [
+    ask unknown-vision [ set pcolor blue ]
     ;;output-print "unknown patches available"
-    set patch-vision patch-vision with [ known? = false ]
+    set winner-patch one-of unknown-vision with-min [cost]
+  ] [
+    set winner-patch one-of patch-vision with-min [cost]
   ]
-
-  set winner-patch one-of patch-vision with-min [cost]
 
 end
 
@@ -315,7 +317,7 @@ to move
     ]
 
     ask patch-here [
-      set patch-counter 100
+      set patch-counter 20
     ]
 
     ;set dist-traveled dist-traveled + ( dist-winner-patch * patch-size-km )
@@ -325,7 +327,7 @@ to move
     ifelse winner-patch = nobody
     [
       set c c + 1
-      if c = 100 [
+      if c = 20 [
         die
         output-print "hiker died"
       ]
@@ -496,7 +498,7 @@ SWITCH
 311
 lost-output?
 lost-output?
-1
+0
 1
 -1000
 

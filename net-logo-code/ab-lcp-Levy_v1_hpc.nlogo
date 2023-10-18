@@ -126,8 +126,9 @@ to setup
   let land patches with [ impassable = false ]
 
   ;;IMPORT AREA FOR START LOCATION
-  set start-area gis:load-dataset "/home/ec3307/ab-lcp-dispersals/start-end-locations/start-Caucacus.shp"
-  ;;set start-area gis:load-dataset "/home/ec3307/ab-lcp-dispersals/start-end-locations/start-Azov.shp"
+  set start-area gis:load-dataset "/home/ec3307/ab-lcp-dispersals/start-end-locations/start-Caucacus_north.shp"
+  ;;set start-area gis:load-dataset "/home/ec3307/ab-lcp-dispersals/start-end-locations/start-Caucacus_south.shp"
+  ;;set start-area gis:load-dataset "/home/ec3307/ab-lcp-dispersals/start-end-locations/start-Azov2.shp"
   ;;gis:set-drawing-color green
   ;;gis:draw start-area 2
   let start-patches patches gis:intersecting start-area
@@ -231,18 +232,20 @@ to find-winner-patch [ #cone-radius ]
 
   set patch-vision patches in-cone 1.5 #cone-radius
 
-  set patch-vision patch-vision with [ patch-counter = 0 ]
   set patch-vision patch-vision with [ impassable = false ]
+  set patch-vision patch-vision with [ patch-counter = 0 ]
 
-  ;;ask patch-vision [ set pcolor pink ]
+  ;; ask patch-vision [ set pcolor pink ]
 
   let unknown-vision patch-vision with [ known? = false ]
-  if any? unknown-vision
+  ifelse any? unknown-vision
   [
-    set patch-vision patch-vision with [ known? = false ]
+    ;; ask unknown-vision [ set pcolor blue ]
+    ;;output-print "unknown patches available"
+    set winner-patch one-of unknown-vision with-min [cost]
+  ] [
+    set winner-patch one-of patch-vision with-min [cost]
   ]
-
-  set winner-patch one-of patch-vision with-min [cost]
 
 end
 
@@ -315,7 +318,7 @@ to move
     ]
 
     ask patch-here [
-      set patch-counter 100
+      set patch-counter 20
     ]
 
     find-winner-patch 100 ;; keeps hikers headed in relatively the same direction as the original choice before the Levy walk
@@ -323,7 +326,7 @@ to move
     ifelse winner-patch = nobody
     [
       set c c + 1
-      if c = 100 [
+      if c = 20 [
         die
         output-print "hiker died"
       ]
@@ -356,15 +359,15 @@ to export-path
 end
 
 to export-coord-list
-  output-print "export-coord-list function is running"
+  ;;output-print "export-coord-list function is running"
 
   file-open file-2
-  output-print item 1 coord-list
+  ;;output-print item 1 coord-list
   csv:to-file file-2 coord-list
   output-print file-read-line
   file-close
 
-  output-print (word "total number of steps " num-steps)
+  ;;output-print (word "total number of steps " num-steps)
 
 end
 @#$#@#$#@
@@ -429,30 +432,11 @@ NIL
 NIL
 1
 
-PLOT
-18
-101
-249
-270
-path
-tick
-coord
-0.0
-10.0
-0.0
-10.0
-true
-false
-"" ""
-PENS
-"path-x" 1.0 0 -16777216 true "" "if any? hikers [ plot [ xcor ] of hiker hiker-n ]"
-"path-y" 1.0 0 -7500403 true "" "if any? hikers [ plot [ ycor ] of hiker hiker-n ]"
-
 INPUTBOX
-151
-328
-245
-388
+148
+161
+242
+221
 patch-size-km
 1.0
 1
@@ -460,10 +444,10 @@ patch-size-km
 Number
 
 INPUTBOX
-20
-328
-143
-388
+17
+161
+140
+221
 map-resolution-km
 1.0
 1
@@ -471,10 +455,10 @@ map-resolution-km
 Number
 
 SWITCH
-19
-278
-123
-311
+16
+111
+120
+144
 output?
 output?
 0
@@ -482,10 +466,10 @@ output?
 -1000
 
 SWITCH
-131
-278
-265
-311
+128
+111
+262
+144
 lost-output?
 lost-output?
 0
@@ -504,30 +488,30 @@ limit-ticks
 Number
 
 CHOOSER
-153
-404
-245
-449
+150
+237
+242
+282
 time-period
 time-period
 "MIS3" "MIS4-big-Caspian" "MIS4-small-Caspian" "MIS5a" "MIS5b-high-water" "MIS5b-low-water" "MIS5c" "MIS5d-high-water" "MIS5d-low-water" "MIS5e" "MIS6-big-Kara" "MIS6-small-Kara"
 0
 
 CHOOSER
-20
-404
-112
-449
+17
+237
+109
+282
 levy_mu
 levy_mu
 1 2 3
 0
 
 SWITCH
-19
-458
-139
-491
+16
+291
+136
+324
 face-east?
 face-east?
 1
@@ -535,10 +519,10 @@ face-east?
 -1000
 
 SWITCH
-20
-499
-138
-532
+17
+332
+135
+365
 explore?
 explore?
 1
@@ -546,10 +530,10 @@ explore?
 -1000
 
 INPUTBOX
-20
-540
-125
-600
+17
+373
+122
+433
 view-radius-km
 5.0
 1
@@ -1383,7 +1367,7 @@ NetLogo 6.3.0
       <value value="5"/>
     </enumeratedValueSet>
   </experiment>
-  <experiment name="MIS3_levy-walks_LONG" repetitions="10" runMetricsEveryStep="false">
+  <experiment name="MIS3_levy-walks_LONG" repetitions="5" runMetricsEveryStep="false">
     <setup>setup</setup>
     <go>go</go>
     <enumeratedValueSet variable="output?">
@@ -1417,7 +1401,7 @@ NetLogo 6.3.0
       <value value="5"/>
     </enumeratedValueSet>
   </experiment>
-  <experiment name="MIS6sk_levy-walks_LONG" repetitions="10" runMetricsEveryStep="false">
+  <experiment name="MIS6sk_levy-walks_LONG" repetitions="5" runMetricsEveryStep="false">
     <setup>setup</setup>
     <go>go</go>
     <enumeratedValueSet variable="output?">
@@ -1451,7 +1435,7 @@ NetLogo 6.3.0
       <value value="5"/>
     </enumeratedValueSet>
   </experiment>
-  <experiment name="MIS6bk_levy-walks_LONG" repetitions="10" runMetricsEveryStep="false">
+  <experiment name="MIS6bk_levy-walks_LONG" repetitions="5" runMetricsEveryStep="false">
     <setup>setup</setup>
     <go>go</go>
     <enumeratedValueSet variable="output?">
@@ -1485,7 +1469,7 @@ NetLogo 6.3.0
       <value value="5"/>
     </enumeratedValueSet>
   </experiment>
-  <experiment name="MIS4sc_levy-walks_LONG" repetitions="10" runMetricsEveryStep="false">
+  <experiment name="MIS4sc_levy-walks_LONG" repetitions="5" runMetricsEveryStep="false">
     <setup>setup</setup>
     <go>go</go>
     <enumeratedValueSet variable="output?">
@@ -1519,7 +1503,7 @@ NetLogo 6.3.0
       <value value="5"/>
     </enumeratedValueSet>
   </experiment>
-  <experiment name="MIS4bc_levy-walks_LONG" repetitions="10" runMetricsEveryStep="false">
+  <experiment name="MIS4bc_levy-walks_LONG" repetitions="5" runMetricsEveryStep="false">
     <setup>setup</setup>
     <go>go</go>
     <enumeratedValueSet variable="output?">
@@ -1553,7 +1537,7 @@ NetLogo 6.3.0
       <value value="5"/>
     </enumeratedValueSet>
   </experiment>
-  <experiment name="MIS5a_levy-walks_LONG" repetitions="10" runMetricsEveryStep="false">
+  <experiment name="MIS5a_levy-walks_LONG" repetitions="5" runMetricsEveryStep="false">
     <setup>setup</setup>
     <go>go</go>
     <enumeratedValueSet variable="output?">
@@ -1587,7 +1571,7 @@ NetLogo 6.3.0
       <value value="5"/>
     </enumeratedValueSet>
   </experiment>
-  <experiment name="MIS5bh_levy-walks_LONG" repetitions="10" runMetricsEveryStep="false">
+  <experiment name="MIS5bh_levy-walks_LONG" repetitions="5" runMetricsEveryStep="false">
     <setup>setup</setup>
     <go>go</go>
     <enumeratedValueSet variable="output?">
@@ -1621,7 +1605,7 @@ NetLogo 6.3.0
       <value value="5"/>
     </enumeratedValueSet>
   </experiment>
-  <experiment name="MIS5bl_levy-walks_LONG" repetitions="10" runMetricsEveryStep="false">
+  <experiment name="MIS5bl_levy-walks_LONG" repetitions="5" runMetricsEveryStep="false">
     <setup>setup</setup>
     <go>go</go>
     <enumeratedValueSet variable="output?">
@@ -1655,7 +1639,7 @@ NetLogo 6.3.0
       <value value="5"/>
     </enumeratedValueSet>
   </experiment>
-  <experiment name="MIS5e_levy-walks_LONG" repetitions="10" runMetricsEveryStep="false">
+  <experiment name="MIS5e_levy-walks_LONG" repetitions="5" runMetricsEveryStep="false">
     <setup>setup</setup>
     <go>go</go>
     <enumeratedValueSet variable="output?">
@@ -1689,7 +1673,7 @@ NetLogo 6.3.0
       <value value="5"/>
     </enumeratedValueSet>
   </experiment>
-  <experiment name="MIS5dh_levy-walks_LONG" repetitions="10" runMetricsEveryStep="false">
+  <experiment name="MIS5dh_levy-walks_LONG" repetitions="5" runMetricsEveryStep="false">
     <setup>setup</setup>
     <go>go</go>
     <enumeratedValueSet variable="output?">
@@ -1723,7 +1707,7 @@ NetLogo 6.3.0
       <value value="5"/>
     </enumeratedValueSet>
   </experiment>
-  <experiment name="MIS5dl_levy-walks_LONG" repetitions="10" runMetricsEveryStep="false">
+  <experiment name="MIS5dl_levy-walks_LONG" repetitions="5" runMetricsEveryStep="false">
     <setup>setup</setup>
     <go>go</go>
     <enumeratedValueSet variable="output?">
@@ -1757,7 +1741,7 @@ NetLogo 6.3.0
       <value value="5"/>
     </enumeratedValueSet>
   </experiment>
-  <experiment name="MIS5c_levy-walks_LONG" repetitions="10" runMetricsEveryStep="false">
+  <experiment name="MIS5c_levy-walks_LONG" repetitions="5" runMetricsEveryStep="false">
     <setup>setup</setup>
     <go>go</go>
     <enumeratedValueSet variable="output?">
