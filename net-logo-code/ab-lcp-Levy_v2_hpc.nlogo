@@ -108,8 +108,6 @@ to setup-background [ #time-period ]
     ]
   ]
 
-  ;; let trans-res patch-size-km / map-resolution-km ;;need to figure out these parameters for each basemap
-  ;;set patch-size-km 1
   let trans-res patch-size-km / map-resolution-km
   resize-world 0 (( gis:width-of basemap - 1 ) / trans-res ) 0 (( gis:height-of basemap - 1 ) / trans-res )
   set-patch-size ( 0.0025 * patch-size-km )                                   ;; This roughly keeps the size of the world window manageable
@@ -133,7 +131,6 @@ to setup-background [ #time-period ]
   ]
 
   ask patches [
-    ;update-colors
     set known? false
     ifelse cost = -999999
     [ set impassable true ]
@@ -161,28 +158,19 @@ to setup
   setup-background item cur-time-period time-line-names
 
   ;;IMPORT AREA FOR START LOCATION
-  set start-area gis:load-dataset "/home/ec3307/ab-lcp-dispersals/start-end-locations/start-Caucacus.shp"
-  ;;set start-area gis:load-dataset "/home/ec3307/ab-lcp-dispersals/start-end-locations/start-Azov.shp"
+  set start-area gis:load-dataset "/home/ec3307/ab-lcp-dispersals/start-end-locations/start-Caucacus_north.shp"
+  ;;set start-area gis:load-dataset "/home/ec3307/ab-lcp-dispersals/start-end-locations/start-Caucacus_south.shp"
   gis:set-drawing-color green
   gis:draw start-area 1
   let start-patches patches gis:intersecting start-area
   set start-patches start-patches with [ impassable = false ]
 
-  set end-area gis:load-dataset "/home/ec3307/ab-lcp-dispersals/start-end-locations/end-Altai.shp"
-  gis:set-drawing-color red
-  gis:draw end-area 1
-  let end-patches patches gis:intersecting end-area
-
   ask one-of start-patches [ stp-hikers ]
-  ask one-of end-patches [ stp-goal ]
 
 
   if output? [
     set stamp1 random-float 1
-
-    ;set file-1 (word "/home/ec3307/ab-lcp-dispersals/outputs/" "outputs_path_" origin "_" time-period "_" levy_mu "_" patch-size-km "_" stamp1 ".csv")
-    set file-2 (word "/home/ec3307/ab-lcp-dispersals/test-outputs/" "v2_LIST_outputs_path_" origin "_" water-level "_" levy_mu "_" patch-size-km "_" stamp1 ".csv")
-    ;output-print file-1
+    set file-2 (word "/home/ec3307/ab-lcp-dispersals/v2-outputs/" "v2_LIST_outputs_path_" origin "_" water-level "_" levy_mu "_" patch-size-km "_" stamp1 ".csv")
     output-print file-2
   ]
 
@@ -209,25 +197,13 @@ to stp-hikers                                                        ;; Patch pr
 
 end
 
-to stp-goal                                                          ;; Patch procedure that creates one goal with specific attributes.
-
-  sprout-targets 1
-  [ set color blue
-    set size 5
-    set shape "house"
-    set goal patch-here
-  ]
-end
-
 
 to go
 
   ;; stops if hiker dies
   if not any? hikers [
-    ask patches [ update-colors ]
     if output? = true [
       if lost-output? = true [
-        ;export-path
         export-coord-list
       ]
     ]
@@ -237,10 +213,8 @@ to go
 
   ;; stops if tick limit is reached
   if ticks = limit-ticks [
-    ;ask patches [ update-colors ]
     if output? = true [
       if lost-output? = true [
-        ;export-path
         export-coord-list
       ]
     ]
@@ -395,18 +369,17 @@ to find-winner-patch [ #cone-radius ]
 
   set patch-vision patches in-cone 1.5 #cone-radius
 
-  set patch-vision patch-vision with [ patch-counter = 0 ]
   set patch-vision patch-vision with [ impassable = false ]
-
-  ;ask patch-vision [ set pcolor pink ]
+  set patch-vision patch-vision with [ patch-counter = 0 ]
 
   let unknown-vision patch-vision with [ known? = false ]
-  if any? unknown-vision
+  ifelse any? unknown-vision
   [
-    set patch-vision patch-vision with [ known? = false ]
+    ;;output-print "unknown patches available"
+    set winner-patch one-of unknown-vision with-min [cost]
+  ] [
+    set winner-patch one-of patch-vision with-min [cost]
   ]
-
-  set winner-patch one-of patch-vision with-min [cost]
 
 end
 
@@ -415,12 +388,7 @@ to find-least-cost-path
 
   let patch-under-me patch-here
 
-  ifelse face-east? [
-    face goal
-    find-winner-patch 200
-  ] [
-    find-winner-patch 360
-  ]
+  find-winner-patch 360
 
   ifelse winner-patch = nobody
   [ stop ]
@@ -436,7 +404,7 @@ to get-step-length
   set cur-step-length (random-float 1.000) ^ (-1 / levy_mu)
   set num-steps num-steps + cur-step-length
 
-  set num-years (round (num-steps / 600))
+  set num-years (round (num-steps / 600)) ;;based on 600km of hg moves per year (Binford 2001)
 
   let new-territory count patch-vision
   if explore? [
@@ -468,12 +436,7 @@ to move
     ]
 
     move-to winner-patch
-;    ask winner-patch [
-;      set pcolor violet
-;    ]
-;    update-plots
     set coord-list lput (list ([pxcor] of winner-patch) ([pycor] of winner-patch) (item cur-time-period time-line-names)) coord-list
-    ;output-print patch-here
 
     let view-vision patches in-cone view-radius 360
     ask view-vision [
@@ -481,7 +444,7 @@ to move
     ]
 
     ask patch-here [
-      set patch-counter 100
+      set patch-counter 20
     ]
 
     find-winner-patch 100 ;; keeps hikers headed in relatively the same direction as the original choice before the Levy walk
@@ -489,7 +452,7 @@ to move
     ifelse winner-patch = nobody
     [
       set c c + 1
-      if c = 100 [
+      if c = 20 [
         die
         output-print "hiker died"
       ]
@@ -502,44 +465,12 @@ to move
 
 end
 
-to update-colors
-
-  ifelse cost = -999999
-    [ set impassable "true"
-      set pcolor blue ]
-  [ ifelse (cost <= 2.635) [ set pcolor 55]
-    [ ifelse (cost > 2.635) and (cost <= 2.707) [ set pcolor 67 ]
-      [ ifelse (cost > 2.707) and (cost <= 3.014) [ set pcolor 48 ]
-        [ifelse (cost > 3.014) and (cost <= 3.338) [ set pcolor 28 ]
-          [if (cost > 3.338) [set pcolor 18 ] ]
-        ]
-      ]
-    ]
-  ]
-
-end
-
-to export-path
-  output-print "export-path function is running"
-
-  file-open file-1
-  export-plot "path" file-1
-  output-print file-read-line
-  file-close
-
-end
 
 to export-coord-list
-  output-print "export-coord-list function is running"
 
   file-open file-2
-  ;; output-print item 1 coord-list
   csv:to-file file-2 coord-list
-  ;; output-print file-read-line
   file-close
-
-  output-print (word "total number of steps " num-steps)
-  output-print (word "total number of years " num-years)
 
 end
 @#$#@#$#@
@@ -604,30 +535,11 @@ NIL
 NIL
 1
 
-PLOT
-18
-101
-249
-270
-path
-tick
-coord
-0.0
-10.0
-0.0
-10.0
-true
-false
-"" ""
-PENS
-"path-x" 1.0 0 -16777216 true "" "if any? hikers [ plot [ xcor ] of hiker hiker-n ]"
-"path-y" 1.0 0 -7500403 true "" "if any? hikers [ plot [ ycor ] of hiker hiker-n ]"
-
 INPUTBOX
 151
-328
+159
 245
-388
+219
 patch-size-km
 10.0
 1
@@ -636,9 +548,9 @@ Number
 
 INPUTBOX
 20
-328
+159
 143
-388
+219
 map-resolution-km
 1.0
 1
@@ -647,9 +559,9 @@ Number
 
 SWITCH
 19
-278
+109
 123
-311
+142
 output?
 output?
 0
@@ -658,9 +570,9 @@ output?
 
 SWITCH
 131
-278
+109
 265
-311
+142
 lost-output?
 lost-output?
 0
@@ -680,9 +592,9 @@ Number
 
 CHOOSER
 152
-402
+233
 290
-447
+278
 water-level
 water-level
 "low" "high"
@@ -690,30 +602,19 @@ water-level
 
 CHOOSER
 20
-404
+235
 112
-449
+280
 levy_mu
 levy_mu
 1 2 3
 0
 
 SWITCH
-19
-525
-139
-558
-face-east?
-face-east?
-1
-1
--1000
-
-SWITCH
-20
-566
-138
-599
+153
+300
+271
+333
 explore?
 explore?
 0
@@ -722,9 +623,9 @@ explore?
 
 INPUTBOX
 20
-456
+287
 128
-516
+347
 view-radius-km
 20.0
 1

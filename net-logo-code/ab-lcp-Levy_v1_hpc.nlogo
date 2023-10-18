@@ -166,6 +166,7 @@ to go
       if lost-output? = true [
         export-coord-list
         output-print (word "total number of ticks " ticks)
+        output-print(word "total number of agent steps " num-steps)
       ]
     ]
     set hiker-status "dead"
@@ -178,6 +179,7 @@ to go
       if lost-output? = true [
         export-coord-list
         output-print (word "total number of ticks " ticks)
+        output-print(word "total number of agent steps " num-steps)
       ]
     ]
     set hiker-status "dead"

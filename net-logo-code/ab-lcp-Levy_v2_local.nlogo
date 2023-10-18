@@ -142,20 +142,15 @@ to setup
   setup-background item cur-time-period time-line-names
 
   ;;IMPORT AREA FOR START LOCATION
-  ;;set start-area gis:load-dataset "/Users/emilycoco/Desktop/ab-lcp-dispersals/start-end-locations/start-Caucacus.shp"
-  set start-area gis:load-dataset "/Users/emilycoco/Desktop/ab-lcp-dispersals/start-end-locations/start-Azov.shp"
+  set start-area gis:load-dataset "/Users/emilycoco/Desktop/ab-lcp-dispersals/start-end-locations/start-Caucacus_north.shp"
+  ;;set start-area gis:load-dataset "/Users/emilycoco/Desktop/ab-lcp-dispersals/start-end-locations/start-Caucacus_south.shp"
+
   gis:set-drawing-color green
   gis:draw start-area 1
   let start-patches patches gis:intersecting start-area
   set start-patches start-patches with [ impassable = false ]
 
-  set end-area gis:load-dataset "/Users/emilycoco/Desktop/ab-lcp-dispersals/start-end-locations/end-Altai.shp"
-  gis:set-drawing-color red
-  gis:draw end-area 1
-  let end-patches patches gis:intersecting end-area
-
-  ask one-of start-patches [ stp-hikers ] ;; will need to update this to iterate through every start square
-  ask one-of end-patches [ stp-goal ] ;; will need to update this to iterate through every end square
+  ask one-of start-patches [ stp-hikers ]
 
 
   if output? [
@@ -188,16 +183,6 @@ to stp-hikers                                                        ;; Patch pr
     set num-years 0
   ]
 
-end
-
-to stp-goal                                                          ;; Patch procedure that creates one goal with specific attributes.
-
-  sprout-targets 1
-  [ set color blue
-    set size 5
-    set shape "house"
-    set goal patch-here
-  ]
 end
 
 
@@ -313,18 +298,20 @@ to find-winner-patch [ #cone-radius ]
 
   set patch-vision patches in-cone 1.5 #cone-radius
 
-  set patch-vision patch-vision with [ patch-counter = 0 ]
   set patch-vision patch-vision with [ impassable = false ]
+  set patch-vision patch-vision with [ patch-counter = 0 ]
 
   ask patch-vision [ set pcolor pink ]
 
   let unknown-vision patch-vision with [ known? = false ]
-  if any? unknown-vision
+  ifelse any? unknown-vision
   [
-    set patch-vision patch-vision with [ known? = false ]
+    ask unknown-vision [ set pcolor blue ]
+    ;;output-print "unknown patches available"
+    set winner-patch one-of unknown-vision with-min [cost]
+  ] [
+    set winner-patch one-of patch-vision with-min [cost]
   ]
-
-  set winner-patch one-of patch-vision with-min [cost]
 
 end
 
@@ -333,14 +320,7 @@ to find-least-cost-path
 
   let patch-under-me patch-here
 
-  ifelse face-east? [
-    face goal
-    ;set patch-vision patches in-cone 1.5 200 ;; set hikers in direction of end goal
-    find-winner-patch 200
-  ] [
-    ;set patch-vision patches in-cone 1.5 360
-    find-winner-patch 360
-  ]
+  find-winner-patch 360
 
   ifelse winner-patch = nobody
   [ stop ]
@@ -360,7 +340,6 @@ to get-step-length
 
   let new-territory count patch-vision
   if explore? [
-    ;;if ([patch-counter] of winner-patch) = 0 [
       if new-territory >= 5 [
         set cur-step-length (cur-step-length * 2)
       ]
@@ -402,7 +381,7 @@ to move
     ]
 
     ask patch-here [
-      set patch-counter 100
+      set patch-counter 20
     ]
 
     ;set patch-vision patches in-cone 1.5 100 ;; keeps hikers headed in relatively the same direction as the original choice before the Levy walk
@@ -411,7 +390,7 @@ to move
     ifelse winner-patch = nobody
     [
       set c c + 1
-      if c = 100 [
+      if c = 20 [
         die
         output-print "hiker died"
       ]
@@ -459,9 +438,6 @@ to export-coord-list
   csv:to-file file-2 coord-list
   ;; output-print file-read-line
   file-close
-
-  output-print (word "total number of steps " num-steps)
-  output-print (word "total number of years " num-years)
 
 end
 @#$#@#$#@
@@ -551,7 +527,7 @@ INPUTBOX
 245
 388
 patch-size-km
-2.0
+10.0
 1
 0
 Number
@@ -621,21 +597,10 @@ levy_mu
 0
 
 SWITCH
-19
-525
-139
-558
-face-east?
-face-east?
-1
-1
--1000
-
-SWITCH
-20
-566
-138
-599
+156
+468
+274
+501
 explore?
 explore?
 0
@@ -648,7 +613,7 @@ INPUTBOX
 128
 516
 view-radius-km
-20.0
+10.0
 1
 0
 Number
