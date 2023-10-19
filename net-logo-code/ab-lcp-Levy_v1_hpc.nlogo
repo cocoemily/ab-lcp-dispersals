@@ -1308,9 +1308,6 @@ NetLogo 6.3.0
     <enumeratedValueSet variable="limit-ticks">
       <value value="400000"/>
     </enumeratedValueSet>
-    <enumeratedValueSet variable="face-east?">
-      <value value="false"/>
-    </enumeratedValueSet>
     <enumeratedValueSet variable="explore?">
       <value value="true"/>
     </enumeratedValueSet>
@@ -1341,9 +1338,6 @@ NetLogo 6.3.0
     </enumeratedValueSet>
     <enumeratedValueSet variable="limit-ticks">
       <value value="400000"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="face-east?">
-      <value value="false"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="explore?">
       <value value="true"/>
@@ -1376,9 +1370,6 @@ NetLogo 6.3.0
     <enumeratedValueSet variable="limit-ticks">
       <value value="400000"/>
     </enumeratedValueSet>
-    <enumeratedValueSet variable="face-east?">
-      <value value="false"/>
-    </enumeratedValueSet>
     <enumeratedValueSet variable="explore?">
       <value value="true"/>
     </enumeratedValueSet>
@@ -1409,9 +1400,6 @@ NetLogo 6.3.0
     </enumeratedValueSet>
     <enumeratedValueSet variable="limit-ticks">
       <value value="400000"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="face-east?">
-      <value value="false"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="explore?">
       <value value="true"/>
@@ -1444,9 +1432,6 @@ NetLogo 6.3.0
     <enumeratedValueSet variable="limit-ticks">
       <value value="400000"/>
     </enumeratedValueSet>
-    <enumeratedValueSet variable="face-east?">
-      <value value="false"/>
-    </enumeratedValueSet>
     <enumeratedValueSet variable="explore?">
       <value value="true"/>
     </enumeratedValueSet>
@@ -1477,9 +1462,6 @@ NetLogo 6.3.0
     </enumeratedValueSet>
     <enumeratedValueSet variable="limit-ticks">
       <value value="400000"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="face-east?">
-      <value value="false"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="explore?">
       <value value="true"/>
@@ -1512,9 +1494,6 @@ NetLogo 6.3.0
     <enumeratedValueSet variable="limit-ticks">
       <value value="400000"/>
     </enumeratedValueSet>
-    <enumeratedValueSet variable="face-east?">
-      <value value="false"/>
-    </enumeratedValueSet>
     <enumeratedValueSet variable="explore?">
       <value value="true"/>
     </enumeratedValueSet>
@@ -1545,9 +1524,6 @@ NetLogo 6.3.0
     </enumeratedValueSet>
     <enumeratedValueSet variable="limit-ticks">
       <value value="400000"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="face-east?">
-      <value value="false"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="explore?">
       <value value="true"/>
@@ -1580,9 +1556,6 @@ NetLogo 6.3.0
     <enumeratedValueSet variable="limit-ticks">
       <value value="400000"/>
     </enumeratedValueSet>
-    <enumeratedValueSet variable="face-east?">
-      <value value="false"/>
-    </enumeratedValueSet>
     <enumeratedValueSet variable="explore?">
       <value value="true"/>
     </enumeratedValueSet>
@@ -1613,9 +1586,6 @@ NetLogo 6.3.0
     </enumeratedValueSet>
     <enumeratedValueSet variable="limit-ticks">
       <value value="400000"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="face-east?">
-      <value value="false"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="explore?">
       <value value="true"/>
@@ -1648,9 +1618,6 @@ NetLogo 6.3.0
     <enumeratedValueSet variable="limit-ticks">
       <value value="400000"/>
     </enumeratedValueSet>
-    <enumeratedValueSet variable="face-east?">
-      <value value="false"/>
-    </enumeratedValueSet>
     <enumeratedValueSet variable="explore?">
       <value value="true"/>
     </enumeratedValueSet>
@@ -1681,9 +1648,6 @@ NetLogo 6.3.0
     </enumeratedValueSet>
     <enumeratedValueSet variable="limit-ticks">
       <value value="400000"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="face-east?">
-      <value value="false"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="explore?">
       <value value="true"/>
