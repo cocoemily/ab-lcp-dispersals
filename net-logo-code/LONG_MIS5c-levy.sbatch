@@ -19,4 +19,4 @@ echo $EXP_NAME
 
 export _JAVA_OPTIONS='-Dcom.sun.media.jai.disableMediaLib=true -Xmx71680m'
 
-bash /home/ec3307/NetLogo/netlogo-headless.sh  --model "ab-lcp-Levy_v1_hpc.nlogo" --experiment $EXP_NAME--threads 10
+bash /home/ec3307/NetLogo/netlogo-headless.sh  --model "ab-lcp-Levy_v1_hpc.nlogo" --experiment $EXP_NAME
