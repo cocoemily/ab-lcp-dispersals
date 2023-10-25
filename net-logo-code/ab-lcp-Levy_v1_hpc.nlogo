@@ -280,7 +280,7 @@ to move
     ]
 
     ask patch-here [
-      set patch-counter 20
+      set patch-counter 150
     ]
 
     find-winner-patch 100 ;; keeps hikers headed in relatively the same direction as the original choice before the Levy walk
@@ -288,7 +288,7 @@ to move
     ifelse winner-patch = nobody
     [
       set c c + 1
-      if c = 20 [
+      if c = 150 [
         die
         output-print "hiker died"
       ]
