@@ -195,6 +195,8 @@ to go
     find-least-cost-path
   ]
 
+  if remainder ticks 1000 = 0 [output-print (word "total number of ticks " ticks)]
+
   export-coord-list
   tick-advance 1
 
@@ -280,7 +282,7 @@ to move
     ]
 
     ask patch-here [
-      set patch-counter 150
+      set patch-counter 100
     ]
 
     find-winner-patch 100 ;; keeps hikers headed in relatively the same direction as the original choice before the Levy walk
@@ -288,7 +290,7 @@ to move
     ifelse winner-patch = nobody
     [
       set c c + 1
-      if c = 150 [
+      if c = 100 [
         die
         output-print "hiker died"
       ]
