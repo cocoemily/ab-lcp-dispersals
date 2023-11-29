@@ -301,8 +301,8 @@ to go
 
   ;;calculations without MIS 6
   ;; time-line-names ( list "MIS5e" "MIS5d-low" "MIS5c" "MIS5b-low" "MIS5a" "MIS4-low" "MIS3" )
-  ;; MIS start dates (list 120000 114000 102000 92000 84000 70000 56000)
-  ;; change-points (list 6000 18000 28000 36000 50000 64000)
+  ;; MIS start dates (list 120000 114000 102000 92000 84000 70000 56000) ;; end at LGM (~25000)
+  ;; change-points (list 6000 18000 28000 36000 50000 64000) ;; end at 95000
   let model-year num-years
   ;; output-print model-year
   if model-year >= 6000 and model-year < 18000 [
@@ -611,10 +611,10 @@ levy_mu
 0
 
 SWITCH
-153
-300
-271
-333
+152
+292
+270
+325
 explore?
 explore?
 0
@@ -1017,74 +1017,6 @@ NetLogo 6.3.0
 @#$#@#$#@
 @#$#@#$#@
 <experiments>
-  <experiment name="test-background-change" repetitions="1" runMetricsEveryStep="false">
-    <setup>setup</setup>
-    <go>go</go>
-    <enumeratedValueSet variable="output?">
-      <value value="true"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="lost-output?">
-      <value value="true"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="limit-ticks">
-      <value value="200000"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="face-east?">
-      <value value="false"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="map-resolution-km">
-      <value value="1"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="patch-size-km">
-      <value value="1"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="explore?">
-      <value value="true"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="water-level">
-      <value value="&quot;low&quot;"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="levy_mu">
-      <value value="1"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="view-radius-km">
-      <value value="5"/>
-    </enumeratedValueSet>
-  </experiment>
-  <experiment name="test-background-change_LONG" repetitions="1" runMetricsEveryStep="false">
-    <setup>setup</setup>
-    <go>go</go>
-    <enumeratedValueSet variable="output?">
-      <value value="true"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="lost-output?">
-      <value value="true"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="limit-ticks">
-      <value value="400000"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="face-east?">
-      <value value="false"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="map-resolution-km">
-      <value value="1"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="patch-size-km">
-      <value value="1"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="explore?">
-      <value value="true"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="water-level">
-      <value value="&quot;low&quot;"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="levy_mu">
-      <value value="1"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="view-radius-km">
-      <value value="5"/>
-    </enumeratedValueSet>
-  </experiment>
   <experiment name="low-water_LONG" repetitions="1" runMetricsEveryStep="false">
     <setup>setup</setup>
     <go>go</go>
@@ -1095,10 +1027,7 @@ NetLogo 6.3.0
       <value value="true"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="limit-ticks">
-      <value value="400000"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="face-east?">
-      <value value="false"/>
+      <value value="100000"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="map-resolution-km">
       <value value="1"/>
@@ -1129,10 +1058,7 @@ NetLogo 6.3.0
       <value value="true"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="limit-ticks">
-      <value value="400000"/>
-    </enumeratedValueSet>
-    <enumeratedValueSet variable="face-east?">
-      <value value="false"/>
+      <value value="100000"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="map-resolution-km">
       <value value="1"/>
