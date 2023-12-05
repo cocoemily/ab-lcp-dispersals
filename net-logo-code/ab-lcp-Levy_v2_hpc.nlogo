@@ -306,7 +306,8 @@ to go
   ;; MIS start dates (list 120000 114000 102000 92000 84000 70000 56000) ;; end at LGM (~25000)
   ;; change-points (list 6000 18000 28000 36000 50000 64000) ;; end at 95000
   let model-year num-years
-  ;; output-print model-year
+  if remainder model-year 1000 = 0 [ output-print model-year ]
+
   if model-year >= 6000 and model-year < 18000 [
     if cur-time-period != 1 [
       set cur-time-period 1
@@ -1031,7 +1032,7 @@ NetLogo 6.3.0
       <value value="true"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="limit-ticks">
-      <value value="100000"/>
+      <value value="200000"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="map-resolution-km">
       <value value="1"/>
@@ -1062,7 +1063,7 @@ NetLogo 6.3.0
       <value value="true"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="limit-ticks">
-      <value value="100000"/>
+      <value value="200000"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="map-resolution-km">
       <value value="1"/>
