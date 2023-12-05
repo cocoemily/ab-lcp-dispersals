@@ -231,6 +231,8 @@ to go
     find-least-cost-path
   ]
 
+  if remainder ticks 1000 = 0 [output-print (word "total number of ticks " ticks)]
+
   ;; change the background here
   ;; calculations with MIS 6
   ;; time-line-names ( list "MIS6-low" "MIS5e" "MIS5d-low" "MIS5c" "MIS5b-low" "MIS5a" "MIS4-low" "MIS3" )
@@ -348,12 +350,14 @@ to go
     ]
   ]
 
-
   ask hiker hiker-n [
-    if [ impassable ] of patch-here [
+    if [ impassable ] of patch-here [ ;;when environment changes and hiker is on impassable patch, move to nearby walkable patch
       let target-patch min-one-of (patches in-radius 10 with [impassable = false]) [distance self]
-      if target-patch != nobody [
+      ifelse target-patch != nobody [
         move-to target-patch
+      ] [ ;; if too far from walkable patches, hiker dies
+        set hiker-status "dead"
+        stop
       ]
     ]
   ]
