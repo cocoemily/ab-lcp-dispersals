@@ -17,7 +17,8 @@ num.years = data.frame(start = character(0),
                        cut = logical(0))
 
 
-for(start in c("Azov", "Caucasus")) {
+#for(start in c("Azov", "Caucasus")) {
+for(start in c("Caucasus-north", "Caucasus-south")) {
   
   # Assign the folder in which all the individual simulation output files are located 
   #my_dir = paste0(getwd(),"/outputs/Azov")
@@ -107,22 +108,22 @@ for(start in c("Azov", "Caucasus")) {
         ds$x <- as.integer(ds$x)
         ds$y <- as.integer(ds$y)
         
-        ##cut agent movements if they move to the edge of the world
-        ds$inwindow = ifelse(
-          ds$x < cost.x & ds$y < cost.y & ds$x > 0 & ds$y > 0, TRUE, FALSE
-        )
-        outwindow = as.numeric(rownames(ds[which(ds$inwindow == F),])[1])
-        
-        if(!is.na(outwindow)) {
-          ds = ds[c(1:outwindow),]
-          num.years[nrow(num.years) + 1,] <- c(start, 
-                                               period, 
-                                               water, 
-                                               nrow(ds), 
-                                               floor(nrow(ds)/600), 
-                                               #floor(nrow(ds)/2100), 
-                                               TRUE)
-        }
+        # ##cut agent movements if they move to the edge of the world
+        # ds$inwindow = ifelse(
+        #   ds$x < cost.x & ds$y < cost.y & ds$x > 0 & ds$y > 0, TRUE, FALSE
+        # )
+        # outwindow = as.numeric(rownames(ds[which(ds$inwindow == F),])[1])
+        # 
+        # if(!is.na(outwindow)) {
+        #   ds = ds[c(1:outwindow),]
+        #   num.years[nrow(num.years) + 1,] <- c(start, 
+        #                                        period, 
+        #                                        water, 
+        #                                        nrow(ds), 
+        #                                        floor(nrow(ds)/600), 
+        #                                        #floor(nrow(ds)/2100), 
+        #                                        TRUE)
+        # }
         
         ds = ds[,c(1,2)]
         
@@ -172,12 +173,53 @@ for(start in c("Azov", "Caucasus")) {
       crs(r.sub) = CRS("+init=epsg:3857")
       #plot(r.sub)
       #plot(costRast)
-      #writeRaster(r.sub, paste0(getwd(), "/routes/", start, "/", start, "_", period, "_routes.asc"), overwrite = T)
+      writeRaster(r.sub, paste0(getwd(), "/routes/", start, "/", start, "_", period, "_routes.asc"), overwrite = T)
       
     }
   }
 }
 
-calc.runs = num.years %>% filter(cut == F)
-table(calc.runs$start, calc.runs$period)
+averages = num.years %>% group_by(start, period, water.level) %>%
+  summarize(average.time = mean(as.numeric(num.years.hg)), 
+            average.steps = mean(as.numeric(num.steps)))
+
+theme_set(theme_bw())
+
+num.years$period = factor(num.years$period, 
+                          levels = c(
+                            "MIS6b", "MIS6s", "MIS5e", 
+                            "MIS5dh", "MIS5dl", "MIS5c", 
+                            "MIS5bl", "MIS5a", 
+                            "MIS4b", "MIS4s", "MIS3"
+                          ))
+
+ggplot(num.years) +
+  geom_violin(aes(x = period, y = as.numeric(num.years.hg), 
+                   group = period, color = water.level)) +
+  #geom_point(aes(x = period, y = as.numeric(num.years.hg))) +
+  facet_wrap(~start, labeller = 
+               labeller(start = c("Caucasus-north" = "start from Northern Caucasus", 
+                                  "Caucasus-south" ="start from Southern Caucasus")
+  )) +
+  scale_color_manual(values = c(
+    "blue", "lightskyblue", "darkgray"
+  )) +
+  labs(x = "MIS stage", y = "estimated number of years") +
+  guides(color = "none")
+
+
+ggplot(num.years) +
+  geom_violin(aes(x = period, y = as.numeric(num.steps), 
+                  group = period, color = water.level)) +
+  #geom_point(aes(x = period, y = as.numeric(num.years.hg))) +
+  facet_wrap(~start, labeller = 
+               labeller(start = c("Caucasus-north" = "start from Northern Caucasus", 
+                                  "Caucasus-south" ="start from Southern Caucasus")
+               )) +
+  scale_color_manual(values = c(
+    "blue", "lightskyblue", "darkgray"
+  )) +
+  labs(x = "MIS stage", y = "number of agent steps") +
+  guides(color = "none")
+
 
