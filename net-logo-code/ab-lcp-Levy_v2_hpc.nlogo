@@ -231,7 +231,10 @@ to go
     find-least-cost-path
   ]
 
-  if remainder ticks 1000 = 0 [output-print (word "total number of ticks " ticks)]
+  if remainder ticks 1000 = 0 [
+    output-print (word "total number of ticks " ticks)
+    output-print (word "current model year:" num-years)
+  ]
 
   ;; change the background here
   ;; calculations with MIS 6
@@ -306,7 +309,6 @@ to go
   ;; MIS start dates (list 120000 114000 102000 92000 84000 70000 56000) ;; end at LGM (~25000)
   ;; change-points (list 6000 18000 28000 36000 50000 64000) ;; end at 95000
   let model-year num-years
-  if remainder model-year 1000 = 0 [ output-print model-year ]
 
   if model-year >= 6000 and model-year < 18000 [
     if cur-time-period != 1 [
