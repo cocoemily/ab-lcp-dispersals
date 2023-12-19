@@ -1034,7 +1034,7 @@ NetLogo 6.3.0
       <value value="true"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="limit-ticks">
-      <value value="200000"/>
+      <value value="400000"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="map-resolution-km">
       <value value="1"/>
@@ -1065,7 +1065,7 @@ NetLogo 6.3.0
       <value value="true"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="limit-ticks">
-      <value value="200000"/>
+      <value value="400000"/>
     </enumeratedValueSet>
     <enumeratedValueSet variable="map-resolution-km">
       <value value="1"/>
