@@ -173,7 +173,7 @@ for(start in c("Caucasus-north", "Caucasus-south")) {
       crs(r.sub) = CRS("+init=epsg:3857")
       #plot(r.sub)
       #plot(costRast)
-      #writeRaster(r.sub, paste0(getwd(), "/routes/", start, "/", start, "_", period, "_routes.asc"), overwrite = T)
+      writeRaster(r.sub, paste0(getwd(), "/routes/", start, "/", start, "_", period, "_routes.asc"), overwrite = T)
       
     }
   }
