@@ -6,8 +6,11 @@
 library(raster) 
 library(reshape) 
 library(tidyverse)
+library(here)
 
-costRast = raster(file.choose(), sep=",")
+raster.file = here("cost-rasters", "model-input-costs", "ascii-files", "MIS3.asc")
+
+costRast = raster(raster.file, sep=",")
 # Get the dimensions of the raster to collate the route data 
 #crs = crs(costRast)
 cost.x <- dim(costRast)[2]
