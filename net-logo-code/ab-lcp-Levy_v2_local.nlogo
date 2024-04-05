@@ -55,40 +55,40 @@ hikers-own [
 to setup-background [ #time-period ]
 
   if (#time-period = "MIS3" ) [
-    set basemap gis:load-dataset "/Users/emilycoco/Desktop/ab-lcp-dispersals/cost-rasters/model-input-costs/ascii-files/MIS3.asc"
+    set basemap gis:load-dataset "../cost-rasters/model-input-costs/ascii-files/MIS3.asc"
   ]
   if (#time-period = "MIS4-high") [
-    set basemap gis:load-dataset "/Users/emilycoco/Desktop/ab-lcp-dispersals/cost-rasters/model-input-costs/ascii-files/MIS4_high.asc"
+    set basemap gis:load-dataset "../cost-rasters/model-input-costs/ascii-files/MIS4_high.asc"
   ]
   if (#time-period = "MIS4-low") [
-    set basemap gis:load-dataset "/Users/emilycoco/Desktop/ab-lcp-dispersals/cost-rasters/model-input-costs/ascii-files/MIS4_low.asc"
+    set basemap gis:load-dataset "../cost-rasters/model-input-costs/ascii-files/MIS4_low.asc"
   ]
   if (#time-period = "MIS5a") [
-    set basemap gis:load-dataset "/Users/emilycoco/Desktop/ab-lcp-dispersals/cost-rasters/model-input-costs/ascii-files/MIS5a.asc"
+    set basemap gis:load-dataset "../cost-rasters/model-input-costs/ascii-files/MIS5a.asc"
   ]
   if (#time-period = "MIS5b-high") [
-    set basemap gis:load-dataset "/Users/emilycoco/Desktop/ab-lcp-dispersals/cost-rasters/model-input-costs/ascii-files/MIS5b_high.asc"
+    set basemap gis:load-dataset "../cost-rasters/model-input-costs/ascii-files/MIS5b_high.asc"
   ]
   if (#time-period = "MIS5b-low") [
-    set basemap gis:load-dataset "/Users/emilycoco/Desktop/ab-lcp-dispersals/cost-rasters/model-input-costs/ascii-files/MIS5b_low.asc"
+    set basemap gis:load-dataset "../cost-rasters/model-input-costs/ascii-files/MIS5b_low.asc"
   ]
   if (#time-period = "MIS5c") [
-    set basemap gis:load-dataset "/Users/emilycoco/Desktop/ab-lcp-dispersals/cost-rasters/model-input-costs/ascii-files/MIS5c.asc"
+    set basemap gis:load-dataset "../cost-rasters/model-input-costs/ascii-files/MIS5c.asc"
   ]
   if (#time-period = "MIS5d-high") [
-    set basemap gis:load-dataset "/Users/emilycoco/Desktop/ab-lcp-dispersals/cost-rasters/model-input-costs/ascii-files/MIS5d_high.asc"
+    set basemap gis:load-dataset "../cost-rasters/model-input-costs/ascii-files/MIS5d_high.asc"
   ]
   if (#time-period = "MIS5d-low") [
-    set basemap gis:load-dataset "/Users/emilycoco/Desktop/ab-lcp-dispersals/cost-rasters/model-input-costs/ascii-files/MIS5d_low.asc"
+    set basemap gis:load-dataset "../cost-rasters/model-input-costs/ascii-files/MIS5d_low.asc"
   ]
   if (#time-period = "MIS5e") [
-    set basemap gis:load-dataset "/Users/emilycoco/Desktop/ab-lcp-dispersals/cost-rasters/model-input-costs/ascii-files/MIS5e.asc"
+    set basemap gis:load-dataset "../cost-rasters/model-input-costs/ascii-files/MIS5e.asc"
   ]
   if (#time-period = "MIS6-high") [
-    set basemap gis:load-dataset "/Users/emilycoco/Desktop/ab-lcp-dispersals/cost-rasters/model-input-costs/ascii-files/MIS6_high.asc"
+    set basemap gis:load-dataset "../cost-rasters/model-input-costs/ascii-files/MIS6_high.asc"
   ]
   if (#time-period = "MIS6-low") [
-    set basemap gis:load-dataset "/Users/emilycoco/Desktop/ab-lcp-dispersals/cost-rasters/model-input-costs/ascii-files/MIS6_low.asc"
+    set basemap gis:load-dataset "../cost-rasters/model-input-costs/ascii-files/MIS6_low.asc"
   ]
 
   ;; let trans-res patch-size-km / map-resolution-km ;;need to figure out these parameters for each basemap
@@ -142,8 +142,8 @@ to setup
   setup-background item cur-time-period time-line-names
 
   ;;IMPORT AREA FOR START LOCATION
-  set start-area gis:load-dataset "/Users/emilycoco/Desktop/ab-lcp-dispersals/start-end-locations/start-Caucacus_north.shp"
-  ;;set start-area gis:load-dataset "/Users/emilycoco/Desktop/ab-lcp-dispersals/start-end-locations/start-Caucacus_south.shp"
+  set start-area gis:load-dataset "../start-end-locations/start-Caucacus_north.shp"
+  ;;set start-area gis:load-dataset "../start-end-locations/start-Caucacus_south.shp"
 
   gis:set-drawing-color green
   gis:draw start-area 1
@@ -156,8 +156,8 @@ to setup
   if output? [
     set stamp1 random-float 1
 
-    ;set file-1 (word "/Users/emilycoco/Desktop/ab-lcp-dispersals/test-outputs/" "outputs_path_" origin "_" time-period "_" levy_mu "_" patch-size-km "_" stamp1 ".csv")
-    set file-2 (word "/Users/emilycoco/Desktop/ab-lcp-dispersals/test-outputs/" "v2_LIST_outputs_path_" origin "_" water-level "_" levy_mu "_" patch-size-km "_" stamp1 ".csv")
+    ;set file-1 (word "../test-outputs/" "outputs_path_" origin "_" time-period "_" levy_mu "_" patch-size-km "_" stamp1 ".csv")
+    set file-2 (word "../v2-outputs/" "v2_LIST_outputs_path_" origin "_" water-level "_" levy_mu "_" patch-size-km "_" stamp1 ".csv")
     ;output-print file-1
     output-print file-2
   ]
@@ -998,7 +998,7 @@ false
 Polygon -7500403 true true 270 75 225 30 30 225 75 270
 Polygon -7500403 true true 30 75 75 30 270 225 225 270
 @#$#@#$#@
-NetLogo 6.3.0
+NetLogo 6.4.0
 @#$#@#$#@
 @#$#@#$#@
 @#$#@#$#@
