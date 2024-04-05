@@ -52,7 +52,7 @@ to setup
   reset-ticks
 
   if (time-period = "MIS3" ) [
-      set basemap gis:load-dataset "/Users/emilycoco/Desktop/ab-lcp-dispersals/cost-rasters/model-input-costs/ascii-files/MIS3.asc"
+      set basemap gis:load-dataset "../cost-rasters/model-input-costs/ascii-files/MIS3.asc"
   ]
   if (time-period = "MIS4-big-Caspian") [
 
@@ -118,8 +118,8 @@ to setup
   ]
 
   ;;IMPORT AREA FOR START LOCATION
-  set start-area gis:load-dataset "/Users/emilycoco/Desktop/ab-lcp-dispersals/start-end-locations/start-Caucacus_north.shp"
-  ;;set start-area gis:load-dataset "/Users/emilycoco/Desktop/ab-lcp-dispersals/start-end-locations/start-Caucacus_south.shp"
+  set start-area gis:load-dataset "../start-end-locations/start-Caucacus_north.shp"
+  ;;set start-area gis:load-dataset "../start-end-locations/start-Caucacus_south.shp"
 
   let start-patches patches gis:intersecting start-area
   set start-patches start-patches with [ impassable = false ]
@@ -129,8 +129,8 @@ to setup
   if output? [
     set stamp1 random-float 1
 
-    ;set file-1 (word "/Users/emilycoco/Desktop/ab-lcp-dispersals/test-outputs/" "outputs_path_" origin "_" time-period "_" levy_mu "_" patch-size-km "_" stamp1 ".csv")
-    set file-2 (word "/Users/emilycoco/Desktop/ab-lcp-dispersals/test-outputs/" "LIST_outputs_path_" origin "_" time-period "_" levy_mu "_" patch-size-km "_" stamp1 ".csv")
+    ;set file-1 (word "../test-outputs/" "outputs_path_" origin "_" time-period "_" levy_mu "_" patch-size-km "_" stamp1 ".csv")
+    set file-2 (word "../outputs/" "LIST_outputs_path_" origin "_" time-period "_" levy_mu "_" patch-size-km "_" stamp1 ".csv")
 
   ]
 
@@ -342,11 +342,11 @@ end
 GRAPHICS-WINDOW
 301
 10
-1013
-753
+1154
+908
 -1
 -1
-0.025
+0.03
 1
 10
 1
@@ -896,7 +896,7 @@ false
 Polygon -7500403 true true 270 75 225 30 30 225 75 270
 Polygon -7500403 true true 30 75 75 30 270 225 225 270
 @#$#@#$#@
-NetLogo 6.3.0
+NetLogo 6.4.0
 @#$#@#$#@
 @#$#@#$#@
 @#$#@#$#@

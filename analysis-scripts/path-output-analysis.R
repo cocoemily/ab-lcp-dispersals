@@ -20,7 +20,6 @@ num.years = data.frame(start = character(0),
                        cut = logical(0))
 
 
-#for(start in c("Azov", "Caucasus")) {
 for(start in c("Caucasus-north", "Caucasus-south")) {
   
   # Assign the folder in which all the individual simulation output files are located 
