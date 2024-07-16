@@ -14,30 +14,13 @@ raster.file = here("cost-rasters", "model-input-costs", "ascii-files", "MIS3.asc
 
 shapefile = here("analysis-scripts", "data")
 sz.small = read_sf(shapefile, layer="Russian-Altai-buffer_500km")
-sz.large = read_sf(shapefile, layer="Russian-Altai-buffer_1000km")
+#sz.large = read_sf(shapefile, layer="Russian-Altai-buffer_1000km")
 
 costRast = raster(raster.file, sep=",")
 # Get the dimensions of the raster to collate the route data 
 #crs = crs(costRast)
 cost.x <- dim(costRast)[2]
 cost.y <- dim(costRast)[1]
-
-# tort = data.frame(
-#   start = character(0),
-#   period = character(0), 
-#   route = double(0),
-#   success.small = logical(0),
-#   success.large = logical(0),
-#   length = double(0),
-#   distance.start.end = double(0), 
-#   sinuosity = double(0),
-#   tau = double(0), 
-#   fd.orig = double(0), 
-#   fd.50 = double(0), 
-#   fd.100 = double(0), 
-#   fd.1000 = double(0)
-#   
-# )
 
 no.angle.change = data.frame()
 
@@ -112,48 +95,48 @@ for(start in c("Caucasus-north", "Caucasus-south")) {
         ds = ds[,c(1,2)]
         #write_csv(ds, here("outputs", "test-resampled", paste0("original_path_route", l, ".csv")))
         
-        #resample
-        ds.50 = slice(ds, seq(1, nrow(ds), 50))
-        #write_csv(ds.50, here("outputs", "test-resampled", paste0("resampled_path_50steps_route", l, ".csv")))
-        ds.100 = slice(ds, seq(1, nrow(ds), 100))
-        #write_csv(ds.100, here("outputs", "test-resampled", paste0("resampled_path_100steps_route", l, ".csv")))
-        ds.1000 = slice(ds, seq(1, nrow(ds), 1000))
-        #write_csv(ds.1000, here("outputs", "test-resampled", paste0("resampled_path_1000steps_route", l, ".csv")))
-        
+        # #resample
+        # ds.50 = slice(ds, seq(1, nrow(ds), 50))
+        # #write_csv(ds.50, here("outputs", "test-resampled", paste0("resampled_path_50steps_route", l, ".csv")))
+        # ds.100 = slice(ds, seq(1, nrow(ds), 100))
+        # #write_csv(ds.100, here("outputs", "test-resampled", paste0("resampled_path_100steps_route", l, ".csv")))
+        # ds.1000 = slice(ds, seq(1, nrow(ds), 1000))
+        # #write_csv(ds.1000, here("outputs", "test-resampled", paste0("resampled_path_1000steps_route", l, ".csv")))
         
         ds.real = ds
         ds.real$x <- (ds$x * xres(costRast) * patch_res_km ) + xmin(costRast) + (xres(costRast) * patch_res_km / 2) # xmin extent of the original map 
         ds.real$y = (ds$y * yres(costRast) * patch_res_km ) + ymin(costRast) + (yres(costRast) * patch_res_km / 2) # ymin extent of the original map
         ds.real$value <- 1
+        ds.real$step = rownames(ds.real)
         
         ##determine if path intersects with shapefile
         success.small = F
-        success.large = F
+        #success.large = F
         r.sub <- rasterFromXYZ(ds.real)
         crs(r.sub) = CRS("+init=epsg:3857")
         
         if(sum(unlist(raster::extract(r.sub, sz.small)), na.rm = T) > 0 ) {
           success.small = T
         }
-        if(sum(unlist(raster::extract(r.sub, sz.large)), na.rm = T) > 0 ) {
-          success.large = T
-        }
+        # if(sum(unlist(raster::extract(r.sub, sz.large)), na.rm = T) > 0 ) {
+        #   success.large = T
+        # }
         
-        trj = TrajFromCoords(ds.real)
+        trj = TrajFromCoords(ds.real, xCol = "x", yCol = "y")
         
         #change in angles 
-        angles = as.data.frame(TrajAngles(trj))
-        angles$step = rownames(angles)
-        colnames(angles) = c("angle", "step")
-        angles$lag = dplyr::lag(angles$angle, n=1)
-        angles$change = angles$angle - angles$lag
+        angles = trj %>% mutate(angle = c(NA, TrajAngles(trj, compass.direction = 0))) %>%
+          dplyr::select(x,y, step, angle) %>%
+          mutate(lag = lag(angle), 
+                 change = lag - angle)
+        
         lengths = cbind(as.data.frame(rle(angles$change)[["lengths"]]), 
                         as.data.frame(rle(angles$change)[["values"]]))
         colnames(lengths) = c("run.length", "angle.change")
         no.change.runs = lengths %>% filter(angle.change == 0)
         
         no.change.runs$success.500 = success.small
-        no.change.runs$success.1000 = success.large
+        #no.change.runs$success.1000 = success.large
         no.change.runs$start = start
         no.change.runs$period = period
         no.change.runs$route = l
@@ -161,100 +144,43 @@ for(start in c("Caucasus-north", "Caucasus-south")) {
         no.change.runs$distance = TrajDistance(trj)
         
         no.angle.change = rbind(no.angle.change, no.change.runs)
-        
-        
-        # tort[nrow(tort) + 1, ] <-
-        #   c(
-        #     start, 
-        #     period, 
-        #     l,
-        #     success.small,
-        #     success.large,
-        #     TrajLength(trj), 
-        #     TrajDistance(trj),
-        #     TrajSinuosity(trj), 
-        #     TrajStraightness(trj), 
-        #     fd.estim.boxcount(cbind(ds$x, ds$y), plot.loglog = F, plot.allpoints = F)$fd,
-        #     fd.estim.boxcount(cbind(ds.50$x, ds.50$y), plot.loglog = F, plot.allpoints = F)$fd, 
-        #     fd.estim.boxcount(cbind(ds.100$x, ds.100$y), plot.loglog = F, plot.allpoints = F)$fd, 
-        #     fd.estim.boxcount(cbind(ds.1000$x, ds.1000$y), plot.loglog = F, plot.allpoints = F)$fd
-        #   )
-        # 
       }
     }
     
   }
 }
 
-# subsampled.fd = tort %>%
-#   pivot_longer(cols = c("fd.orig", "fd.50", "fd.100", "fd.1000"), 
-#                names_to = "step.sample", values_to = "fractal.dim")
-# 
-# subsampled.fd$step.sample = factor(
-#   subsampled.fd$step.sample, levels = c("fd.orig", "fd.50", "fd.100", "fd.1000")
-# )
-# 
-# ggplot(subsampled.fd) +
-#   geom_boxplot(aes(x = period, y = as.numeric(fractal.dim), 
-#                    color = step.sample, group = period)) +
-#   facet_grid( step.sample ~ start)
-# 
-# 
-# ggplot(subsampled.fd) +
-#   geom_boxplot(aes(x = success.large, y = as.numeric(fractal.dim)))
-# 
-# ggplot(subsampled.fd) +
-#   geom_boxplot(aes(x = success.small, y = as.numeric(fractal.dim)))
-# 
-# 
-# 
-# 
-# ggplot(tort) +
-#   geom_point(aes(y = as.numeric(length), 
-#                  x = as.numeric(distance.start.end), 
-#                  color = period, 
-#                  shape = success.large)) +
-#   facet_wrap(~success.large)
-# 
-# 
-# 
-# ggplot(tort) +
-#   geom_boxplot(aes(x = period, y = as.numeric(tau))) +
-#   facet_wrap(~start)
-# 
-# ggplot(tort) +
-#   geom_boxplot(aes(x = period, y = as.numeric(sinuosity))) +
-#   facet_wrap(~start)
-# 
-# ggplot(tort) +
-#   geom_point(aes(x = as.numeric(tau), y = as.numeric(sinuosity), color = period))
-# 
-# ggplot(tort) +
-#   geom_boxplot(aes(x = period, y = as.numeric(fd))) +
-#   facet_wrap(~start)
-
-ggplot(no.angle.change %>% filter(run.length >= 50)) +
-  geom_density(aes(run.length, group = success.1000, color = success.1000))
-ggplot(no.angle.change %>% filter(run.length >= 50)) +
-  geom_density(aes(run.length, group = success.500, color = success.500))
+summary(no.angle.change$run.length)
+sd(no.angle.change$run.length)
+quantile(no.angle.change$run.length, probs = c(0.975))
 
 na.runs.count = no.angle.change %>% filter(run.length >= 5) %>%
-  group_by(start, period, route, distance, success.500, success.1000) %>%
+  group_by(start, period, route, distance, success.500) %>%
   summarize(number.na.runs = n()) %>%
   mutate(distance.km = distance/1000)
 
+summary(na.runs.count$number.na.runs)
+hist(na.runs.count$number.na.runs)
+
+ggplot(na.runs.count) +
+  geom_vline(aes(xintercept = 5654)) +
+  geom_density(aes(x = number.na.runs))
+
+nrow(na.runs.count %>% filter(number.na.runs <= 5654))
+nrow(na.runs.count %>% filter(number.na.runs > 5654))
+  
+
 angle.plot = ggplot(na.runs.count) +
- # geom_abline(aes(slope = 1, intercept = 0)) +
-  geom_point(aes(x = number.na.runs, y = distance.km, shape = success.500, color = success.1000), size = 4) +
-  labs(x = "number of straight line movements of 5+ steps", 
-       y = "direct distance between start and end points (km)", 
+  geom_vline(aes(xintercept = 5654)) +
+  geom_point(aes(x = number.na.runs, y = distance.km, color = success.500), size = 1) +
+  labs(x = "straight line movements of 5+ steps", 
+       y = "distance (km) between path start and end", 
        shape = "", color = "") +
-  scale_color_brewer(palette = "Set2", labels = c("miss RA", "within 1000km of RA")) +
-  scale_shape_manual(values = c(20, 17), labels = c("miss RA", "within 500km of RA")) +
+  scale_color_brewer(palette = "Set2", labels = c("did not get to Russian Altai", "arrived within 500km of Russian Altai")) +
   scale_x_continuous(labels = scales::comma) +
-  scale_y_continuous(labels = scales::label_number(scale_cut = scales::cut_short_scale())) +
-  theme(text = element_text(size = 15))
+  #scale_y_continuous(labels = scales::label_number(scale_cut = scales::cut_short_scale())) +
+  theme(text = element_text(size = 8), legend.position = "bottom")
 plot(angle.plot)
 
-ggsave(filename = here("figures", "straight-line-movement.png"), plot = angle.plot, 
-       dpi = 300, height = 7, width = 10)
+ggsave(filename = here("figures", "straight-line-movement.png"), plot = angle.plot,
+       dpi = 300, height = 3, width = 4)

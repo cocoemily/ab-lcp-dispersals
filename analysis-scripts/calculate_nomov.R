@@ -1,7 +1,7 @@
 library(tidyverse)
 library(pastclim)
 library(raster)
-library(rgdal)
+#library(rgdal)
 library(binford)
 
 DEM = raster("cost-rasters/input-data/DEM_resample_PseudoMercator.tif")
@@ -9,13 +9,12 @@ sr = "+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs"
 projected_DEM = projectRaster(DEM, crs = sr)
 extent(projected_DEM)
 
-
 get_vars_for_dataset(dataset="Beyer2020")
 get_vars_for_dataset(dataset="Krapp2021")
 set_data_path(system.file("extdata/", package="pastclim"))
 #bio12 = annual precipitation
 download_dataset(dataset="Beyer2020", bio_variables = c("bio01", "bio12"))
-download_dataset(dataset="Krapp2021", bio_variables = c("bio01", "bio12"))
+#download_dataset(dataset="Krapp2021", bio_variables = c("bio01", "bio12"))
 
 mis3 = get_mis_time_steps(3, "Beyer2020")
 mis4 = get_mis_time_steps(4, "Beyer2020")
@@ -24,7 +23,7 @@ mis5b = get_mis_time_steps("5b", "Beyer2020")
 mis5c = get_mis_time_steps("5c", "Beyer2020")
 mis5d = get_mis_time_steps("5d", "Beyer2020")
 mis5e = get_mis_time_steps("5e", "Beyer2020")
-mis6 = get_mis_time_steps("6", "Krapp2021")
+#mis6 = get_mis_time_steps("6", "Krapp2021")
 
 periods = list(
   "MIS3" = mis3, 
@@ -67,7 +66,7 @@ for(i in 1:length(periods)) {
     
     #View(LRBkey)
     
-    hg_data = binford::LRB %>% filter(sed <= 2) %>%
+    hg_data = binford::LRB %>% filter(sed <= 1) %>%
       filter(cmat >= temp_25 & cmat <= temp_75) %>%
       filter(crr >= precip_25 & crr <= precip_75)
     
@@ -83,5 +82,5 @@ for(i in 1:length(periods)) {
 ##across all time periods, the average number of moves per year for the climate
 ## conditions in the study area is approximately 15
 
-##average distance moved per year -- approximate 375 miles (approx. 600 km)
+##average distance moved per year -- approximately 680 kilometers
 

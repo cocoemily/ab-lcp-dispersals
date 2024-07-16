@@ -12,14 +12,18 @@ costRast = raster(raster.file, sep=",")
 cost.x <- dim(costRast)[2]
 cost.y <- dim(costRast)[1]
 
-west.long.coord = 3353576
+shapefile = here("analysis-scripts", "data")
+ra.small = read_sf(shapefile, layer="Russian-Altai-buffer_500km")
+ra.large = read_sf(shapefile, layer="Russian-Altai-buffer_1000km")
+ts.small = read_sf(shapefile, layer="Tian-Shan_500km")
 
-west.moves = data.frame(start = character(0), 
-                        period = character(0), 
-                        route = double(0),
-                        x = double(0), 
-                        y = double(0), 
-                        step = double(0))
+arrival.times = data.frame(start = character(0), 
+                     period = character(0), 
+                     route = double(0),
+                     arr.location = character(0),
+                     x = double(0), 
+                     y = double(0), 
+                     step = double(0))
 
 
 for(start in c("Caucasus-north", "Caucasus-south")) {
@@ -100,20 +104,32 @@ for(start in c("Caucasus-north", "Caucasus-south")) {
         
         dat.final = dat.final %>% filter(!is.na(x) & !is.na(y))
         
-        west = dat.final %>% filter(x <= west.long.coord)
+        line = st_as_sf(x = dat.final, coords = c("x", "y"), crs = 3857)
         
-        if(nrow(west) > 0) {
-          west$start = start
-          west$period = period
-          west$route = l
+        dat.final$ra.small = as.data.frame(st_within(line, ra.small, sparse = F))$V1
+        dat.final$ra.large = as.data.frame(st_within(line, ra.large, sparse = F))$V1
+        # dat.final$ts.small = as.data.frame(st_within(line, ts.small, sparse = F))$V1
+        
+        ra.success.large = dat.final %>% filter(ra.large == T) 
+        if(nrow(ra.success.large) > 0) {
+          ra.success.large$start = start
+          ra.success.large$period = period
+          ra.success.large$route = l
+          ra.success.large$location = "RA_1000km"
           
-          west.moves = rbind(west.moves,  west %>% select(start, period, route, x, y, step))
+          sl.add = ra.success.large %>% dplyr::select(start, period, route, location, x, y, step)
+          arrival.times = rbind(arrival.times, sl.add)
+        }
+        
+        ra.success.small = dat.final %>% filter(ra.small == T) 
+        if(nrow(ra.success.small) > 0) {
+          ra.success.small$start = start
+          ra.success.small$period = period
+          ra.success.small$route = l
+          ra.success.small$location = "RA_500km"
           
-          # Create the raster
-          r.sub <- rasterFromXYZ(dat.final)
-          crs(r.sub) = CRS("+init=epsg:3857")
-          
-          writeRaster(r.sub, paste0(getwd(), "/routes/individual/west_moves/", start, "_", period, "_route", l,".asc"), overwrite = T)
+          sl.add = ra.success.small %>% dplyr::select(start, period, route, location, x, y, step)
+          arrival.times = rbind(arrival.times, sl.add)
         }
         
       }
@@ -122,6 +138,15 @@ for(start in c("Caucasus-north", "Caucasus-south")) {
   }
 }
 
+arrival.times$step = as.numeric(arrival.times$step)
 
-first.move.west = west.moves %>% group_by(start, period, route) %>%
-  summarize(first.step = as.numeric(min(step)))
+arrival = arrival.times %>% group_by(start, period, route, location) %>%
+  summarize(arrival.step = min(step)) %>%
+  mutate(arrival.year = ifelse(period == "MIS3", arrival.step/696.5,
+                               ifelse(period == "MIS4", arrival.step/689.5,
+                                      ifelse(period == "MIS5a", arrival.step/699,
+                                             ifelse(period == "MIS5b", arrival.step/708,
+                                                    ifelse(period == "MIS5c", arrival.step/704,
+                                                           ifelse(period == "MIS5d", arrival.step/694.5,
+                                                                  ifelse(period == "MIS5e", arrival.step/579, NULL)))))))
+           )

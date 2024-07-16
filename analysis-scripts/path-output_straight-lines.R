@@ -1,9 +1,19 @@
+library(tidyverse)
+library(ggthemes)
+library(RColorBrewer)
 library(raster) 
 library(reshape) 
-library(tidyverse)
 library(here)
+library(fractaldim)
+library(trajr)
+library(sf)
+
+theme_set(theme_bw())
 
 raster.file = here("cost-rasters", "model-input-costs", "ascii-files", "MIS3.asc")
+
+shapefile = here("analysis-scripts", "data")
+sz.small = read_sf(shapefile, layer="Russian-Altai-buffer_500km")
 
 costRast = raster(raster.file, sep=",")
 # Get the dimensions of the raster to collate the route data 
@@ -11,18 +21,9 @@ costRast = raster(raster.file, sep=",")
 cost.x <- dim(costRast)[2]
 cost.y <- dim(costRast)[1]
 
-# Create a temporary dataframe that will take on the collated coordinate and popularity values
-dat.final = data.frame(x=double(0), y=double(0), value=double(0))
-
-# Create a temporary dataframe that will help create raster
-routes = data.frame(x=double(0), y=double(0), value=double(0))
-
-
 for(start in c("Caucasus-north", "Caucasus-south")) {
   
   # Assign the folder in which all the individual simulation output files are located 
-  #my_dir = paste0(getwd(),"/outputs/Azov")
-  #my_dir = paste0(getwd(),"/outputs/Caucasus")
   my_dir = paste0(getwd(),"/outputs/", start)
   
   # Create a list of all the file names in the identified folder
@@ -61,6 +62,7 @@ for(start in c("Caucasus-north", "Caucasus-south")) {
       
       # Iterate over all the files located in the given folder 
       for(l in 1:list_size[1]){
+        
         # Reformat the name of the files so that it can be used later 
         file.name = strsplit(files[l],"/")
         file.name = unlist(file.name)
@@ -80,7 +82,6 @@ for(start in c("Caucasus-north", "Caucasus-south")) {
         # Import the data without headers
         ds <- read.table(paste(my_dir, "/", new.file,sep=""), fill = TRUE, skip = 19, stringsAsFactors = FALSE, sep = ",")
         
-  
         # Keep only the coordinates of the paths 
         #ds <- ds[,c(2,6)]
         # Change the names and reduce the floats coordinates to integers 
@@ -89,59 +90,69 @@ for(start in c("Caucasus-north", "Caucasus-south")) {
         ds$y <- as.integer(ds$y)
         
         ds = ds[,c(1,2)]
+        #write_csv(ds, here("outputs", "test-resampled", paste0("original_path_route", l, ".csv")))
         
+        ds.real = ds
+        ds.real$x <- (ds$x * xres(costRast) * patch_res_km ) + xmin(costRast) + (xres(costRast) * patch_res_km / 2) # xmin extent of the original map 
+        ds.real$y = (ds$y * yres(costRast) * patch_res_km ) + ymin(costRast) + (yres(costRast) * patch_res_km / 2) # ymin extent of the original map
+        ds.real$value <- 1
+        ds.real$step = rownames(ds.real)
         
-        # For each path, each cell is walked on only once 
-        ds$value <- 1
-        # If this is not an empty dataset 
-        if(nrow(ds) > 1) {
-          # Add this new path to the big dat dataset 
-          routes <- rbind(routes,ds)
-          # Then group by coordinates and sum up the number of times each cell is walked on
-          route.group <- group_by(routes, x, y)
-          b <- dplyr::summarize(route.group, value = sum(value)) 
-          routes <- as.data.frame(b)
-          # Assign the dataset to the global environment so it can be used outside the loop.
-          assign('routes',routes, envir = .GlobalEnv) 
+        ##determine if path intersects with shapefile
+        success.small = F
+        r.sub <- rasterFromXYZ(ds.real[,1:3])
+        crs(r.sub) = CRS("+init=epsg:3857")
+        
+        if(sum(unlist(raster::extract(r.sub, sz.small)), na.rm = T) > 0 ) {
+          success.small = T
         }
+        
+        trj = TrajFromCoords(ds.real, xCol = "x", yCol = "y")
+        
+        #change in angles 
+        angles = trj %>% mutate(angle = c(NA, TrajAngles(trj, compass.direction = 0))) %>%
+          dplyr::select(x,y, step, angle) %>%
+          mutate(lag = lag(angle), 
+                 change = lag - angle)
+        
+        ##I think this is the correct way, but for some reason only identifying vertical and horizontal lines
+        ##need to update calculate straight-lines script
+        nc.steps = angles %>% filter(change == 0)
+        nc.steps$step = as.numeric(nc.steps$step)
+        nc.steps$sequence = c(NA, head(as.numeric(nc.steps$step), -1)) + 1 == as.numeric(nc.steps$step)
+
+        nc.steps = nc.steps %>% mutate(ID = dplyr::case_when(step == lead(step) - 1 ~ 1, TRUE ~ 0)) %>%
+          mutate(ID2 = dplyr::case_when(step == lag(step) + 1 ~ 2, TRUE ~ ID)) %>%
+          mutate(position = ifelse(ID == 1 & ID2 == 1, "start",
+                                   ifelse(ID == 0 & ID2 == 2, "end",
+                                          ifelse(ID == 0 & ID2 == 0, "noseq", "middle")))) %>%
+          filter(position != "noseq")
+        seq = nc.steps[which(nc.steps$position == "start"),]
+        seq$seq_num = seq_along(seq[,1])
+        seq = seq %>% dplyr::select(step, seq_num)
+
+        nc.steps = nc.steps %>% left_join(seq, by = "step") %>%
+          fill(seq_num) %>% 
+          dplyr::select(x, y, seq_num)
+        
+        rl = rle(nc.steps$seq_num)
+        rl.df = bind_cols(length = rl$lengths, seq_num = rl$values)
+        
+        nc.steps = nc.steps %>% left_join(rl.df, by = "seq_num")
+        final = nc.steps %>% filter(length >= 5)
+        
+        if(success.small == T) {
+          # r.seq = rasterFromXYZ(final[,1:3])
+          # crs(r.seq) = CRS("+init=epsg:3857")
+          # writeRaster(r.seq, paste0(getwd(), "/routes/individual/RA_success/seq_rasters/seq_", start, "_", period, "_route", l,".asc"), overwrite = T)
+        
+          line = st_as_sf(x = final[,1:3], coords = c("x", "y"), crs = 3857)
+          st_write(line, paste0("routes/individual/RA_success/seq_rasters/seq_", start, "_", period, "_route", l, "_line.shp"), delete_dsn = T)
+          
+        }
+  
       }
-      
     }
+    
   }
-  
-  
 }
-
-################################################ ## USING ROUTES TO IDENTIFY MOST POPULAR PATH ## ################################################ 
-print("creating route") # Show progress
-dat <- routes
-# Change the name of the dat file because we will add new columns 
-colnames(dat) <- c("long","lat","value")
-# Ensure that the x and y columns are numeric 
-dat$x <- as.numeric(as.character(dat[,1])) 
-dat$y <- as.numeric(as.character(dat[,2]))
-# Change the order of the dat file to have x,y,value. 
-dat <- dat[,c(4,5,3)]
-# Transform the times walked on into a 0-1 value (divide by the max times walked) 
-dat$value <- dat$value / max(dat$value)
-# Create the final dataset and remove the dat dataset to avoid errors in subsequent loop iterations 
-dat.final <- dat
-#rm(dat)
-
-# Transform into a raster with the same coordinates as the imported DEM
-# if 1:1 ratio on DEM to patches
-#dat.final$x <- (dat.final$x * xres(costRast) ) + xmin(costRast) + (xres(costRast) / 2) # xmin extent of the original map 
-#dat.final$y <- (dat.final$y * yres(costRast) ) + ymin(costRast) + (yres(costRast) / 2) # ymin extent of the original map
-dat.final$x <- (dat.final$x * xres(costRast) * patch_res_km ) + xmin(costRast) + (xres(costRast) * patch_res_km / 2) # xmin extent of the original map 
-dat.final$y <- (dat.final$y * yres(costRast) * patch_res_km ) + ymin(costRast) + (yres(costRast) * patch_res_km / 2) # ymin extent of the original map
-
-# Create the raster
-r.sub <- rasterFromXYZ(dat.final)
-#crs(r.sub) = crs
-crs(r.sub) = CRS("+init=epsg:3857")
-#plot(r.sub)
-#plot(costRast)
-writeRaster(r.sub, paste0(getwd(), "/routes/all_routes.asc"), overwrite = T)
-
-
-

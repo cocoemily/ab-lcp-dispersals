@@ -3,6 +3,9 @@ library(reshape)
 library(tidyverse)
 library(here)
 library(sf)
+library(ggthemes)
+
+theme_set(theme_bw())
 
 raster.file = here("cost-rasters", "model-input-costs", "ascii-files", "MIS3.asc")
 
@@ -14,17 +17,13 @@ cost.y <- dim(costRast)[1]
 
 shapefile = here("analysis-scripts", "data")
 ra.small = read_sf(shapefile, layer="Russian-Altai-buffer_500km")
-ra.large = read_sf(shapefile, layer="Russian-Altai-buffer_1000km")
-ts.small = read_sf(shapefile, layer="Tian-Shan_500km")
 
-arrival.times = data.frame(start = character(0), 
-                     period = character(0), 
-                     route = double(0),
-                     arr.location = character(0),
-                     x = double(0), 
-                     y = double(0), 
-                     step = double(0))
-
+distance.df = data.frame(start = character(0), 
+                         period = character(0), 
+                         route = double(0),
+                         success = logical(0),
+                         end.distance = double(0), 
+                         close.distance = double(0))
 
 for(start in c("Caucasus-north", "Caucasus-south")) {
   
@@ -102,63 +101,42 @@ for(start in c("Caucasus-north", "Caucasus-south")) {
         dat.final$x <- (ds$x * xres(costRast) * patch_res_km ) + xmin(costRast) + (xres(costRast) * patch_res_km / 2) # xmin extent of the original map 
         dat.final$y <- (ds$y * yres(costRast) * patch_res_km ) + ymin(costRast) + (yres(costRast) * patch_res_km / 2) # ymin extent of the original map
         
-        dat.final = dat.final %>% filter(!is.na(x) & !is.na(y))
+        dat.clean =  dat.final %>% filter(!is.na(x) & !is.na(y))
+        line = st_as_sf(x = dat.clean, coords = c("x", "y"), crs = 3857)
+        success = Reduce("|", st_within(line, ra.small, sparse = F))
         
-        line = st_as_sf(x = dat.final, coords = c("x", "y"), crs = 3857)
-        # st_write(line, dsn = here("routes", "individual"), layer = paste0(start, "_", period, "_route", l), 
-        #          driver = "ESRI Shapefile", delete_layer=T)
+        ##turn last point into something that can be compared to buffer zone
+        last.point = dat.clean[nrow(dat.clean),]
+        point = st_as_sf(x = last.point, coords = c("x", "y"), crs = 3857)
         
-        # Create the raster
-        r.sub <- rasterFromXYZ(dat.final)
-        crs(r.sub) = CRS("+init=epsg:3857")
+        ##calculate distance between point and buffer zone
+        dist = as.numeric(st_distance(point, ra.small))
         
+        #calculate distance between nearest points on line and buffer zone
+        cdist = min(as.numeric(st_distance(st_centroid(ra.small), line)))
         
-        dat.final$ra.small = as.data.frame(st_within(line, ra.small, sparse = F))$V1
-        dat.final$ra.large = as.data.frame(st_within(line, ra.large, sparse = F))$V1
-        # dat.final$ts.small = as.data.frame(st_within(line, ts.small, sparse = F))$V1
-        
-        ra.success.large = dat.final %>% filter(ra.large == T) 
-        if(nrow(ra.success.large) > 0) {
-          ra.success.large$start = start
-          ra.success.large$period = period
-          ra.success.large$route = l
-          ra.success.large$location = "RA_1000km"
-          
-          sl.add = ra.success.large %>% select(start, period, route, location, x, y, step)
-          arrival.times = rbind(arrival.times, sl.add)
-          
-          writeRaster(r.sub, paste0(getwd(), "/routes/individual/RA_success/", start, "_", period, "_route", l,".asc"), overwrite = T)
-        }
-        
-        ra.success.small = dat.final %>% filter(ra.small == T) 
-        if(nrow(ra.success.small) > 0) {
-          ra.success.small$start = start
-          ra.success.small$period = period
-          ra.success.small$route = l
-          ra.success.small$location = "RA_500km"
-          
-          sl.add = ra.success.small %>% select(start, period, route, location, x, y, step)
-          arrival.times = rbind(arrival.times, sl.add)
-        }
-        
-        # ts.success.small = dat.final %>% filter(ts.small == T) 
-        # if(nrow(ts.success.small) > 0) {
-        #   ts.success.small$start = start
-        #   ts.success.small$period = period
-        #   ts.success.small$route = l
-        #   ts.success.small$location = "TS_500km"
-        #   
-        #   sl.add = ts.success.small %>% select(start, period, route, location, x, y, step)
-        #   arrival.times = rbind(arrival.times, sl.add)
-        # }
-        
+        ##add information to a table
+        add.df = data.frame(start, period, l, success, dist, cdist)
+        distance.df = rbind(distance.df, add.df)
       }
     }
     
   }
 }
 
-arrival.times$step = as.numeric(arrival.times$step)
 
-arrival = arrival.times %>% group_by(start, period, route, location) %>%
-  summarize(arrival.time = min(step))
+end.dist.dens = ggplot() +
+  geom_density(data = distance.df %>% filter(success == FALSE), 
+               aes(x = dist/1000, fill = start),color = NA, alpha = 0.5) +
+  geom_vline(data = distance.df %>% filter(success == TRUE), 
+             aes(xintercept = dist/1000)) +
+  scale_fill_tableau(name = "starting position", labels = c("northern Caucasus", "southern Caucasus")) +
+  scale_x_continuous(name = "distance (km) from path end point to Russian Altai") +
+  theme(text = element_text(size = 8), legend.position = "bottom")
+
+ggsave(filename = here("figures", "path-end-point_distance-to-RA.png"), 
+       plot = end.dist.dens, dpi = 300, 
+       width = 4, height = 3)
+
+
+
