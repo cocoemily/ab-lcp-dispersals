@@ -73,7 +73,8 @@ start-end-locations/middle-pal-sites.csv
 analysis-scripts/data/*.csv
 analysis-scripts/data/*.png
 analysis-scripts/data/sites-by-time-period.R
-outputs/
+outputs/Azov/
+outputs/test-resamples.zip
 v2-outputs/
 routes/
 figures/
