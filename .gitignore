@@ -70,7 +70,9 @@ cost-rasters/model-input-costs/high-water-series
 cost-rasters/model-input-costs/low-water-series
 cost-rasters/lake-levels.xlsx
 start-end-locations/middle-pal-sites.csv
-data/
+analysis-scripts/data/*.csv
+analysis-scripts/data/*.png
+analysis-scripts/data/sites-by-time-period.R
 outputs/
 v2-outputs/
 routes/
