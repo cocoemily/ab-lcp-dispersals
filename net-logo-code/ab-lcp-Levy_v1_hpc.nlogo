@@ -53,40 +53,40 @@ to setup
   reset-ticks
 
   if (time-period = "MIS3" ) [
-    set basemap gis:load-dataset "/home/ec3307/ab-lcp-dispersals/cost-rasters/model-input-costs/MIS3.asc"
+    set basemap gis:load-dataset "/home/ec3307/ab-lcp-dispersals/cost-rasters/model-input-costs/ascii-files/MIS3.asc"
   ]
   if (time-period = "MIS4-big-Caspian") [
-    set basemap gis:load-dataset "/home/ec3307/ab-lcp-dispersals/cost-rasters/model-input-costs/MIS4_high.asc"
+    set basemap gis:load-dataset "/home/ec3307/ab-lcp-dispersals/cost-rasters/model-input-costs/ascii-files/MIS4_high.asc"
   ]
   if (time-period = "MIS4-small-Caspian") [
-    set basemap gis:load-dataset "/home/ec3307/ab-lcp-dispersals/cost-rasters/model-input-costs/MIS4_low.asc"
+    set basemap gis:load-dataset "/home/ec3307/ab-lcp-dispersals/cost-rasters/model-input-costs/ascii-files/MIS4_low.asc"
   ]
   if (time-period = "MIS5a") [
-    set basemap gis:load-dataset "/home/ec3307/ab-lcp-dispersals/cost-rasters/model-input-costs/MIS5a.asc"
+    set basemap gis:load-dataset "/home/ec3307/ab-lcp-dispersals/cost-rasters/model-input-costs/ascii-files/MIS5a.asc"
   ]
   if (time-period = "MIS5b-high-water") [
-    set basemap gis:load-dataset "/home/ec3307/ab-lcp-dispersals/cost-rasters/model-input-costs/MIS5b_high.asc"
+    set basemap gis:load-dataset "/home/ec3307/ab-lcp-dispersals/cost-rasters/model-input-costs/ascii-files/MIS5b_high.asc"
   ]
   if (time-period = "MIS5b-low-water") [
-    set basemap gis:load-dataset "/home/ec3307/ab-lcp-dispersals/cost-rasters/model-input-costs/MIS5b_low.asc"
+    set basemap gis:load-dataset "/home/ec3307/ab-lcp-dispersals/cost-rasters/model-input-costs/ascii-files/MIS5b_low.asc"
   ]
   if (time-period = "MIS5c") [
-    set basemap gis:load-dataset "/home/ec3307/ab-lcp-dispersals/cost-rasters/model-input-costs/MIS5c.asc"
+    set basemap gis:load-dataset "/home/ec3307/ab-lcp-dispersals/cost-rasters/model-input-costs/ascii-files/MIS5c.asc"
   ]
   if (time-period = "MIS5d-high-water") [
-    set basemap gis:load-dataset "/home/ec3307/ab-lcp-dispersals/cost-rasters/model-input-costs/MIS5d_high.asc"
+    set basemap gis:load-dataset "/home/ec3307/ab-lcp-dispersals/cost-rasters/model-input-costs/ascii-files/MIS5d_high.asc"
   ]
   if (time-period = "MIS5d-low-water") [
-    set basemap gis:load-dataset "/home/ec3307/ab-lcp-dispersals/cost-rasters/model-input-costs/MIS5d_low.asc"
+    set basemap gis:load-dataset "/home/ec3307/ab-lcp-dispersals/cost-rasters/model-input-costs/ascii-files/MIS5d_low.asc"
   ]
   if (time-period = "MIS5e") [
-    set basemap gis:load-dataset "/home/ec3307/ab-lcp-dispersals/cost-rasters/model-input-costs/MIS5e.asc"
+    set basemap gis:load-dataset "/home/ec3307/ab-lcp-dispersals/cost-rasters/model-input-costs/ascii-files/MIS5e.asc"
   ]
   if (time-period = "MIS6-big-Kara") [
-    set basemap gis:load-dataset "/home/ec3307/ab-lcp-dispersals/cost-rasters/model-input-costs/MIS6_high.asc"
+    set basemap gis:load-dataset "/home/ec3307/ab-lcp-dispersals/cost-rasters/model-input-costs/ascii-files/MIS6_high.asc"
   ]
   if (time-period = "MIS6-small-Kara") [
-    set basemap gis:load-dataset "/home/ec3307/ab-lcp-dispersals/cost-rasters/model-input-costs/MIS6_low.asc"
+    set basemap gis:load-dataset "/home/ec3307/ab-lcp-dispersals/cost-rasters/model-input-costs/ascii-files/MIS6_low.asc"
   ]
 
 
@@ -403,7 +403,7 @@ SWITCH
 144
 output?
 output?
-0
+1
 1
 -1000
 
@@ -414,7 +414,7 @@ SWITCH
 144
 lost-output?
 lost-output?
-0
+1
 1
 -1000
 
@@ -851,7 +851,7 @@ false
 Polygon -7500403 true true 270 75 225 30 30 225 75 270
 Polygon -7500403 true true 30 75 75 30 270 225 225 270
 @#$#@#$#@
-NetLogo 6.3.0
+NetLogo 6.4.0
 @#$#@#$#@
 @#$#@#$#@
 @#$#@#$#@
