@@ -16,7 +16,7 @@ cost.x <- dim(costRast)[2]
 cost.y <- dim(costRast)[1]
 
 shapefile = here("analysis-scripts", "data")
-ra.small = read_sf(shapefile, layer="Russian-Altai-buffer_500km")
+ra.small = read_sf(shapefile, layer="Russian-Altai-buffer_1000km")
 
 distance.df = data.frame(start = character(0), 
                          period = character(0), 

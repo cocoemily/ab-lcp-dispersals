@@ -131,7 +131,7 @@ end.dist.dens = ggplot() +
   geom_vline(data = distance.df %>% filter(success == TRUE), 
              aes(xintercept = dist/1000)) +
   scale_fill_tableau(name = "starting position", labels = c("northern Caucasus", "southern Caucasus")) +
-  scale_x_continuous(name = "distance (km) from path end point to Russian Altai") +
+  scale_x_continuous(name = "distance (km) from path end point to Altai") +
   theme(text = element_text(size = 8), legend.position = "bottom")
 
 ggsave(filename = here("figures", "path-end-point_distance-to-RA.png"), 

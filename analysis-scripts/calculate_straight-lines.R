@@ -176,7 +176,8 @@ angle.plot = ggplot(na.runs.count) +
   labs(x = "straight line movements of 5+ steps", 
        y = "distance (km) between path start and end", 
        shape = "", color = "") +
-  scale_color_brewer(palette = "Set2", labels = c("did not get to Russian Altai", "arrived within 500km of Russian Altai")) +
+  scale_color_colorblind(labels = c("did not get to Altai", "arrived within 500km of Altai")) +
+  #scale_color_brewer(palette = "Set2", labels = c("did not get to Russian Altai", "arrived within 500km of Russian Altai")) +
   scale_x_continuous(labels = scales::comma) +
   #scale_y_continuous(labels = scales::label_number(scale_cut = scales::cut_short_scale())) +
   theme(text = element_text(size = 8), legend.position = "bottom")
