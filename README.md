@@ -7,7 +7,7 @@ NetLogo files are available in the net-logo-code folder. This includes versions 
 
 #### Local model run set up
 1) clone GitHub repository locally
-2) download the ASCII cost raster files from [OSF](https://osf.io/rfqut)
+2) download the ASCII cost raster files from [OSF](https://osf.io/ah2mk/)
 3) put the entire ascii-files folder in ../cost-rasters/model-input-costs/
 4) create an outputs folder and a v2-outputs folder in the parent ab-lcp-dispersals folder
 5) open NetLogo file, set parameters, and run model
